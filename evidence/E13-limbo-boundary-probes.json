@@ -1,0 +1,46 @@
+{
+  "serverSeed": "76bb5f88df9cef0c6ef84898cf7a8718",
+  "clientSeed": "audit53bafd211bdd",
+  "nonce": 0,
+  "R": 7.5,
+  "atEqual": {
+    "target": 7.5,
+    "serverWin": true,
+    "serverResult": 7.5,
+    "raw": {
+      "gameType": "limbo",
+      "seeds": {
+        "clientSeed": "audit53bafd211bdd",
+        "nonce": 0
+      },
+      "derivationParams": {
+        "target": 7.5
+      },
+      "outcome": {
+        "result": 7.5,
+        "win": true,
+        "multiplier": 7.5
+      }
+    }
+  },
+  "justAbove": {
+    "target": 7.51,
+    "serverWin": false,
+    "serverResult": 7.5,
+    "raw": {
+      "gameType": "limbo",
+      "seeds": {
+        "clientSeed": "audit53bafd211bdd",
+        "nonce": 0
+      },
+      "derivationParams": {
+        "target": 7.51
+      },
+      "outcome": {
+        "result": 7.5,
+        "win": false,
+        "multiplier": 0
+      }
+    }
+  }
+}

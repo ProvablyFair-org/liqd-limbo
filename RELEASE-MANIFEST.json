@@ -1,0 +1,43 @@
+{
+  "auditId": "PF-2026-LQ05",
+  "auditIdStatus": "confirmed by ProvablyFair.org",
+  "game": "limbo",
+  "casino": "liqd",
+  "release": "v1.0.0",
+  "framework": "1.1",
+  "datasetSha256": "8e3ce5b5e1494d1fcc3a783965d3ba7b6a7099f120a64d61e21a577098c07334",
+  "artifacts": {
+    "outputs/pass1-grid.json": "9999f98ba17fe534b5350274da8e423aa6c1c096f4e136d40daec60a0cbdcae7",
+    "outputs/rtp-convergence.html": "efd121156f8255f391eb9c1b3c6f9f06c008d35807cef9a69b1e82be33fd0d69",
+    "outputs/simulation-results.json": "2d609344650eac723c262449fb8929b05c68b75f149ceee708b89ad4ade670cc",
+    "outputs/verification-results.json": "d38b03cbde99012d68353cbd61602cea430a0cee5ed9fb84c87dc1079b79291b",
+    "outputs/rtp-claim-table.json": "cdfbf600e0713b822acf00b420c10d12b7af7fca73cce96c395099f49634ba34",
+    "data/limbo-master-6700bets.json": "8e3ce5b5e1494d1fcc3a783965d3ba7b6a7099f120a64d61e21a577098c07334",
+    "data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.json": "a2dee374cfd48c62736cf5958fd67f42b1cb7c622ab0883c3f84278d8429ab1e",
+    "data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.journal.ndjson": "bcacab9c674df62a3b2219cba008542f2e798e9c81559c6321489e1a43949c32"
+  },
+  "verdict": "PROVABLY FAIR — Full Pass",
+  "scored": {
+    "passed": 25,
+    "flags": 0,
+    "hardFail": 0,
+    "of": 25
+  },
+  "capturedAt": {
+    "from": "2026-09-11T13:16:45.577Z",
+    "to": "2026-09-26T17:56:42.327Z"
+  },
+  "environment": {
+    "host": "qa.liqd.com",
+    "stage": "pre-production",
+    "qualifier": "provisional"
+  },
+  "reproduction": {
+    "workflow": ".github/workflows/reproduce.yml",
+    "runner": "ubuntu-latest",
+    "node": "22",
+    "command": "npm ci && npm test"
+  },
+  "supersedes": null,
+  "signature": "SHA256:gEujiJm2pRyq7lQsfYQfQ1r97H/J7GdaKHbOW8GtikY"
+}

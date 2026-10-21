@@ -1,0 +1,11 @@
+[
+  {
+    "name": "SURVIVOR — nominalPayout() rewritten to return zero",
+    "file": "src/config.ts",
+    "find": "export function nominalPayout(stake: number, target: number): number {\n  return stake * target;\n}",
+    "replace": "export function nominalPayout(stake: number, target: number): number {\n  return 0 * stake * target;\n}",
+    "runner": "verify",
+    "expect": "PROVABLY FAIR",
+    "guard": "DECLARED SURVIVOR of `npm run verify` AND of `npx mocha`, BY CONSTRUCTION — register row L12 (MANIFEST.md, the battery's declared residual): nominalPayout is exported, documented, and called by nothing — not a scored step, not a unit test, not the simulator. The credit path that IS audited runs through the integer identity in Step 9 (hundredths(stake) x hundredths(target) x 1e4) and through round8 in Step 20, so the function is a leftover from the pre-capture scaffold, when the settlement rule had not yet been characterised from the data. Declared rather than quietly deleted: an unexercised export in a file whose every other constant is load-bearing is exactly the kind of thing a reviewer should be told about rather than discover. This is the ONLY remaining declared survivor. Two entries that stood here until 2026-09-23 — the fabricated-and-re-pinned simulation artifact, and the doctored advertised-limits block — are now KILLS and live in tests/structural-forgeries.json. Read their guards before concluding anything about L9: neither is killed by a scored step re-deriving a statistic. Both are killed by the run-vs-committed-artifact reproduction gate in tests/verify.ts noticing that the bytes are not the bytes of record, which leaves L9 exactly where it was."
+  }
+]

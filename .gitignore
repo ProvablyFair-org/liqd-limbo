@@ -1,0 +1,25 @@
+node_modules/
+dist/
+outputs/*.json
+# `npm run verify` writes THIS RUN's results here and never touches a committed artifact. The
+# directory is scratch by design: a run that disagrees with the committed evidence must be able to
+# record the disagreement without overwriting the evidence of it.
+outputs/run/
+!outputs/.gitkeep
+!outputs/verification-results.json
+!outputs/simulation-results.json
+# Pass 1 on a pinned master seed (src/pass1-grid.ts) — an artifact of record, pinned in src/config.ts.
+!outputs/pass1-grid.json
+
+# The capture rig's working directory. The checkpoint and the raw run output are the rig's scratch
+# space, not the audit's evidence: the dataset of record is data/limbo-master-6700bets.json and the
+# evidence records are copied into evidence/. Committing capture/outputs/ would ship a second,
+# unpinned copy of the dataset that nothing verifies and that could silently diverge from the pinned
+# one — exactly the "two artifacts, one truth" problem the hash pin exists to prevent.
+capture/outputs/
+# The v2 rig's run directory (2026-09-26), same reason: the supplement and its journal are vendored
+# byte-identical into data/ and the probe journals into evidence/E20-target-ceiling-probe-2026-09-26/, all
+# pinned in src/config.ts. A second, unpinned copy here would be the same "two artifacts, one truth" hazard.
+capture/out/
+!outputs/rtp-convergence.html
+!outputs/rtp-claim-table.json

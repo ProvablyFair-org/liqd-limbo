@@ -1,0 +1,9 @@
+[
+  {
+    "file": "capture/selftest-capture-limbo-v2.mjs",
+    "line": 16,
+    "category": "cookie / session header",
+    "sha256": "8a2206a00a769662dc6035e05319d68545edd0a546c3db8bb94e99c2dc136e89",
+    "reason": "offline self-test cookie fixture: both cookie values are hand-typed filler (alphabet runs ascending and descending with a digit run 1-9-0 or 9-0 in the middle), fed to secretNeedles() so the capture engine run against selftest-mock-liqd.mjs (base https://mock.invalid) can prove no cookie material reaches its output. Never sent to LIQD."
+  }
+]

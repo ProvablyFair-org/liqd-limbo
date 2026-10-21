@@ -1,0 +1,41 @@
+{
+  "name": "limbo-audit",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "description": "Provably fair audit — LIQD.com Limbo",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "test": "node scripts/check-standalone.mjs && node scripts/release-manifest.mjs --check && node test.js && node verify.js",
+    "verify": "ts-node tests/verify.ts",
+    "report": "PF_EMIT=1 ts-node tests/verify.ts",
+    "simulate": "ts-node src/simulate.ts",
+    "simulate:check": "ts-node src/simulate.ts --run",
+    "pass1": "ts-node src/pass1-grid.ts",
+    "pass1:check": "ts-node src/pass1-grid.ts --run",
+    "pass2:emit": "ts-node src/pass2-emit.ts",
+    "pass2:check": "ts-node src/pass2-emit.ts --run && node -e \"const f=require('fs');process.exit(f.readFileSync('outputs/run/simulation-results.json','utf8')===f.readFileSync('outputs/simulation-results.json','utf8')?0:1)\" && echo 'pass2: BYTE-IDENTICAL'",
+    "mutate": "ts-node tests/mutate.ts",
+    "probe": "node capture/capture-limbo.reference.mjs --probe",
+    "capture": "node capture/capture-limbo.reference.mjs",
+    "curltest": "node -e \"import('./capture/curltest.mjs')\"",
+    "test:full": "mocha && npm run simulate:check && npm run pass1:check && npm run pass2:check && npm run verify",
+    "test:toolchain": "npm run check:build && mocha && npm run verify",
+    "verify:standalone": "node verify.js",
+    "test:standalone": "node test.js && node verify.js",
+    "build": "node scripts/build-standalone.mjs",
+    "check:build": "node scripts/build-standalone.mjs --check",
+    "check:standalone": "node scripts/check-standalone.mjs",
+    "release-manifest": "node scripts/release-manifest.mjs",
+    "rtp-claim:write": "ts-node src/rtp-settings.ts"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10",
+    "@types/node": "^22",
+    "mocha": "^11",
+    "ts-node": "^10",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,683 @@
+[
+  {
+    "name": "commitment convention changed to hash the raw seed bytes",
+    "file": "src/rng.ts",
+    "find": "  return createHash(\"sha256\").update(Buffer.from(serverSeedHexString, \"ascii\")).digest(\"hex\");",
+    "replace": "  return createHash(\"sha256\").update(Buffer.from(serverSeedHexString, \"hex\")).digest(\"hex\");",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 1 (Seed Hash Integrity) must reject the wrong commitment convention — LIQD commits SHA-256 of the seed's HEX STRING, not of its 16 decoded bytes, and all 134 commitments stop matching. The two conventions are one `Buffer.from` apart and produce hashes of identical shape, so nothing but the comparison itself can separate them."
+  },
+  {
+    "name": "seed-population pin loosened to accept a short reveal set",
+    "file": "src/config.ts",
+    "find": "export const EXPECTED_SEEDS = 134;",
+    "replace": "export const EXPECTED_SEEDS = 130;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 1 (Seed Hash Integrity) counts revealed seeds against EXPECTED_SEEDS from src/config.ts, never against `seeds.length` (G-BIND). Moving the pin proves the denominator is load-bearing: 134 revealed seeds against a pin of 130 is a population disagreement, and a suite that compared the artifact to itself would have reported 130/130 and passed."
+  },
+  {
+    "name": "epoch-size pin loosened",
+    "file": "src/config.ts",
+    "find": "export const EXPECTED_EPOCH_SIZE = 50;",
+    "replace": "export const EXPECTED_EPOCH_SIZE = 25;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 4 (Nonce Audit) binds the epoch window to src/config.ts and not to `meta.epochSize` — read from the header, the guard agrees with any coherent shrink. With the pin at 25 the observed 50-bet epochs and the nonces 25..49 are both out of contract, and the step says so instead of re-deriving its expectation from the file it is scoring."
+  },
+  {
+    "name": "draw domain off by one",
+    "file": "src/config.ts",
+    "find": "export const RANGE = 100_000_000;",
+    "replace": "export const RANGE = 100_000_001;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 5 (Draw & Result Recomputation) must reject a wrong draw domain — the modulo changes, so no served result recomputes from its revealed seed triple."
+  },
+  {
+    "name": "HMAC cursor moved off 0",
+    "file": "src/rng.ts",
+    "find": "  return generateProvablyFairNumber(serverSeed, clientSeed, nonce, 0, LIMBO_RANGE);",
+    "replace": "  return generateProvablyFairNumber(serverSeed, clientSeed, nonce, 1, LIMBO_RANGE);",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 5 (Draw & Result Recomputation) must reject a wrong HMAC cursor — the salt `clientSeed:nonce:cursor` changes and every one of the 6,700 recomputed results diverges. Retargeted 2026-10-20 to the cursor in src/rng.ts limboDraw: the rebuilt module fixes cursor 0 itself (spec §2 Step 2) and no longer reads src/config.ts CURSOR, which only the simulators use."
+  },
+  {
+    "name": "HMAC key taken as UTF-8 text instead of hex-decoded bytes",
+    "file": "src/rng.ts",
+    "find": "  const key = Buffer.from(serverSeed, \"hex\");",
+    "replace": "  const key = Buffer.from(serverSeed, \"utf8\");",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 5 (Draw & Result Recomputation) must reject the wrong key encoding. The server seed is a 32-character hex string; keying the HMAC with its ASCII rather than its 16 bytes is the single most common re-implementation error in this family, it produces a perfectly well-formed draw stream, and only comparison against settled money can tell the two apart."
+  },
+  {
+    "name": "HMAC salt field order swapped",
+    "file": "src/rng.ts",
+    "find": "  return `${clientSeed}:${nonce.toString(10)}:${cursor.toString(10)}`;",
+    "replace": "  return `${nonce.toString(10)}:${clientSeed}:${cursor.toString(10)}`;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 5 (Draw & Result Recomputation) must reject a re-ordered salt. The salt is three colon-separated fields and every ordering is syntactically valid, so the ordering is a claim about the operator that only the settled capture can settle."
+  },
+  {
+    "name": "modulo-bias rejection guard removed",
+    "file": "src/rng.ts",
+    "find": "    if (v < limit) {",
+    "replace": "    if (true) {",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 5 (Draw & Result Recomputation) must reject a draw taken without the rejection guard. CONTRAST WITH THE SIBLING DICE AUDIT, where the identical mutation is a DECLARED SURVIVOR: dice draws from a range of 10,000, for which the rejected tail is 1.7e-6 of the 32-bit space and no captured bet lands in it. Limbo draws from 100,000,000, where maxFair = floor(2^32/1e8) x 1e8 = 4,200,000,000 and the tail is 2.21% — 126 of the 6,700 captured draws change under the guardless form. The same one-line mutation is invisible in one game and lethal in the other, which is why a registry is per-game and not inherited."
+  },
+  {
+    "name": "house edge doubled",
+    "file": "src/config.ts",
+    "find": "export const HOUSE_EDGE = 0.01;",
+    "replace": "export const HOUSE_EDGE = 0.02;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 5 (Draw & Result Recomputation) must reject a doubled edge. This is the mutation that shows the edge is NOT an advertised label in this game: RESULT_NUMERATOR is (1 - HOUSE_EDGE) x SCALE x RANGE, so the edge IS the result formula, and changing it changes every served multiplier. An audit that read 1% off `meta.houseEdge` and reported it would not have this property."
+  },
+  {
+    "name": "result numerator decoupled from the edge (the tie asserted in the header removed)",
+    "file": "src/config.ts",
+    "find": "export const RESULT_NUMERATOR = (1 - HOUSE_EDGE) * MULTIPLIER_SCALE * RANGE;",
+    "replace": "export const RESULT_NUMERATOR = MULTIPLIER_SCALE * RANGE;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 5 (Draw & Result Recomputation) must reject a numerator that is not (1 - edge) x scale x range. The config header claims N is kept as that expression rather than the literal 9.9e9 precisely so the tie to (edge, scale, range) is explicit; this mutation is what makes that claim falsifiable rather than a comment."
+  },
+  {
+    "name": "result formula off by one in the divisor (k instead of k+1)",
+    "file": "src/config.ts",
+    "find": "  return Math.min(MAX_MULTIPLIER, Math.max(MIN_RESULT, Math.floor(RESULT_NUMERATOR / (k + 1)) / MULTIPLIER_SCALE));",
+    "replace": "  return Math.min(MAX_MULTIPLIER, Math.max(MIN_RESULT, Math.floor(RESULT_NUMERATOR / k) / MULTIPLIER_SCALE));",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 5 (Draw & Result Recomputation) must reject an off-by-one in the divisor. `k + 1` is what makes the draw domain half-open and the maximum result finite; dividing by k shifts every result by one grid step and divides by zero at k = 0."
+  },
+  {
+    "name": "multiplier grid widened from 2 decimals to 3",
+    "file": "src/config.ts",
+    "find": "export const MULTIPLIER_SCALE = 100;             // 10 ** MULTIPLIER_DECIMALS",
+    "replace": "export const MULTIPLIER_SCALE = 1000;             // 10 ** MULTIPLIER_DECIMALS",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 5 (Draw & Result Recomputation) must reject a result computed on the wrong decimal grid. The scale divides the floored quotient, so a 3-dp grid returns 2.471x where the operator served 2.47x — a difference of one thousandth that no tolerance-based comparison would see. Step 5 asserts strict equality with no tolerance, which is what makes this visible."
+  },
+  {
+    "name": "RESULT FLOOR removed — the defect the capture's own inline check caught on 2026-09-11",
+    "file": "src/config.ts",
+    "find": "  return Math.min(MAX_MULTIPLIER, Math.max(MIN_RESULT, Math.floor(RESULT_NUMERATOR / (k + 1)) / MULTIPLIER_SCALE));",
+    "replace": "  return Math.min(MAX_MULTIPLIER, Math.floor(RESULT_NUMERATOR / (k + 1)) / MULTIPLIER_SCALE);",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 5 (Draw & Result Recomputation) must reject a model without the R = 1 floor. This is the ACTUAL DEFECT this audit shipped and corrected on 2026-09-11: the model had only an upper clamp, and in an earlier capture run on 2026-09-11 that is not shipped (serverSeed 5d8a6efd…, nonce 49, k = 99,588,964) the raw formula gave 0.99 where the operator served 1; the first clamped round in the shipped dataset is epoch 3 nonce 29. 147 of the 6,700 captured rounds sit at R = 1 and 78 of them are genuinely clamped — the raw value was below 1 — so removing the floor produces exactly 78 mismatches. Not an edge case: the raw value falls below 1 for every k > 98,999,999, one percent of the draw space."
+  },
+  {
+    "name": "RESULT FLOOR conflated with the minimum legal TARGET (1.01) — the obvious wrong fix",
+    "file": "src/config.ts",
+    "find": "export const MIN_RESULT = 1;",
+    "replace": "export const MIN_RESULT = 1.01;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 5 (Draw & Result Recomputation) must reject a floor at 1.01. MIN_RESULT (the smallest result the operator SERVES) and MIN_MULTIPLIER (the smallest legal TARGET) are different numbers that are one tick apart, and conflating them is the repair a reader reaches for first. It rewrites all 147 floored rounds as 1.01 and breaks the recompute in the opposite direction from removing the floor entirely — 147 mismatches rather than 78."
+  },
+  {
+    "name": "win rule flipped from >= to strict >",
+    "file": "src/config.ts",
+    "find": "  return result >= target;",
+    "replace": "  return result > target;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 6 (Win-Rule Reproduction) must reject a strict-greater win rule. 20 captured rounds land with the served result EXACTLY on the chosen target and the operator settled every one of them as a WIN; under `>` all 20 flip to losses. This dataset therefore has real discriminating power over the boundary — unlike the sibling dice capture, where the two boundary models disagreed on zero settled bets and the `>=` had to rest on a probe alone. The same boundary is independently witnessed in evidence/E13 and re-derived in Step 19."
+  },
+  {
+    "name": "win rule loosened by one 2-dp tick",
+    "file": "src/config.ts",
+    "find": "  return result >= target;",
+    "replace": "  return result >= target - 0.01;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 6 (Win-Rule Reproduction) must reject a rule that pays one tick short of the target. The mirror image of the strict-`>` mutation: 22 captured rounds land exactly one 2-dp tick below their target and the operator settled all 22 as LOSSES, so the boundary is pinned from both sides by settled money rather than by a single probe."
+  },
+  {
+    "name": "2-dp target grid computed with floor instead of round",
+    "file": "src/config.ts",
+    "find": "  return Math.round(target * MULTIPLIER_SCALE);",
+    "replace": "  return Math.floor(target * MULTIPLIER_SCALE);",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 6 (Win-Rule Reproduction) must reject a target grid that is not the operator's `ci(e) = round(100e)`. In binary64, 1.16 x 100 is 115.99999999999999 and 4.58 x 100 is 458.00000000000006 — flooring turns 395 of the 6,700 captured targets into values that fail the operator's own 2-dp legality test, and the G-RANGE clause in Step 6 counts them. Rounding is not cosmetic here; it is the only reason the price of a target is an integer quantity."
+  },
+  {
+    "name": "legal target window capped at 100x",
+    "file": "src/config.ts",
+    "find": "  return target >= MIN_MULTIPLIER && target <= MAX_MULTIPLIER;",
+    "replace": "  return target >= MIN_MULTIPLIER && target <= 100;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 6 (Win-Rule Reproduction) must reject a legality window that the capture's own accepted targets fall outside (G-RANGE). Phase B played 1,000x, 100,000x and 500,000x and the operator accepted every one, so a model claiming they are illegal is contradicted by settled money."
+  },
+  {
+    "name": "minimum legal target raised above the captured floor",
+    "file": "src/config.ts",
+    "find": "export const MIN_MULTIPLIER = 1.01;              // minimum LEGAL target (LIMBO_MIN_MULTIPLIER)",
+    "replace": "export const MIN_MULTIPLIER = 1.10;              // minimum LEGAL target (LIMBO_MIN_MULTIPLIER)",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 6 (Win-Rule Reproduction) must reject a minimum-target claim the capture refutes. Targets between 1.01x and 1.09x were accepted and settled by the operator; a model that calls them illegal is making a claim about the operator's limits that its own data disproves (G-RANGE)."
+  },
+  {
+    "name": "draw made STATEFUL — every 100th recomputation returns a different value",
+    "file": "src/rng.ts",
+    "find": "export function limboDraw(serverSeed: string, clientSeed: string, nonce: number): number {\n  return generateProvablyFairNumber(serverSeed, clientSeed, nonce, 0, LIMBO_RANGE);\n}",
+    "replace": "let __calls = 0;\nexport function limboDraw(serverSeed: string, clientSeed: string, nonce: number): number {\n  const k = generateProvablyFairNumber(serverSeed, clientSeed, nonce, 0, LIMBO_RANGE);\n  return (__calls++ % 100 === 99) ? (k + 50_000_000) % LIMBO_RANGE : k;\n}",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 7 (Recomputation Determinism) must reject a derivation whose answer depends on when it ran. The counter carries across the two forward passes and the reverse pass, so the perturbed bets are different bets each time and `repeatDisagreements` / `reverseDisagreements` both go non-zero — which is the property Step 7 exists to establish and that no amount of comparing served fields would show. Steps 5, 6, 18 and 20 fire as well; Step 7 is the one that identifies the cause as ORDER DEPENDENCE rather than a wrong constant. THE PERTURBATION HAS TO BE LARGE, and the first version of this entry was not: shifting the draw by +1 every 500th call left the suite GREEN, because R = floor(9.9e9/(k+1))/100 is a coarse function of k — at a typical draw near 4e7 a unit change in k moves the quotient by about 6e-6 and the 2-dp result does not move at all. Measured here, not reasoned about. The shift is therefore half the draw domain, which always changes the result. That a ±1 jitter in the operator's draw would be invisible to this capture is a genuine property of the game's arithmetic and is worth knowing; it is not declared as a survivor because its invisibility is probabilistic (small draws WOULD show it), not structural."
+  },
+  {
+    "name": "money arithmetic taken to hundredths with floor instead of round",
+    "file": "tests/steps/context.ts",
+    "find": "  return Math.round(x * 100);",
+    "replace": "  return Math.floor(x * 100);",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 9 (Credit Arithmetic) must reject a hundredths conversion that is not exact. Every money assertion in this suite is an INTEGER identity in the operator's own decimal system precisely to avoid binary64 masking; flooring re-introduces the masking at the conversion (1.16 x 100 = 115.99999999999999 floors to 115), and the identity credit x 1e8 == hundredths(stake) x hundredths(target) x 1e4 stops holding. This mutation is what proves the integer form is doing work rather than dressing up a float comparison."
+  },
+  {
+    "name": "settlement rounding switched from nearest to truncation",
+    "file": "src/config.ts",
+    "find": "  return Math.round(x * 1e8) / 1e8;",
+    "replace": "  return Math.floor(x * 1e8) / 1e8;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 20 (Settlement Determinism) must reject a truncating 8-dp settlement. 270 of the 2,822 captured wins have a binary64 product that sits a fraction below the exact decimal credit (0.1 x 2.29 is 0.22899999999999998), so truncation credits 0.22899999 where the operator credited 0.229. Step 9 fires on the same mutation, and deliberately so: Step 20 re-derives the whole chain from (serverSeed, clientSeed, nonce, target, stake) without reading a served field and Step 9 asserts the credit two independent ways — the redundancy is the design, and this entry is the one that demonstrates the redundant assertion is not decoration."
+  },
+  {
+    "name": "minimum stake raised above every stake in the capture",
+    "file": "src/config.ts",
+    "find": "export const MIN_BET_USDC = 0.1;",
+    "replace": "export const MIN_BET_USDC = 0.5;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 11 (Wallet Ledger, Stake Floor & Exposure Ceiling) must reject a stake floor the capture's own accepted bets fall below. 6,500 bets were placed and settled at $0.10; the comparison is in integer hundredths, not binary64, so the rejection is exact."
+  },
+  {
+    "name": "bet-population pin loosened to accept a shrunken capture",
+    "file": "src/config.ts",
+    "find": "export const EXPECTED_BETS = 6_700;",
+    "replace": "export const EXPECTED_BETS = 6_690;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 12 (Dataset Integrity & Population Identity) must bind the population to src/config.ts rather than to the dataset's own header (G-BIND). The pin is what makes the coherent-shrink forgery in tests/structural-forgeries.json fail; this entry proves the pin is read, by moving it in the opposite direction and watching the step reject the FULL dataset against a short pin."
+  },
+  {
+    "name": "phase plan's $10 tranche restated at $1",
+    "file": "src/config.ts",
+    "find": "  C: { bets: 200, stake: 10 },",
+    "replace": "  C: { bets: 200, stake: 1 },",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 13 (Phase Plan Conformance) must reject a plan whose stakes the capture did not execute. Phase C exists to demonstrate stake independence at an order of magnitude above the rest of the capture; if the declared stake and the executed stake can drift apart, the phase proves nothing."
+  },
+  {
+    "name": "phase plan claims the ADVERTISED maximum was played (500,000x tranche restated as 1,000,000x)",
+    "file": "src/config.ts",
+    "find": "  B: { bets: 1_000, stake: 0.10, targets: [100, 1_000, 100_000, 500_000] },",
+    "replace": "  B: { bets: 1_000, stake: 0.10, targets: [100, 1_000, 100_000, 1_000_000] },",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 13 (Phase Plan Conformance) must reject a plan that claims coverage the capture does not have. This is the finding-erasing mutation: the top tranche is 500,000x BECAUSE 1,000,000x is unplayable at any legal stake (Step 17), and a plan that quietly names 1,000,000x would let the report read as though the advertised maximum had been exercised. Step 17 fires too, because the finding and the plan are tied together on purpose."
+  },
+  {
+    "name": "custom-client-seed phase size loosened",
+    "file": "src/config.ts",
+    "find": "  D: { bets: 500, stake: 0.10 },",
+    "replace": "  D: { bets: 400, stake: 0.10 },",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 18 (Custom Client-Seed Control) takes its denominator from EXPECTED_PHASES.D in src/config.ts and not from the number of pfaudit- bets it happens to find (G-BIND). With the pin at 400, the 500 recomputed Phase-D bets are a population disagreement — the point being that 'every custom-seed bet we could see verified' is a tautology, and 'all 500 the plan placed verified' is not."
+  },
+  {
+    "name": "client seed dropped from the HMAC salt — the operator ignores the player's input",
+    "file": "src/rng.ts",
+    "find": "  return `${clientSeed}:${nonce.toString(10)}:${cursor.toString(10)}`;",
+    "replace": "  return `${nonce.toString(10)}:${cursor.toString(10)}`;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 18 (Custom Client-Seed Control) must reject a derivation in which the player's seed is not load-bearing. This is the substantive attack on provable fairness — a server that accepts the player's seed, echoes it back, and derives the round without it. Step 18's sensitivity probe goes to 0/64 draws changed when the client seed is altered, and Step 5 fires as well because the captured rounds were in fact derived WITH it."
+  },
+  {
+    "name": "result-comparison predicate replaced by an unconditional accept",
+    "file": "tests/steps/context.ts",
+    "find": "  return Number.isFinite(served) && Number.isFinite(local) && served === local;",
+    "replace": "  return true;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 14 (Anti-Circularity) must reject a verifier that cannot fail. With the predicate always true, Steps 5 and 18 pass VACUOUSLY on any data at all — which is precisely the condition Step 14's negative control exists to detect: it requires the predicate Step 5 uses to accept the recomputed value and REJECT a value one 2-dp tick away, NaN and Infinity. A suite without this step would have gone green on a mutation that deleted its own central assertion."
+  },
+  {
+    "name": "result comparison given a tolerance wider than the 2-dp result grid",
+    "file": "tests/steps/context.ts",
+    "find": "  return Number.isFinite(served) && Number.isFinite(local) && served === local;",
+    "replace": "  return Number.isFinite(served) && Number.isFinite(local) && Math.abs(served - local) <= 0.02;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 14 (Anti-Circularity) must reject a tolerance that swallows real grid steps. The result lives on an exact 2-dp grid, so ANY tolerance is a mask; a 0.02 band accepts the +0.01 perturbation the negative control feeds it, and the control fails. The sibling dice audit shipped `Math.abs(local - served) > 1e-9`, which additionally evaluates to false for a NaN served field — the reason this predicate is a named function with an explicit finiteness guard rather than an inline comparison."
+  },
+  {
+    "name": "upper result clamp removed (the clamp no captured bet witnesses)",
+    "file": "src/config.ts",
+    "find": "  return Math.min(MAX_MULTIPLIER, Math.max(MIN_RESULT, Math.floor(RESULT_NUMERATOR / (k + 1)) / MULTIPLIER_SCALE));",
+    "replace": "  return Math.max(MIN_RESULT, Math.floor(RESULT_NUMERATOR / (k + 1)) / MULTIPLIER_SCALE);",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 14 (Anti-Circularity) must catch a clamp the DATA CANNOT WITNESS. The ceiling fires only for k <= 98 — 99 draws in 100,000,000 — and the capture never reached it (highest result 185,046.72x, declared limitation L4), so Steps 5, 6, 12 and 20 all stay green: every settled bet still recomputes exactly. What rejects it is Step 14's grid-extremes clause, which evaluates the published formula at k = 0, 98, 99 and RANGE-1 directly. This is the clearest case in the registry of a scored step earning its place: without it, a whole branch of the model would be unexercised and the suite would not know."
+  },
+  {
+    "name": "advertised maximum multiplier doubled",
+    "file": "src/config.ts",
+    "find": "export const MAX_MULTIPLIER = 1_000_000;         // maximum target AND result cap (LIMBO_MAX_MULTIPLIER)",
+    "replace": "export const MAX_MULTIPLIER = 2_000_000;         // maximum target AND result cap (LIMBO_MAX_MULTIPLIER)",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 14 (Anti-Circularity) must reject a ceiling that is not the operator's. The grid-extremes clause asserts that k = 98 is the LAST draw at the ceiling and k = 99 the first below it; at 2,000,000 the clamp stops binding anywhere on the grid and that assertion fails. Step 19 fires too, because evidence/E15's refusal is recorded against the 1,000,000x target and no longer reconciles."
+  },
+  {
+    "name": "win chance rounded UP instead of floored",
+    "file": "src/config.ts",
+    "find": "  return Math.floor(RESULT_NUMERATOR / targetToHundredths(target)) / RANGE;",
+    "replace": "  return Math.ceil(RESULT_NUMERATOR / targetToHundredths(target)) / RANGE;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 15 (Win-Chance vs Result-Distribution Identity) must reject a price that is not the probability. The operator's `cr` floors, and the flooring is the entire reason the edge is a provable floor rather than an average — ceiling it would price targets ABOVE what the RNG delivers. The step asserts the identity as an INTEGER equality with no tolerance, so the disagreement is exact; the edge itself stays positive under this mutation, so Step 16 does NOT fire and Step 15 is doing the work alone."
+  },
+  {
+    "name": "pricing numerator decoupled from the result numerator (the price and the physics untied)",
+    "file": "src/config.ts",
+    "find": "  return Math.floor(RESULT_NUMERATOR / targetToHundredths(target)) / RANGE;",
+    "replace": "  return Math.floor(9_800_000_000 / targetToHundredths(target)) / RANGE;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 15 (Win-Chance vs Result-Distribution Identity) exists for exactly this: the operator SELLS a win chance and the RNG PRODUCES a result distribution, and nothing forces them to agree. Pricing off 9.8e9 while the results come from 9.9e9 leaves every other step green — the results still recompute, the credits still settle, the edge is still positive — and only the identity notices that the player is being sold a 0.98 chance of an event that happens with probability 0.99."
+  },
+  {
+    "name": "theoretical RTP inflated above 1 — a player-favourable price",
+    "file": "src/config.ts",
+    "find": "  return winChance(target) * target;",
+    "replace": "  return winChance(target) * target / (1 - 2 * HOUSE_EDGE);",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 16 (Effective-Edge Curve) must detect a target on which the player has the edge. The step counts player-favourable targets across every distinct target in the capture and fails if any exists; under this mutation all 1,104 are. G-VALID applies in the other direction and is asserted by the honest run: an edge landing on EXACTLY 1.000000% is the normal outcome whenever ci(m) divides 9.9e9 (target 2.00 is one), and nothing in the step treats that exactness as suspicious."
+  },
+  {
+    "name": "exposure ceiling widened until the advertised maximum becomes playable",
+    "file": "src/config.ts",
+    "find": "export const MAX_EXPOSURE_USDC = 50_000;          // DERIVED from one refusal: maxAllowedBetUsdc 0.05 at 1e6",
+    "replace": "export const MAX_EXPOSURE_USDC = 100_000;          // DERIVED from one refusal: maxAllowedBetUsdc 0.05 at 1e6",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 17 (Advertised Maximum Multiplier, 2026-09-11 state) must reject a ceiling under which the finding would not hold. At $100,000 the cheapest legal 1,000,000x bet costs exactly the ceiling and the disclosure defect evaporates — so the step asserts the arithmetic that produces the finding rather than the finding's conclusion. Step 19 fires as well, because the ceiling no longer reconciles with the operator's own maxAllowedBetUsdc in evidence/E15; a finding and the artifact that witnesses it cannot be moved independently."
+  },
+  {
+    "name": "maximum playable target restated as the advertised maximum",
+    "file": "src/config.ts",
+    "find": "export const MAX_PLAYABLE_TARGET = 500_000;       // MAX_EXPOSURE_USDC / MIN_BET_USDC",
+    "replace": "export const MAX_PLAYABLE_TARGET = 1_000_000;       // MAX_EXPOSURE_USDC / MIN_BET_USDC",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 17 (Advertised Maximum Multiplier, 2026-09-11 state) re-derives MAX_PLAYABLE_TARGET as MAX_EXPOSURE_USDC / MIN_BET_USDC and compares it to the constant; a constant that is merely declared is a number somebody typed. This is the mutation that stops 500,000x being read as 'the maximum' by making the difference between advertised and playable an asserted quantity."
+  },
+  {
+    "name": "boundary witness forged — the operator's ON-TARGET round restated as a loss",
+    "file": "evidence/E13-limbo-boundary-probes.json",
+    "find": "    \"serverWin\": true,",
+    "replace": "    \"serverWin\": false,",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) must re-derive the operator's recorded outcomes under our own win rule instead of quoting them. E13 records that a target EQUAL to the served result won; our rule says the same, and the step asserts the agreement. A forged outcome disagrees immediately — which matters more here than anywhere else in the suite, because the >= in the win rule is the claim E13 exists to witness."
+  },
+  {
+    "name": "boundary witness forged — the recorded result moved off the seed triple",
+    "file": "evidence/E13-limbo-boundary-probes.json",
+    "find": "  \"R\": 7.5,",
+    "replace": "  \"R\": 7.4,",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) must REPRODUCE E13 from its own (serverSeed, clientSeed, nonce) rather than hash-pin it. A hash proves only that a file we wrote has not changed since we pinned it; reproduction means E13 must agree with the model and with itself — the file's R and the casino's serverResult on both probes. It cannot show the file came from the casino: an invented E13 whose values agree with the model still passes, because nothing ties its seed to a commitment. Moving the recorded result by one tick breaks the reproduction while leaving the file perfectly well-formed."
+  },
+  {
+    "name": "boundary witness forged — the two probes moved two ticks apart",
+    "file": "evidence/E13-limbo-boundary-probes.json",
+    "find": "    \"target\": 7.51,",
+    "replace": "    \"target\": 7.52,",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) must check that the probe pair DISCRIMINATES. Two probes at R and R + 0.02 would both be consistent with `>=` and with `>`; only a pair exactly one 2-dp tick apart separates them, so the step asserts hundredths(above) - hundredths(atEqual) == 1. An evidence file that does not discriminate is not evidence, and it fails here rather than being quoted in the report."
+  },
+  {
+    "name": "boundary witness forged — the nonce changed under the recorded outcome",
+    "file": "evidence/E13-limbo-boundary-probes.json",
+    "find": "  \"nonce\": 0,",
+    "replace": "  \"nonce\": 1,",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) binds the recorded outcome to the seed triple that produced it. Changing the nonce leaves every field in the file individually plausible and the JSON schema intact; the recomputed result simply stops being the recorded one, which is the whole value of reproducing an artifact rather than reading it."
+  },
+  {
+    "name": "exposure witness forged — the recorded ceiling moved away from the audited constant",
+    "file": "evidence/E15-limbo-max-exposure.json",
+    "find": "  \"observedCeilingUsdc\": 50000,",
+    "replace": "  \"observedCeilingUsdc\": 40000,",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) reconciles evidence/E15 against the constants Step 17 scores, in both directions, so a change to either the evidence or the config surfaces as a disagreement rather than as silence. Without it, MAX_EXPOSURE_USDC would be an unwitnessed constant and Step 17 would be scoring our own arithmetic against itself."
+  },
+  {
+    "name": "exposure witness forged — the operator's stated maximum raised above its own minimum stake",
+    "file": "evidence/E15-limbo-max-exposure.json",
+    "find": "      \"maxAllowedBetUsdc\": 0.05,",
+    "replace": "      \"maxAllowedBetUsdc\": 0.5,",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) re-derives the ceiling from the refusal itself — maxAllowedBetUsdc x target must BE MAX_EXPOSURE_USDC — and separately asserts that the figure sits BELOW the operator's own $0.10 minimum stake, which is what makes 1,000,000x unplayable rather than merely expensive. At $0.50 both clauses fail and the finding loses its witness."
+  },
+  {
+    "name": "exposure witness forged — the below-minimum refusal relabelled",
+    "file": "evidence/E15-limbo-max-exposure.json",
+    "find": "      \"errorCode\": 3113,",
+    "replace": "      \"errorCode\": 3199,",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) requires BOTH refusals by error code: 3138 (exposure) establishes the ceiling, and 3113 (bet amount out of limits) is the operator confirming that the stake the ceiling permits is below its own minimum. One refusal alone would leave the finding as an inference; the step therefore looks for the specific pair and fails when either is missing."
+  },
+  {
+    "name": "draw-domain guard in the result formula made unreachable",
+    "file": "src/config.ts",
+    "find": "  if (!Number.isInteger(k) || k < 0 || k >= RANGE) {",
+    "replace": "  if (!Number.isInteger(k) && k < 0 && k >= RANGE) {",
+    "runner": "mocha",
+    "expect": "failing",
+    "guard": "DECLARED SURVIVOR OF `npm run verify`, killed by `npx mocha` — and declared with the runner that kills it rather than the one that does not. Every captured draw is inside [0, 1e8), so no scored step feeds the formula an out-of-domain value and the verify-side suite cannot see the guard disappear. tests/limbo/rngTests.ts force-exercises it with k = -1, k = RANGE and k = 1.5. What the unit vector proves is that OUR reference implementation rejects an impossible draw, not that the operator's does."
+  },
+  {
+    "name": "effective edge reported as the advertised label instead of derived",
+    "file": "src/config.ts",
+    "find": "  return 1 - theoreticalRTP(target);",
+    "replace": "  return HOUSE_EDGE;",
+    "runner": "mocha",
+    "expect": "failing",
+    "guard": "DECLARED SURVIVOR OF `npm run verify`, killed by `npx mocha`. Returning the config's advertised 1% makes every edge figure in the run land on exactly 1.000000% — and Step 16's own pass criteria do not notice, because its scored assertion is the integer inequality floor(N/ci) x ci <= N, which is unaffected. The unit sweep is what fails: for non-dividing targets it asserts the edge is STRICTLY above 1%, and the flat label is not. This is the config-as-measurement defect stated as a counterexample — an advertised house edge is a label until something derives it, and here the derivation is only load-bearing in mocha."
+  },
+  {
+    "name": "simulation uniformity depth pin moved away from the depth the artifact records",
+    "file": "src/config.ts",
+    "find": "export const SIM_UNIFORMITY_DRAWS = 2_000_000;",
+    "replace": "export const SIM_UNIFORMITY_DRAWS = 2_000_001;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) binds the simulation artifact's recorded pass1.draws to SIM_UNIFORMITY_DRAWS in src/config.ts (G-BIND), so the depth at which the supporting simulation was run comes from the code constant and never from the artifact's own header. Without that bind a cheap run could be presented as the deep one, and the constant was a number nothing read: the framework's check-constants.sh reported EXPORTED BUT NEVER SCORED against this package on 2026-09-11. This entry was a DECLARED SURVIVOR until that date."
+  },
+  {
+    "name": "simulation serial-screen depth pin moved (the depth the artifact does not record)",
+    "file": "src/config.ts",
+    "find": "export const SIM_SERIAL_DRAWS = 200_000;",
+    "replace": "export const SIM_SERIAL_DRAWS = 100_000;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) recovers the serial sample size from the identity the producer used, z = r1 x sqrt(n), compared at the precision the artifact stores, because the artifact records the lag-1 statistic and its Z but not the n behind them. At the recorded lag-1 of -0.0013871416349734164 the stored Z of -0.62 is reproduced by n = 200,000 and not by n = 100,000 (-0.439) — figures of the artifact regenerated from SIM_MASTER_SEED on 2026-09-26; before that, lag-1 0.0006883385492178551 and Z 0.308, which is what makes this a kill rather than an unobservable constant."
+  },
+  {
+    "name": "simulation effective-edge depth pin moved below the depth every sample records",
+    "file": "src/config.ts",
+    "find": "export const SIM_EDGE_BETS = 2_000_000;",
+    "replace": "export const SIM_EDGE_BETS = 1_000;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) requires every per-target effective-edge sample in the artifact to carry n == SIM_EDGE_BETS. This entry was a DECLARED SURVIVOR of this suite until 2026-09-11, with the reason given that the sibling dice audit scores these constants and limbo did not — the framework's check-constants.sh then flagged all three SIM_* constants as exported but never scored, and the honest resolution was to score them rather than to keep declaring the gap."
+  },
+  {
+    "name": "simulation recorded seed: pass1.masterSeed changed in the artifact and re-pinned",
+    "file": "outputs/simulation-results.json",
+    "find": "\"masterSeed\": \"pf.org/liqd-limbo/simulate/2026-09-26\"",
+    "replace": "\"masterSeed\": \"pf.org/liqd-limbo/simulate/2026-09-27\"",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 binds the artifact's recorded seed pass1.masterSeed to SIM_MASTER_SEED in src/config.ts (added 2026-09-26, profile LIMBO-28): an artifact that names a seed other than the one `npm run simulate:check` regenerates from fails, even re-pinned."
+  },
+  {
+    "name": "simulation recorded seed: SIM_MASTER_SEED moved in src/config.ts",
+    "file": "src/config.ts",
+    "find": "export const SIM_MASTER_SEED = 'pf.org/liqd-limbo/simulate/2026-09-26';",
+    "replace": "export const SIM_MASTER_SEED = 'pf.org/liqd-limbo/simulate/2026-09-25';",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "The seed constant is read by Step 19, not only by the producer: moving it without regenerating the artifact leaves the artifact naming a different seed and must fail."
+  },
+  {
+    "name": "draw-bias bound: maxFair one past a whole number of ranges",
+    "file": "src/bias.ts",
+    "find": "  const maxFair = Math.floor(0x1_0000_0000 / range) * range;\n  const wholeRanges",
+    "replace": "  const maxFair = Math.floor(0x1_0000_0000 / range) * range + 1;\n  const wholeRanges",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 5 (Draw & Result Recomputation) asserts the draw-bias bound (profile LIMBO-08; src/bias.ts since 20 Oct 2026): maxFair must be a whole number of ranges so the per-value bias is exactly 0. One chunk value past it leaves 42.00000001 accepted chunks per value and a 1e-8 bias, and the step must FAIL on the bound itself, not on a reproduction mismatch."
+  },
+  {
+    "name": "rejection guard removed from the reference draw — every 32-bit chunk accepted",
+    "file": "src/rng.ts",
+    "find": "    if (v < limit) {",
+    "replace": "    if (v >= 0) {",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 5 (Draw & Result Recomputation) must fail on exactly the rounds the rejection census counts: 126 of the 6,700 captured rounds have their first chunk in the discarded tail, and an unguarded model serves a different result on every one of them. This is the live witness that the operator applies the guard (formerly the L11 prose figure)."
+  },
+  {
+    "name": "client seed dropped from the HMAC message",
+    "file": "src/rng.ts",
+    "find": "  return `${clientSeed}:${nonce.toString(10)}:${cursor.toString(10)}`;",
+    "replace": "  return `:${nonce.toString(10)}:${cursor.toString(10)}`;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 18 (Custom Client-Seed Control) runs the model-rate gate over every bet: with the client seed ignored, a wrong seed and the empty-seed control leave the draw unchanged on all 6,700 bets against an allowance of floor(E + 5 sqrt(E)) = 0, so the gate must FAIL (0 % change is a hard fail)."
+  },
+  {
+    "name": "capture rig client-seed generator switched from randomBytes to Math.random",
+    "file": "capture/capture-limbo.reference.mjs",
+    "find": "const randHex = (n) => randomBytes(n).toString('hex');",
+    "replace": "const randHex = (n) => Math.random().toString(16).slice(2, 2 + 2 * n);",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 18 (Custom Client-Seed Control) reads the Phase A-C client-seed generator from the shipped capture script and requires randomBytes from node:crypto (a CSPRNG, profile LIMBO-06). A rig whose seeds come from Math.random must fail the step."
+  },
+  {
+    "name": "Phase C elevated-stake win floor raised above what the capture put through the payout path",
+    "file": "src/config.ts",
+    "find": "export const PHASE_C_MIN_WINS = 100;",
+    "replace": "export const PHASE_C_MIN_WINS = 105;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 13 (Phase Plan Conformance) requires at least PHASE_C_MIN_WINS elevated-stake WINS (profile LIMBO-12). The capture has 104; a floor of 105 is a capture that did not exercise the payout path enough, and the step must FAIL rather than report bet counts alone."
+  },
+  {
+    "name": "target-coverage plan declares decade 10^4, which the capture never played",
+    "file": "src/config.ts",
+    "find": "{ 0: 50, 1: 50, 2: 250, 3: 250, 5: 500 }",
+    "replace": "{ 0: 50, 1: 50, 2: 250, 3: 250, 4: 50, 5: 500 }",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 13 (Phase Plan Conformance) asserts per-decade target coverage against PLANNED_TARGET_DECADES (profile LIMBO-15). A plan that declares a decade the data does not reach must FAIL, so the coverage claim is bound to the code plan and not to prose."
+  },
+  {
+    "name": "live-sample draws sorted into value order before the serial tests",
+    "file": "tests/steps/live-fit.ts",
+    "find": "  const n = draws.length;\n",
+    "replace": "  draws.sort((x, y) => x - y);\n  const n = draws.length;\n",
+    "runner": "verify",
+    "expect": "PROVABLY FAIR",
+    "guard": "Step 22 (Live-Sample Fit) must reach [INFO]: sorting drives lag-1 to ~+1 and collapses the runs test. The step is policy INFORMATIONAL (2026-09-29) — not counted, verdict-neutral — so the verdict stays the verdict of record; the run still exits 1 because the reproduction gate sees Step 22's detail differ from the committed artifact. This is what shows a verdict-neutral step can fail."
+  },
+  {
+    "name": "Pass-2 served-target rule loosened to fire on any negative rank-sum",
+    "file": "tests/steps/pass2.ts",
+    "find": "r.rankSumZ < PASS2_Z_CRIT) bad.push",
+    "replace": "r.rankSumZ < 0) bad.push",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 24 (Simulation Pass 2) scores the one-sided rank-sum rule fixed in code on 2026-09-26 (profile LIMBO-21). The measured Z is below 0, so a rule of Z < 0 must FAIL — this shows the served-target branch is reachable and is decided by the measured statistic, not by a constant."
+  },
+  {
+    "name": "Pass-2 replay shifted one nonce (window 0 no longer the captured rounds)",
+    "file": "src/pass2.ts",
+    "find": "const n = w * PASS2_WINDOW + j;",
+    "replace": "const n = w * PASS2_WINDOW + j + 1;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 24 requires window 0 to reproduce every captured result exactly (and the committed pass2 block to equal the re-derivation). A replay that is off by one nonce is not a replay of the operator's rounds and must FAIL."
+  },
+  {
+    "name": "Pass-2 early/late screen: the assumed rate p0 = 0.0475 reinstated in the producer",
+    "file": "src/pass2.ts",
+    "find": "const p0 = size * (1 - size);",
+    "replace": "const p0 = 0.0475;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 24 binds the committed pass2 block to the deterministic re-derivation (the old screen assumed p0 = 0.0475 instead of computing it). Reinstating the assumed rate changes the emitted expected count and binomial P, so the committed artifact no longer equals the re-derivation and the step must FAIL."
+  },
+  {
+    "name": "Pass-2 artifact: flag count doctored 10 -> 11 and re-pinned",
+    "file": "outputs/simulation-results.json",
+    "find": "\"flags\": 10,",
+    "replace": "\"flags\": 11,",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 24 re-derives the whole pass2 block from the dataset; a flag count typed into the committed artifact (the runner re-pins SIMULATION_SHA256, as a forger would) must be caught by the byte-for-byte comparison, not by the pin."
+  },
+  {
+    "name": "undeclared resume — SUPPLEMENT_DECLARED_RESUMES set to 0",
+    "file": "src/config.ts",
+    "find": "export const SUPPLEMENT_DECLARED_RESUMES = 1;",
+    "replace": "export const SUPPLEMENT_DECLARED_RESUMES = 0;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must fail when the journal carries a resume the package does not declare. The 2026-09-26 run was paused once after epoch 0 (reported as a rate limit) and resumed; the resume-check line is in the pinned journal, and a declaration that no resume happened is a false statement about the capture."
+  },
+  {
+    "name": "live target ceiling lowered below the targets the supplement played",
+    "file": "src/config.ts",
+    "find": "export const LIVE_TARGET_CEILING = 10_000;",
+    "replace": "export const LIVE_TARGET_CEILING = 9_999;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must reject a supplement target above the declared live ceiling: 100 rounds sit at exactly 10,000x, so a ceiling of 9,999x puts 100 targets out of bounds (and moves the declared top decade)."
+  },
+  {
+    "name": "supplement decade plan names a decade the capture did not play",
+    "file": "src/config.ts",
+    "find": "{ 2: 100, 3: 100, 4: 100 }",
+    "replace": "{ 2: 100, 3: 100, 4: 100, 5: 100 }",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must bind the supplement to its plan in code (G-BIND): a planned decade 10^5 with 0 rounds is a plan the data does not meet."
+  },
+  {
+    "name": "Phase A decade floor raised above the supplement per-decade count",
+    "file": "src/config.ts",
+    "find": "export const PHASE_A_DECADE_FLOOR = 50;",
+    "replace": "export const PHASE_A_DECADE_FLOOR = 101;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must assert the per-decade Phase A floor against the counts, not print it: with a floor of 101, decades 10^2..10^4 (100 each) fall short."
+  },
+  {
+    "name": "the refused probe target renamed to one the probe settled",
+    "file": "src/config.ts",
+    "find": "export const CEILING_PROBE_REFUSED_TARGET = 93_830.94;",
+    "replace": "export const CEILING_PROBE_REFUSED_TARGET = 10_000;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must require the above-ceiling request to be unsettled in the probe journals (evidence/E20): 10,000x was settled in both probe runs, so naming it the refused target must fail the ceiling witness."
+  },
+  {
+    "name": "supplement population constant changed",
+    "file": "src/config.ts",
+    "find": "export const SUPPLEMENT_EXPECTED_BETS = 300;",
+    "replace": "export const SUPPLEMENT_EXPECTED_BETS = 250;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must bind the supplement population to src/config.ts (G-BIND): 300 rounds against a declared 250 is the wrong population."
+  },
+  {
+    "name": "supplement win-flag comparison inverted",
+    "file": "tests/steps/supplement.ts",
+    "find": "    if (b.win !== win) winFails++;",
+    "replace": "    if (b.win === win) winFails++;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must recompute the served win flag from (R >= target) on every supplement round; an inverted comparison reports 300 mismatches."
+  },
+  {
+    "name": "ceiling witness nonce read-back off by one",
+    "file": "tests/steps/supplement.ts",
+    "find": "p2Pre.nonce === p1Bets.filter((r) => r.hashedServerSeed === p1Seed).length;",
+    "replace": "p2Pre.nonce === 1 + p1Bets.filter((r) => r.hashedServerSeed === p1Seed).length;",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must tie \"the refused request consumed no round\" to the operator read-back: probe run 2 opens that seed at nonce 1 = the 1 settled round; requiring 2 must fail."
+  },
+  {
+    "name": "Pass-2 artifact: servedReturn.zCritical forged just beyond the reproduction bound (+4e-12; bound 3.1e-12 at z = 3.09) and re-pinned",
+    "file": "outputs/simulation-results.json",
+    "find": "\"zCritical\": -3.090232306167813,",
+    "replace": "\"zCritical\": -3.090232306163813,",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 24 compares the committed pass2 block to the re-derivation leaf by leaf at the reproduction bound, 1e-14 absolute + 1e-12 relative (src/diff.ts), not bit equality, because zCritical is a normal quantile through Math.log / Math.sqrt and libm is not guaranteed bit-identical across platforms (1-ulp drift on Linux was measured for this class, 2026-09-28). A value moved just beyond the bound is a different result: the runner re-pins SIMULATION_SHA256, as a forger would, and Step 24 must still FAIL."
+  },
+  {
+    "name": "Step 16 band threshold moved up by one band width — targets inside the RTP-CLAIM band counted as beyond it",
+    "file": "tests/steps/edge.ts",
+    "find": "const beyondBand = cr * ci < CLAIM_FLOOR_NUMERATOR;",
+    "replace": "const beyondBand = cr * ci < CLAIM_FLOOR_NUMERATOR + 10_000_000;",
+    "runner": "verify",
+    "expect": "PROVABLY FAIR — Conditional Pass",
+    "guard": "Step 16 (Effective-Edge Curve) must FLAG when a target on the scored range sits beyond the RTP-CLAIM band (profile LIMBO-19, reworded 2026-10-02 to follow the band). Moving the threshold up by one band width (0.1 pp) puts 999,618 in-band targets beyond it, and the step must move from PASS to FLAG with the count printed — showing the band branch is reachable and decided by the enumerated count, not by a constant. The RTP-CLAIM rule itself (src/rtp-claim.ts) is untouched, so this isolates the step's own band arm."
+  },
+  {
+    "name": "boundary witness forged — the casino's own on-target serverResult moved off the model while the file's R is left alone",
+    "file": "evidence/E13-limbo-boundary-probes.json",
+    "find": "\"serverWin\": true,\n    \"serverResult\": 7.5,",
+    "replace": "\"serverWin\": true,\n    \"serverResult\": 7.49,",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) must compare the model with the CASINO's values in E13 — atEqual.serverResult and justAbove.serverResult — and not only with the file's `R`, which the capture script computed with our own model. Until 2026-10-02 the step never read serverResult, so an E13 whose \"casino\" result disagreed with the model passed (QA C6). An invented E13 whose values all AGREE with the model still passes: nothing ties its seed to a commitment."
+  },
+  {
+    "name": "M-C3i one uncaptured target (1,234.57x) priced 2 pp below the claim, table + record regenerated",
+    "file": "src/rtp-settings.ts",
+    "find": "acc.add(() => `target=${(ci / 100).toFixed(2)}`, Math.floor(N / ci) * ci, D, name);",
+    "replace": "acc.add(() => `target=${(ci / 100).toFixed(2)}`, Math.floor(N / ci) * ci - (ci === 123457 ? D / 50 : 0), D, name); // MUTATION",
+    "runner": "verify",
+    "regen": true,
+    "expectExit": 5,
+    "expectVerdict": "RTP FIGURE OVERSTATED",
+    "expect": "[RTP FIGURE OVERSTATED] Step 16",
+    "guard": "Step 16 (LIMBO-19), FIXPASS2 C3(i): one setting misses the published figure by more than the band and nothing else changes. Target 1,234.57x (no captured bet in either dataset used it) is priced 2 pp lower where the RTP table prices it, so it returns about 97 %. With the table re-written and re-pinned and the record re-emitted (regen), the run must end RTP FIGURE OVERSTATED, exit 5, Step 16 OVERSTATED: no earlier check may turn it into exit 1 or 2. Without regen the committed table no longer matches (Step 16 FAIL, exit 1). Limbo has no paytable file: the price is the formula floor(9.9e9/ci)*ci, so the cell is lowered at the one place the table reads it."
+  },
+  {
+    "name": "M-C3ii published figure raised to 99.25 % in the claim source, table + record regenerated",
+    "file": "src/rtp-settings.ts",
+    "find": "  kind: 'flat',\n  rtp: '0.99',",
+    "replace": "  kind: 'flat',\n  rtp: '0.9925', // MUTATION",
+    "runner": "verify",
+    "regen": true,
+    "expectExit": 5,
+    "expectVerdict": "RTP FIGURE OVERSTATED",
+    "expect": "[RTP FIGURE OVERSTATED] Step 16",
+    "guard": "Step 16 (LIMBO-19), FIXPASS2 C3(ii): the published figure raised where the verifier reads it (src/rtp-settings.ts RTP_CLAIM, also read by Step 16's effective-edge floor in tests/steps/edge.ts). Step 16 first FLAGs on its own (origin operator) and is then re-scored by the rule; the run must end RTP FIGURE OVERSTATED, exit 5, Step 16 OVERSTATED, not a Conditional Pass."
+  }
+]

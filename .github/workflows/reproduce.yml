@@ -1,0 +1,38 @@
+# Second-machine reproduction (Framework 1.0 release bar, F12).
+# A clean ubuntu-latest runner installs from the lockfile with the runtime pinned in .nvmrc and runs
+# npm test, which runs `release-manifest.mjs --check` (the release bar) FIRST — verify.js exits non-zero on
+# anything short of a Full Pass, so a check chained after it would not run — then scores the committed artifacts and
+# writes only to outputs/run/. The runtime and the result are written to the
+# job summary, and the job fails if npm test changed any tracked file.
+name: reproduce
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: npm ci
+      - name: npm test
+        shell: bash
+        run: |
+          start=$(date +%s)
+          expected=0  # this package's verdict exit code (0 Full Pass, 2 Conditional Pass, 5 RTP FIGURE OVERSTATED, 1 NOT PROVABLY FAIR); 2 until the E21 cap re-probe was pinned on 2026-10-02
+          set +e; npm test 2>&1 | tee ../npm-test.log; rc=${PIPESTATUS[0]}; set -e
+          secs=$(( $(date +%s) - start ))
+          {
+            echo "| runner | node | npm test exit | expected | seconds | cores |"
+            echo "|---|---|---|---|---|---|"
+            echo "| ubuntu-latest ($(lsb_release -ds 2>/dev/null || uname -sr)) | $(node --version) | $rc | $expected | $secs | $(nproc) |"
+            grep -E "VERDICT:|Reproduction vs the committed" ../npm-test.log | sed 's/^/    /'
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ "$rc" != "$expected" ]; then echo "::error::npm test exited $rc, expected $expected"; exit 1; fi
+          grep -qE "Reproduction vs the committed artifacts? on .*: REPRODUCED( |$)" ../npm-test.log || { echo "::error::no REPRODUCED line"; exit 1; }
+      - name: tracked files untouched by npm test
+        run: git diff --exit-code --stat

@@ -1,0 +1,45 @@
+{
+  "what": "Operator-enforced maximum exposure (potential payout) on originals/limbo place-bet",
+  "capturedAgainst": "qa.liqd.com",
+  "errorCode": 3138,
+  "errorName": "MaxExposureExceededError",
+  "estimatedCeilingUsdc": 50000,
+  "observedCeilingUsdc": 50000,
+  "ceilingIsDerived": "stake x target; derived from the operator's own maxAllowedBetUsdc in each refusal below",
+  "refusals": [
+    {
+      "at": "2026-09-11T13:09:53.052Z",
+      "target": 1000000,
+      "requestedStake": 0.1,
+      "maxAllowedBetUsdc": 0.05,
+      "impliedExposureCeiling": 50000,
+      "errorCode": 3138,
+      "raw": {
+        "name": "MaxExposureExceededError",
+        "description": "Bet exceeds the maximum exposure limit",
+        "errorCode": 3138,
+        "fields": {
+          "maxAllowedBetUsdc": 0.05,
+          "maxAllowedBetInDisplayCurrency": 0.05,
+          "displayCurrencyCode": "USDC",
+          "betType": "main"
+        }
+      }
+    },
+    {
+      "at": "2026-09-11T13:09:53.449Z",
+      "target": 1000000,
+      "requestedStake": 0.1,
+      "errorCode": 3113,
+      "errorName": "BetAmountIsNotInLimitError",
+      "fields": {},
+      "raw": {
+        "name": "BetAmountIsNotInLimitError",
+        "description": "Bet Amount is not in the limits",
+        "errorCode": 3113
+      },
+      "interpretation": "advertised maximum multiplier is not playable at any legal stake"
+    }
+  ],
+  "note": "Each entry is a live refusal with the operator's stated maximum for that target. This does not establish the ceiling for targets or currencies not probed here."
+}

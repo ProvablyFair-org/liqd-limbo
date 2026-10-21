@@ -1,0 +1,1170 @@
+{
+  "model": {
+    "range": 100000000,
+    "cursor": 0,
+    "resultNumerator": 9900000000,
+    "maxMultiplier": 1000000,
+    "houseEdge": 0.01
+  },
+  "pass1": {
+    "masterSeed": "pf.org/liqd-limbo/simulate/2026-09-26",
+    "draws": 2000000,
+    "uniformity": {
+      "bins": 100,
+      "chi2": 110.884,
+      "df": 99,
+      "pValue": 0.1949,
+      "pass": true
+    },
+    "serial": {
+      "lag1": -0.0013871416349734164,
+      "lag1Z": -0.62,
+      "zCritical": 2.576,
+      "runsZ": -0.898,
+      "runsP": 0.3694,
+      "pass": true
+    },
+    "rtpConvergence": {
+      "strategy": "target 2.00×",
+      "multiplier": 2,
+      "theoreticalRTP": 0.99,
+      "finalRTP": 0.990128,
+      "points": [
+        {
+          "n": 1000,
+          "rtp": 1.072,
+          "se": 0.031540703860250166
+        },
+        {
+          "n": 10000,
+          "rtp": 0.994,
+          "se": 0.00999981999837997
+        },
+        {
+          "n": 100000,
+          "rtp": 0.9892,
+          "se": 0.0031620932307571204
+        },
+        {
+          "n": 1000000,
+          "rtp": 0.990218,
+          "se": 0.0009999521550934324
+        },
+        {
+          "n": 5000000,
+          "rtp": 0.9897528,
+          "se": 0.0004471901150276379
+        },
+        {
+          "n": 10000000,
+          "rtp": 0.9898214,
+          "se": 0.00031621138437792527
+        },
+        {
+          "n": 20000000,
+          "rtp": 0.9901276,
+          "se": 0.00022359590064648322
+        }
+      ]
+    },
+    "effectiveEdge": [
+      {
+        "label": "target 1.10× (90.00%)",
+        "target": 1.1,
+        "winChancePct": 90,
+        "theoreticalRTP": 0.99,
+        "theoreticalEdgePct": 1,
+        "simulatedRTP": 0.990163,
+        "deltaSE": 0.7,
+        "tolSE": 5,
+        "n": 2000000,
+        "se": 0.0002333453,
+        "withinTol": true
+      },
+      {
+        "label": "target 1.50× (66.00%)",
+        "target": 1.5,
+        "winChancePct": 66,
+        "theoreticalRTP": 0.99,
+        "theoreticalEdgePct": 1,
+        "simulatedRTP": 0.990135,
+        "deltaSE": 0.27,
+        "tolSE": 5,
+        "n": 2000000,
+        "se": 0.000502444,
+        "withinTol": true
+      },
+      {
+        "label": "target 2.00× (49.50%)",
+        "target": 2,
+        "winChancePct": 49.5,
+        "theoreticalRTP": 0.99,
+        "theoreticalEdgePct": 1,
+        "simulatedRTP": 0.989224,
+        "deltaSE": 1.1,
+        "tolSE": 5,
+        "n": 2000000,
+        "se": 0.0007070716,
+        "withinTol": true
+      },
+      {
+        "label": "target 5.00× (19.80%)",
+        "target": 5,
+        "winChancePct": 19.8,
+        "theoreticalRTP": 0.99,
+        "theoreticalEdgePct": 1,
+        "simulatedRTP": 0.989073,
+        "deltaSE": 0.66,
+        "tolSE": 5,
+        "n": 2000000,
+        "se": 0.001408883,
+        "withinTol": true
+      },
+      {
+        "label": "target 10.00× (9.90%)",
+        "target": 10,
+        "winChancePct": 9.9,
+        "theoreticalRTP": 0.99,
+        "theoreticalEdgePct": 1,
+        "simulatedRTP": 0.992695,
+        "deltaSE": 1.28,
+        "tolSE": 5,
+        "n": 2000000,
+        "se": 0.00211186,
+        "withinTol": true
+      },
+      {
+        "label": "target 20.14× (4.91%)",
+        "target": 20.14,
+        "winChancePct": 4.9156,
+        "theoreticalRTP": 0.99,
+        "theoreticalEdgePct": 1,
+        "simulatedRTP": 0.992348,
+        "deltaSE": 0.76,
+        "tolSE": 5,
+        "n": 2000000,
+        "se": 0.003078839,
+        "withinTol": true
+      },
+      {
+        "label": "target 100.00× (0.99%)",
+        "target": 100,
+        "winChancePct": 0.99,
+        "theoreticalRTP": 0.99,
+        "theoreticalEdgePct": 1,
+        "simulatedRTP": 0.98565,
+        "deltaSE": 0.62,
+        "tolSE": 5,
+        "n": 2000000,
+        "se": 0.007000711,
+        "withinTol": true
+      },
+      {
+        "label": "target 1000.00× (0.099%)",
+        "target": 1000,
+        "winChancePct": 0.099,
+        "theoreticalRTP": 0.99,
+        "theoreticalEdgePct": 1,
+        "simulatedRTP": 0.975,
+        "deltaSE": 0.67,
+        "tolSE": 5,
+        "n": 2000000,
+        "se": 0.02223758,
+        "withinTol": true
+      }
+    ]
+  },
+  "pass2": {
+    "available": true,
+    "method": "deterministic: exact permutation null (served-target return) + exact multinomial null (early/late chi-squared); no random number is drawn",
+    "seedsTested": 134,
+    "noncesPerSeed": 10000,
+    "noncesTotal": 1340000,
+    "windowSize": 50,
+    "windows": 200,
+    "servedReturn": {
+      "replayMismatches": 0,
+      "rankSumZ": -0.1711,
+      "oneSidedP": 0.4321,
+      "zCritical": -3.090232306167813,
+      "capturedBelowMedian": 63,
+      "capturedAboveMedian": 62,
+      "capturedReturn": 6026.59,
+      "capturedExpected": 6632.9999,
+      "powerFraction": 0.161,
+      "cherryPickIndicated": false
+    },
+    "earlyLateScreen": {
+      "bins": 20,
+      "drawsPerWindow": 50,
+      "nullAttainableValues": 832,
+      "criticalQ": 202,
+      "criticalChi2": 30.8,
+      "size": 0.045924,
+      "p0": 0.043815,
+      "flags": 10,
+      "expected": 5.8712,
+      "binomialP": 0.0708,
+      "consistent": true,
+      "flaggedEpochs": [
+        21,
+        55,
+        71,
+        91,
+        94,
+        98,
+        99,
+        117,
+        123,
+        130
+      ]
+    },
+    "pooledRealDrawUniformity": {
+      "n": 6700,
+      "chi2": 108.985,
+      "df": 99,
+      "pValue": 0.2315,
+      "pass": true
+    },
+    "perSeed": [
+      {
+        "epoch": 0,
+        "capturedRank": 142,
+        "earlyQ": 168,
+        "lateQ": 160,
+        "flag": false
+      },
+      {
+        "epoch": 1,
+        "capturedRank": 167,
+        "earlyQ": 162,
+        "lateQ": 160,
+        "flag": false
+      },
+      {
+        "epoch": 2,
+        "capturedRank": 44,
+        "earlyQ": 194,
+        "lateQ": 168,
+        "flag": false
+      },
+      {
+        "epoch": 3,
+        "capturedRank": 7,
+        "earlyQ": 174,
+        "lateQ": 176,
+        "flag": false
+      },
+      {
+        "epoch": 4,
+        "capturedRank": 105,
+        "earlyQ": 180,
+        "lateQ": 164,
+        "flag": false
+      },
+      {
+        "epoch": 5,
+        "capturedRank": 102,
+        "earlyQ": 184,
+        "lateQ": 150,
+        "flag": false
+      },
+      {
+        "epoch": 6,
+        "capturedRank": 157,
+        "earlyQ": 174,
+        "lateQ": 160,
+        "flag": false
+      },
+      {
+        "epoch": 7,
+        "capturedRank": 125,
+        "earlyQ": 182,
+        "lateQ": 170,
+        "flag": false
+      },
+      {
+        "epoch": 8,
+        "capturedRank": 14,
+        "earlyQ": 156,
+        "lateQ": 152,
+        "flag": false
+      },
+      {
+        "epoch": 9,
+        "capturedRank": 6,
+        "earlyQ": 160,
+        "lateQ": 172,
+        "flag": false
+      },
+      {
+        "epoch": 10,
+        "capturedRank": 164,
+        "earlyQ": 158,
+        "lateQ": 194,
+        "flag": false
+      },
+      {
+        "epoch": 11,
+        "capturedRank": 45,
+        "earlyQ": 186,
+        "lateQ": 178,
+        "flag": false
+      },
+      {
+        "epoch": 12,
+        "capturedRank": 55,
+        "earlyQ": 184,
+        "lateQ": 170,
+        "flag": false
+      },
+      {
+        "epoch": 13,
+        "capturedRank": 15,
+        "earlyQ": 178,
+        "lateQ": 198,
+        "flag": false
+      },
+      {
+        "epoch": 14,
+        "capturedRank": 152,
+        "earlyQ": 180,
+        "lateQ": 174,
+        "flag": false
+      },
+      {
+        "epoch": 15,
+        "capturedRank": 73,
+        "earlyQ": 150,
+        "lateQ": 164,
+        "flag": false
+      },
+      {
+        "epoch": 16,
+        "capturedRank": 3,
+        "earlyQ": 160,
+        "lateQ": 224,
+        "flag": false
+      },
+      {
+        "epoch": 17,
+        "capturedRank": 159,
+        "earlyQ": 174,
+        "lateQ": 166,
+        "flag": false
+      },
+      {
+        "epoch": 18,
+        "capturedRank": 70,
+        "earlyQ": 182,
+        "lateQ": 208,
+        "flag": false
+      },
+      {
+        "epoch": 19,
+        "capturedRank": 129,
+        "earlyQ": 154,
+        "lateQ": 166,
+        "flag": false
+      },
+      {
+        "epoch": 20,
+        "capturedRank": 186,
+        "earlyQ": 196,
+        "lateQ": 176,
+        "flag": false
+      },
+      {
+        "epoch": 21,
+        "capturedRank": 80,
+        "earlyQ": 206,
+        "lateQ": 154,
+        "flag": true
+      },
+      {
+        "epoch": 22,
+        "capturedRank": 113,
+        "earlyQ": 158,
+        "lateQ": 144,
+        "flag": false
+      },
+      {
+        "epoch": 23,
+        "capturedRank": 37,
+        "earlyQ": 178,
+        "lateQ": 174,
+        "flag": false
+      },
+      {
+        "epoch": 24,
+        "capturedRank": 165,
+        "earlyQ": 174,
+        "lateQ": 164,
+        "flag": false
+      },
+      {
+        "epoch": 25,
+        "capturedRank": 71,
+        "earlyQ": 166,
+        "lateQ": 192,
+        "flag": false
+      },
+      {
+        "epoch": 26,
+        "capturedRank": 112,
+        "earlyQ": 168,
+        "lateQ": 180,
+        "flag": false
+      },
+      {
+        "epoch": 27,
+        "capturedRank": 141,
+        "earlyQ": 166,
+        "lateQ": 174,
+        "flag": false
+      },
+      {
+        "epoch": 28,
+        "capturedRank": 23,
+        "earlyQ": 192,
+        "lateQ": 192,
+        "flag": false
+      },
+      {
+        "epoch": 29,
+        "capturedRank": 57,
+        "earlyQ": 200,
+        "lateQ": 156,
+        "flag": false
+      },
+      {
+        "epoch": 30,
+        "capturedRank": 90,
+        "earlyQ": 176,
+        "lateQ": 172,
+        "flag": false
+      },
+      {
+        "epoch": 31,
+        "capturedRank": 17,
+        "earlyQ": 168,
+        "lateQ": 162,
+        "flag": false
+      },
+      {
+        "epoch": 32,
+        "capturedRank": 35,
+        "earlyQ": 168,
+        "lateQ": 166,
+        "flag": false
+      },
+      {
+        "epoch": 33,
+        "capturedRank": 122,
+        "earlyQ": 168,
+        "lateQ": 174,
+        "flag": false
+      },
+      {
+        "epoch": 34,
+        "capturedRank": 123,
+        "earlyQ": 178,
+        "lateQ": 166,
+        "flag": false
+      },
+      {
+        "epoch": 35,
+        "capturedRank": 175,
+        "earlyQ": 182,
+        "lateQ": 154,
+        "flag": false
+      },
+      {
+        "epoch": 36,
+        "capturedRank": 16,
+        "earlyQ": 170,
+        "lateQ": 162,
+        "flag": false
+      },
+      {
+        "epoch": 37,
+        "capturedRank": 92,
+        "earlyQ": 198,
+        "lateQ": 180,
+        "flag": false
+      },
+      {
+        "epoch": 38,
+        "capturedRank": 62.5,
+        "earlyQ": 174,
+        "lateQ": 186,
+        "flag": false
+      },
+      {
+        "epoch": 39,
+        "capturedRank": 98,
+        "earlyQ": 170,
+        "lateQ": 170,
+        "flag": false
+      },
+      {
+        "epoch": 40,
+        "capturedRank": 188,
+        "earlyQ": 170,
+        "lateQ": 160,
+        "flag": false
+      },
+      {
+        "epoch": 41,
+        "capturedRank": 200,
+        "earlyQ": 172,
+        "lateQ": 154,
+        "flag": false
+      },
+      {
+        "epoch": 42,
+        "capturedRank": 26,
+        "earlyQ": 172,
+        "lateQ": 172,
+        "flag": false
+      },
+      {
+        "epoch": 43,
+        "capturedRank": 98,
+        "earlyQ": 164,
+        "lateQ": 172,
+        "flag": false
+      },
+      {
+        "epoch": 44,
+        "capturedRank": 47,
+        "earlyQ": 158,
+        "lateQ": 158,
+        "flag": false
+      },
+      {
+        "epoch": 45,
+        "capturedRank": 90,
+        "earlyQ": 174,
+        "lateQ": 176,
+        "flag": false
+      },
+      {
+        "epoch": 46,
+        "capturedRank": 166,
+        "earlyQ": 148,
+        "lateQ": 148,
+        "flag": false
+      },
+      {
+        "epoch": 47,
+        "capturedRank": 37,
+        "earlyQ": 144,
+        "lateQ": 152,
+        "flag": false
+      },
+      {
+        "epoch": 48,
+        "capturedRank": 149,
+        "earlyQ": 180,
+        "lateQ": 166,
+        "flag": false
+      },
+      {
+        "epoch": 49,
+        "capturedRank": 152.5,
+        "earlyQ": 164,
+        "lateQ": 172,
+        "flag": false
+      },
+      {
+        "epoch": 50,
+        "capturedRank": 197,
+        "earlyQ": 166,
+        "lateQ": 164,
+        "flag": false
+      },
+      {
+        "epoch": 51,
+        "capturedRank": 103,
+        "earlyQ": 170,
+        "lateQ": 172,
+        "flag": false
+      },
+      {
+        "epoch": 52,
+        "capturedRank": 79,
+        "earlyQ": 184,
+        "lateQ": 166,
+        "flag": false
+      },
+      {
+        "epoch": 53,
+        "capturedRank": 8,
+        "earlyQ": 168,
+        "lateQ": 160,
+        "flag": false
+      },
+      {
+        "epoch": 54,
+        "capturedRank": 60,
+        "earlyQ": 154,
+        "lateQ": 196,
+        "flag": false
+      },
+      {
+        "epoch": 55,
+        "capturedRank": 4,
+        "earlyQ": 214,
+        "lateQ": 174,
+        "flag": true
+      },
+      {
+        "epoch": 56,
+        "capturedRank": 113,
+        "earlyQ": 186,
+        "lateQ": 178,
+        "flag": false
+      },
+      {
+        "epoch": 57,
+        "capturedRank": 197,
+        "earlyQ": 174,
+        "lateQ": 168,
+        "flag": false
+      },
+      {
+        "epoch": 58,
+        "capturedRank": 63,
+        "earlyQ": 164,
+        "lateQ": 148,
+        "flag": false
+      },
+      {
+        "epoch": 59,
+        "capturedRank": 163,
+        "earlyQ": 182,
+        "lateQ": 170,
+        "flag": false
+      },
+      {
+        "epoch": 60,
+        "capturedRank": 154,
+        "earlyQ": 160,
+        "lateQ": 152,
+        "flag": false
+      },
+      {
+        "epoch": 61,
+        "capturedRank": 54,
+        "earlyQ": 184,
+        "lateQ": 170,
+        "flag": false
+      },
+      {
+        "epoch": 62,
+        "capturedRank": 44,
+        "earlyQ": 162,
+        "lateQ": 170,
+        "flag": false
+      },
+      {
+        "epoch": 63,
+        "capturedRank": 92,
+        "earlyQ": 164,
+        "lateQ": 176,
+        "flag": false
+      },
+      {
+        "epoch": 64,
+        "capturedRank": 130,
+        "earlyQ": 182,
+        "lateQ": 160,
+        "flag": false
+      },
+      {
+        "epoch": 65,
+        "capturedRank": 141,
+        "earlyQ": 158,
+        "lateQ": 188,
+        "flag": false
+      },
+      {
+        "epoch": 66,
+        "capturedRank": 106,
+        "earlyQ": 148,
+        "lateQ": 164,
+        "flag": false
+      },
+      {
+        "epoch": 67,
+        "capturedRank": 172,
+        "earlyQ": 160,
+        "lateQ": 182,
+        "flag": false
+      },
+      {
+        "epoch": 68,
+        "capturedRank": 138,
+        "earlyQ": 184,
+        "lateQ": 158,
+        "flag": false
+      },
+      {
+        "epoch": 69,
+        "capturedRank": 84,
+        "earlyQ": 178,
+        "lateQ": 162,
+        "flag": false
+      },
+      {
+        "epoch": 70,
+        "capturedRank": 14,
+        "earlyQ": 152,
+        "lateQ": 150,
+        "flag": false
+      },
+      {
+        "epoch": 71,
+        "capturedRank": 193,
+        "earlyQ": 202,
+        "lateQ": 172,
+        "flag": true
+      },
+      {
+        "epoch": 72,
+        "capturedRank": 198,
+        "earlyQ": 186,
+        "lateQ": 160,
+        "flag": false
+      },
+      {
+        "epoch": 73,
+        "capturedRank": 41,
+        "earlyQ": 164,
+        "lateQ": 184,
+        "flag": false
+      },
+      {
+        "epoch": 74,
+        "capturedRank": 157,
+        "earlyQ": 158,
+        "lateQ": 198,
+        "flag": false
+      },
+      {
+        "epoch": 75,
+        "capturedRank": 102,
+        "earlyQ": 198,
+        "lateQ": 208,
+        "flag": false
+      },
+      {
+        "epoch": 76,
+        "capturedRank": 150,
+        "earlyQ": 170,
+        "lateQ": 160,
+        "flag": false
+      },
+      {
+        "epoch": 77,
+        "capturedRank": 178,
+        "earlyQ": 172,
+        "lateQ": 164,
+        "flag": false
+      },
+      {
+        "epoch": 78,
+        "capturedRank": 200,
+        "earlyQ": 180,
+        "lateQ": 180,
+        "flag": false
+      },
+      {
+        "epoch": 79,
+        "capturedRank": 124,
+        "earlyQ": 158,
+        "lateQ": 162,
+        "flag": false
+      },
+      {
+        "epoch": 80,
+        "capturedRank": 51,
+        "earlyQ": 180,
+        "lateQ": 166,
+        "flag": false
+      },
+      {
+        "epoch": 81,
+        "capturedRank": 100,
+        "earlyQ": 182,
+        "lateQ": 186,
+        "flag": false
+      },
+      {
+        "epoch": 82,
+        "capturedRank": 1,
+        "earlyQ": 180,
+        "lateQ": 170,
+        "flag": false
+      },
+      {
+        "epoch": 83,
+        "capturedRank": 161,
+        "earlyQ": 164,
+        "lateQ": 162,
+        "flag": false
+      },
+      {
+        "epoch": 84,
+        "capturedRank": 7,
+        "earlyQ": 162,
+        "lateQ": 154,
+        "flag": false
+      },
+      {
+        "epoch": 85,
+        "capturedRank": 122,
+        "earlyQ": 172,
+        "lateQ": 192,
+        "flag": false
+      },
+      {
+        "epoch": 86,
+        "capturedRank": 111,
+        "earlyQ": 144,
+        "lateQ": 206,
+        "flag": false
+      },
+      {
+        "epoch": 87,
+        "capturedRank": 185,
+        "earlyQ": 200,
+        "lateQ": 172,
+        "flag": false
+      },
+      {
+        "epoch": 88,
+        "capturedRank": 33,
+        "earlyQ": 158,
+        "lateQ": 168,
+        "flag": false
+      },
+      {
+        "epoch": 89,
+        "capturedRank": 13,
+        "earlyQ": 160,
+        "lateQ": 186,
+        "flag": false
+      },
+      {
+        "epoch": 90,
+        "capturedRank": 136,
+        "earlyQ": 166,
+        "lateQ": 160,
+        "flag": false
+      },
+      {
+        "epoch": 91,
+        "capturedRank": 193,
+        "earlyQ": 214,
+        "lateQ": 154,
+        "flag": true
+      },
+      {
+        "epoch": 92,
+        "capturedRank": 40,
+        "earlyQ": 174,
+        "lateQ": 176,
+        "flag": false
+      },
+      {
+        "epoch": 93,
+        "capturedRank": 53,
+        "earlyQ": 154,
+        "lateQ": 164,
+        "flag": false
+      },
+      {
+        "epoch": 94,
+        "capturedRank": 179,
+        "earlyQ": 210,
+        "lateQ": 182,
+        "flag": true
+      },
+      {
+        "epoch": 95,
+        "capturedRank": 53,
+        "earlyQ": 184,
+        "lateQ": 168,
+        "flag": false
+      },
+      {
+        "epoch": 96,
+        "capturedRank": 111,
+        "earlyQ": 160,
+        "lateQ": 166,
+        "flag": false
+      },
+      {
+        "epoch": 97,
+        "capturedRank": 20,
+        "earlyQ": 156,
+        "lateQ": 176,
+        "flag": false
+      },
+      {
+        "epoch": 98,
+        "capturedRank": 163,
+        "earlyQ": 206,
+        "lateQ": 178,
+        "flag": true
+      },
+      {
+        "epoch": 99,
+        "capturedRank": 27,
+        "earlyQ": 208,
+        "lateQ": 158,
+        "flag": true
+      },
+      {
+        "epoch": 100,
+        "capturedRank": 156.5,
+        "earlyQ": 188,
+        "lateQ": 178,
+        "flag": false
+      },
+      {
+        "epoch": 101,
+        "capturedRank": 151,
+        "earlyQ": 156,
+        "lateQ": 172,
+        "flag": false
+      },
+      {
+        "epoch": 102,
+        "capturedRank": 152.5,
+        "earlyQ": 176,
+        "lateQ": 170,
+        "flag": false
+      },
+      {
+        "epoch": 103,
+        "capturedRank": 159.5,
+        "earlyQ": 176,
+        "lateQ": 204,
+        "flag": false
+      },
+      {
+        "epoch": 104,
+        "capturedRank": 64,
+        "earlyQ": 152,
+        "lateQ": 172,
+        "flag": false
+      },
+      {
+        "epoch": 105,
+        "capturedRank": 93.5,
+        "earlyQ": 150,
+        "lateQ": 194,
+        "flag": false
+      },
+      {
+        "epoch": 106,
+        "capturedRank": 96.5,
+        "earlyQ": 164,
+        "lateQ": 154,
+        "flag": false
+      },
+      {
+        "epoch": 107,
+        "capturedRank": 94.5,
+        "earlyQ": 166,
+        "lateQ": 182,
+        "flag": false
+      },
+      {
+        "epoch": 108,
+        "capturedRank": 93,
+        "earlyQ": 152,
+        "lateQ": 174,
+        "flag": false
+      },
+      {
+        "epoch": 109,
+        "capturedRank": 96.5,
+        "earlyQ": 198,
+        "lateQ": 162,
+        "flag": false
+      },
+      {
+        "epoch": 110,
+        "capturedRank": 100.5,
+        "earlyQ": 162,
+        "lateQ": 154,
+        "flag": false
+      },
+      {
+        "epoch": 111,
+        "capturedRank": 100.5,
+        "earlyQ": 184,
+        "lateQ": 152,
+        "flag": false
+      },
+      {
+        "epoch": 112,
+        "capturedRank": 100.5,
+        "earlyQ": 174,
+        "lateQ": 152,
+        "flag": false
+      },
+      {
+        "epoch": 113,
+        "capturedRank": 100,
+        "earlyQ": 156,
+        "lateQ": 180,
+        "flag": false
+      },
+      {
+        "epoch": 114,
+        "capturedRank": 100.5,
+        "earlyQ": 178,
+        "lateQ": 186,
+        "flag": false
+      },
+      {
+        "epoch": 115,
+        "capturedRank": 100.5,
+        "earlyQ": 164,
+        "lateQ": 158,
+        "flag": false
+      },
+      {
+        "epoch": 116,
+        "capturedRank": 100.5,
+        "earlyQ": 176,
+        "lateQ": 154,
+        "flag": false
+      },
+      {
+        "epoch": 117,
+        "capturedRank": 100.5,
+        "earlyQ": 202,
+        "lateQ": 162,
+        "flag": true
+      },
+      {
+        "epoch": 118,
+        "capturedRank": 100.5,
+        "earlyQ": 188,
+        "lateQ": 156,
+        "flag": false
+      },
+      {
+        "epoch": 119,
+        "capturedRank": 100.5,
+        "earlyQ": 170,
+        "lateQ": 166,
+        "flag": false
+      },
+      {
+        "epoch": 120,
+        "capturedRank": 114,
+        "earlyQ": 170,
+        "lateQ": 184,
+        "flag": false
+      },
+      {
+        "epoch": 121,
+        "capturedRank": 96.5,
+        "earlyQ": 186,
+        "lateQ": 176,
+        "flag": false
+      },
+      {
+        "epoch": 122,
+        "capturedRank": 131,
+        "earlyQ": 166,
+        "lateQ": 164,
+        "flag": false
+      },
+      {
+        "epoch": 123,
+        "capturedRank": 173,
+        "earlyQ": 220,
+        "lateQ": 178,
+        "flag": true
+      },
+      {
+        "epoch": 124,
+        "capturedRank": 24,
+        "earlyQ": 166,
+        "lateQ": 162,
+        "flag": false
+      },
+      {
+        "epoch": 125,
+        "capturedRank": 115,
+        "earlyQ": 162,
+        "lateQ": 176,
+        "flag": false
+      },
+      {
+        "epoch": 126,
+        "capturedRank": 17,
+        "earlyQ": 168,
+        "lateQ": 164,
+        "flag": false
+      },
+      {
+        "epoch": 127,
+        "capturedRank": 152,
+        "earlyQ": 174,
+        "lateQ": 150,
+        "flag": false
+      },
+      {
+        "epoch": 128,
+        "capturedRank": 18,
+        "earlyQ": 168,
+        "lateQ": 164,
+        "flag": false
+      },
+      {
+        "epoch": 129,
+        "capturedRank": 72,
+        "earlyQ": 190,
+        "lateQ": 214,
+        "flag": false
+      },
+      {
+        "epoch": 130,
+        "capturedRank": 37,
+        "earlyQ": 206,
+        "lateQ": 158,
+        "flag": true
+      },
+      {
+        "epoch": 131,
+        "capturedRank": 37,
+        "earlyQ": 166,
+        "lateQ": 164,
+        "flag": false
+      },
+      {
+        "epoch": 132,
+        "capturedRank": 181,
+        "earlyQ": 172,
+        "lateQ": 192,
+        "flag": false
+      },
+      {
+        "epoch": 133,
+        "capturedRank": 109,
+        "earlyQ": 154,
+        "lateQ": 162,
+        "flag": false
+      }
+    ]
+  }
+}

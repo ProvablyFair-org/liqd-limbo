@@ -1,0 +1,49 @@
+{
+  "package": "liqd/limbo",
+  "game": "limbo",
+  "settingSpace": "scored: every 2-dp target a player can play, 1.01× … 10,000.00× (999,900 settings; the live target ceiling witnessed 2026-09-26, evidence/E20-target-ceiling-probe-2026-09-26, Step 25). Not scored: the 99,000,000 targets 10,000.01× … 1,000,000× that are legal in the operator client constants and lie above the live ceiling (93,830.94×, not settled on 2026-09-26; 100,101.12×, 497,487.44×, 500,000×, 990,000.01×, refused on 2026-10-02 with \"Too big: expected number to be <=10000\", evidence/E21-target-cap-probe, Step 25; 100,000×, settled on 2026-09-11, not re-probed) — carried as buckets marked \"information only, not scored\". rows = scored extremes + scored house-side rows up to 1000",
+  "rtpMethod": "exact rational: floor(9.9e9/ci)·ci / 1e10, ci = target in hundredths (the operator win-chance pricing × target)",
+  "rule": "RTP-CLAIM",
+  "ruleVersion": "1.2.0 (Methodology v1.1: places, per-setting, stake tiers, noted, published, RTP Figure Overstated; agreed 2026-10-14; 1.1.0 2026-10-01; 1.0.0 2026-09-29)",
+  "bandPp": "0.10",
+  "claim": {
+    "kind": "flat",
+    "rtp": "0.99",
+    "source": "LIQD Limbo: the game page liqd.com/originals/limbo shows \"Released: September 2026 | Edge: 1.00%\" and RTP 99% (read 2026-10-01, evidence/rtp-page-labels-2026-10-01.json). Same figure as HOUSE_EDGE = 0.01 in the operator client-bundle constants and meta.houseEdge 0.01 in the dataset header (src/config.ts:92; declaration gameModel.edge.claimSource)"
+  },
+  "settings": 999900,
+  "trueMin": {
+    "setting": "target=9989.91",
+    "rtpExact": "9899001819/10000000000",
+    "rtpPct": "98.990018"
+  },
+  "trueMax": {
+    "setting": "target=1.10",
+    "rtpExact": "99/100",
+    "rtpPct": "99.000000"
+  },
+  "houseSideFailures": 0,
+  "playerFavourable": 0,
+  "worst": {
+    "setting": "target=9989.91",
+    "gapPp": "-0.009982"
+  },
+  "rangeChecks": [],
+  "outcome": "PASS",
+  "minimalFix": "none — the claim holds for every setting it states a figure for",
+  "unstated": 0,
+  "rowsComplete": false,
+  "buckets": [
+    {"bucket":"1.01× – 1.99×","settings":99,"minPct":"98.999998","maxPct":"99.000000","houseSideFailures":0,"playerFavourable":0},
+    {"bucket":"2.00× – 9.99×","settings":800,"minPct":"98.999990","maxPct":"99.000000","houseSideFailures":0,"playerFavourable":0},
+    {"bucket":"10.00× – 99.99×","settings":9000,"minPct":"98.999901","maxPct":"99.000000","houseSideFailures":0,"playerFavourable":0},
+    {"bucket":"100.00× – 999.99×","settings":90000,"minPct":"98.999005","maxPct":"99.000000","houseSideFailures":0,"playerFavourable":0},
+    {"bucket":"1,000.00× – 10,000.00× (≤ live ceiling)","settings":900001,"minPct":"98.990018","maxPct":"99.000000","houseSideFailures":0,"playerFavourable":0},
+    {"bucket":"10,000.01× – 99,999.99× (above live ceiling — information only, not scored)","settings":8999999,"minPct":"98.900109","maxPct":"99.000000","houseSideFailures":0,"playerFavourable":0},
+    {"bucket":"100,000.00× – 1,000,000.00× (above live ceiling — information only, not scored)","settings":90000001,"minPct":"98.010001","maxPct":"99.000000","houseSideFailures":66928582,"playerFavourable":0}
+  ],
+  "rows": [
+    {"setting":"target=9989.91","rtpExact":"9899001819/10000000000","rtpPct":"98.990018","gapPp":"-0.009982","side":"within-band","outcome":"PASS"},
+    {"setting":"target=1.10","rtpExact":"99/100","rtpPct":"99.000000","gapPp":"0.000000","side":"within-band","outcome":"PASS"}
+  ]
+}

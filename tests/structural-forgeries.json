@@ -1,0 +1,401 @@
+[
+  {
+    "name": "coherent population shrink — nonces 30-49 deleted, every self-reported count doctored to agree, dataset re-pinned",
+    "script": "tests/forgeries/coherent-population-shrink.mjs",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 12 (Dataset Integrity & Population Identity) must reject a dataset that is not the audited population (G-BIND). EXECUTED COUNTEREXAMPLE, external review round 3 against the sibling dice audit (2026-09-09, P0-3): delete nonces 30-49 from every epoch (6,700 -> 4,020 bets), set meta.epochSize = 30, meta.plannedTotal = 4020, meta.progress.bets = 4020, meta.phases to the new counts and every seeds[].nonceEnd = 29, then re-pin DATASET_SHA256 — and that suite returned 21/21 PROVABLY FAIR on a 4,020-bet dataset. Every count it checked came from INSIDE the file being scored, so the population plan was self-referential, and the SHA pin proves only that the file has not changed since WE pinned it. Here the expected cardinality comes from EXPECTED_BETS / EXPECTED_SEEDS / EXPECTED_EPOCH_SIZE / EXPECTED_PHASES in src/config.ts, so Steps 4, 12, 13 and 18 all fire on the shrunken artifact. This is the single most important entry in the registry: it is a forgery that has actually been passed, by this suite's own sibling, within the last month."
+  },
+  {
+    "name": "pre-commitment chain severed — the pre-capture record no longer names epoch 0's commitment",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "precommit-link-severed"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 2 (Next-Seed Pre-Commitment Chain) must reject a chain whose first link is missing. The 133 in-capture transitions say the chain was never broken DURING the capture; on their own they say nothing about epoch 0, whose commitment would otherwise be simply the first thing the auditor saw. What places it earlier is meta.preCapture — the pair active BEFORE the first bet, whose nextHashedServerSeed must BE epoch 0's commitment. Break that one field and every other step stays green, which is exactly why it is scored separately."
+  },
+  {
+    "name": "pre-capture reveal forged — the seed released before the first bet no longer hashes to its commitment",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "precommit-reveal-forged"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 2 (Next-Seed Pre-Commitment Chain) must verify the pre-capture record as a commitment in its own right, not merely as a pointer. A record that points at epoch 0 but whose own revealed seed does not hash to its own commitment is an unverifiable anchor, and an unverifiable anchor cannot date anything."
+  },
+  {
+    "name": "bet settled against a commitment no seed record backs",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "unbacked-commitment"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 3 (Hash Consistency & Epoch Coverage) must require the commitments the bets settle against and the revealed seed set to be the SAME SET, hash for hash — not merely the same size. A bet whose commitment appears in no seed record is a settlement nobody can verify, and counting 134 seeds against 134 commitments would not have noticed."
+  },
+  {
+    "name": "nonce window doctored — a seed record's recorded end moved under a full epoch",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "nonce-window-doctored"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 4 (Nonce Audit) must reconcile each epoch's observed last nonce against the seed record's own nonceEnd. That bound is AUDITOR-recorded, not operator-witnessed (no operatorBetCount was captured — declared limitation L2), so internal consistency is all it can be; this entry proves the suite at least checks that much rather than printing the limitation and moving on."
+  },
+  {
+    "name": "win flag flipped — a losing round relabelled a win",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "win-flag-flipped"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 6 (Win-Rule Reproduction) must derive the win flag from the RECOMPUTED result and the chosen target rather than read it. Bet USzRL9gyMBxZg8NLCNoYS produced R = 2.47x against a 4.58x target; relabelling it a win contradicts arithmetic the operator cannot influence after the reveal. Steps 9 and 20 fire as well, because a win with a zero credit is also an arithmetic contradiction."
+  },
+  {
+    "name": "paid multiplier forged — a win credited at a rate the player did not choose",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "paid-multiplier-forged"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 8 (Paid-Multiplier Derivation) must assert the credited multiplier IS the chosen target, bit-exact. Limbo pays stake x target, so unlike dice there is no operator odds field to re-derive — what remains to be proven is that the operator settled at the rate the player selected, and this entry is the counterexample that makes the assertion falsifiable."
+  },
+  {
+    "name": "credit forged by one unit in the eighth decimal place, on both ledgers",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "credit-off-by-1e8"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 9 (Credit Arithmetic) must reject a credit that is not the EXACT decimal product of stake and target — asserted as the integer identity credit x 1e8 == hundredths(stake) x hundredths(target) x 1e4, with zero tolerance. Bet zFT06HYCJUcIINZ9CX3Nd is $0.10 at 1.07x and the operator credited exactly 0.107; the forgery credits 0.10700001, one unit in the last place the operator's own number system carries. A tolerance-based comparison — the sibling dice audit's P0-1 defect — would have reported it as 'rounded' and passed. The wallet field is moved in the same edit so Step 11's ledger cross-check cannot be what catches it; Step 20 fires alongside Step 9, by design."
+  },
+  {
+    "name": "loss relabelled 'won' while crediting nothing",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "loss-relabelled-won"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 10 (Loss Settlement) must check the LABEL as well as the money. A settlement whose resultLabel disagrees with its own win flag is the kind of inconsistency that reaches a player's history screen rather than their balance, and a suite that only reconciled amounts would have passed it silently."
+  },
+  {
+    "name": "wallet ledger diverges from the game ledger on one bet",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "wallet-ledger-divergence"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 11 (Wallet Ledger, Stake Floor & Exposure Ceiling) must require the wallet-denominated fields to be the SAME MONEY as the game ledger on every row. The step's own declared limitation stands — stakeWallet and winningAmountWallet are settle-RESPONSE fields and no before/after BALANCE was captured (L3), so this establishes internal consistency and not what the wallet was actually credited — but internal consistency is a real claim and this is what makes it falsifiable."
+  },
+  {
+    "name": "two records carrying one settlement id",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "duplicate-bet-id"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 12 (Dataset Integrity & Population Identity) must require 6,700 DISTINCT settlement ids. A row count is not an identity (G-BIND): without this clause a capture that recorded one settlement twice, or the same settlement 6,700 times, would satisfy every cardinality check in the suite."
+  },
+  {
+    "name": "bet moved between phases — the phase plan and the executed capture pulled apart",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "phase-relabelled"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 13 (Phase Plan Conformance) must check the plan in BOTH directions — every declared phase present at its declared count and stake, and no phase in the data the plan does not declare. Moving one $0.10 bet into Phase C breaks the count on two phases at once and puts a second stake into a phase whose whole purpose is a single stake at a single target."
+  },
+  {
+    "name": "QA capture relabelled as production",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "capture-host-relabelled"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 21 (Scope & Declared Limitations) must MEASURE the declared scope rather than print it (G-SCOPE). The capture is against qa.liqd.com and production parity is established by nothing in this repo; a limitation that is a sentence somebody remembered to write can quietly stop being true, and this entry is what stops the host in the dataset and the host in the suite drifting apart."
+  },
+  {
+    "name": "one epoch acquires an operator-sourced bet counter and 133 do not",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "operator-bet-count-partial"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 21 (Scope & Declared Limitations) states limitation L2 — no operator bet counter was captured, so trailing withholding is not observable client-side — as a measured property with ONE admissible value: 0 of 134 epochs (since 2026-10-02 a counter on all 134 fails too — the companion entry). A partial counter is not the limitation as written, and the step fails rather than narrating a stale sentence. Note that Step 4 does NOT fire: the planted counter is consistent with the observed last nonce, which is the point — the defect is in what the LIMITATION claims, not in the nonce window."
+  },
+  {
+    "name": "boundary witness ABSENT — evidence/E13 deleted",
+    "script": "tests/forgeries/evidence-artifact-forgeries.mjs",
+    "args": [
+      "absent-e13"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) must reject the ABSENCE of an artifact of record. Framework gate-forgery F11 (2026-09-09): three of four LIQD repos returned a Full Pass with an artifact of record deleted, because the check read existsSync and fell through to 'absent — this run writes it'. E13 is the record that isolates the >= win rule deliberately, and no amount of settled data supplies it, so its absence is a hard fail rather than a missing nicety."
+  },
+  {
+    "name": "boundary witness UNREADABLE — evidence/E13 overwritten with the literal bytes `{not JSON`",
+    "script": "tests/forgeries/evidence-artifact-forgeries.mjs",
+    "args": [
+      "malformed-e13"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) must separate ABSENT from PARSE ERROR and fail on both. Client QA 2026-09-10 (D2): the sibling dice suite approved an artifact containing `{not JSON` across all 21 steps — the parse throw was swallowed, the unreadable file was classified as stale, and the verifier then overwrote it. A verifier must not approve an artifact it could not read, and it must not regenerate one either: regeneration here is `npm run report` and nothing else."
+  },
+  {
+    "name": "boundary witness NON-DISCRIMINATING — evidence/E13 loses its second probe",
+    "script": "tests/forgeries/evidence-artifact-forgeries.mjs",
+    "args": [
+      "schema-e13"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) must reject a SCHEMA error distinctly from a parse error: valid JSON, readable, and missing the half that carries the meaning. One probe at target == R is consistent with both `>=` and `>`; only the pair one 2-dp tick apart separates them, so an E13 with a single probe is a file that witnesses nothing."
+  },
+  {
+    "name": "exposure witness ABSENT — evidence/E15 deleted",
+    "script": "tests/forgeries/evidence-artifact-forgeries.mjs",
+    "args": [
+      "absent-e15"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) must fail when the artifact behind a FINDING disappears. Without E15 the $50,000 ceiling in src/config.ts is an unwitnessed constant and Step 17 would be scoring our own arithmetic against itself — the finding would still 'pass', which is precisely the failure mode."
+  },
+  {
+    "name": "dataset edited and NOT re-pinned — the pin is the guard under test",
+    "script": "tests/forgeries/dataset-unpinned-edit.mjs",
+    "runner": "verify",
+    "marker": "ERROR: dataset SHA-256 mismatch",
+    "expect": "loader abort, exit 1, no verdict",
+    "guard": "THE PIN IS THE GUARD UNDER TEST, so this entry names no step — no step runs. Every other dataset forgery in this file re-pins DATASET_SHA256 in the same breath, because a forger would and because otherwise the loader stops the run before anything is scored and the entry proves nothing about the guard it names. That discipline is only honest if the pin is demonstrated somewhere, and this is where: one credit changed from 0.107 to 0.207 with the pin left alone, and the expected outcome is `ERROR: dataset SHA-256 mismatch` with exit code 1, NO verdict line and NO step lines. It also fixes the scope of what a pin proves — that the file has not changed since we pinned it, and nothing whatever about whether the file is the capture. That second question is Step 12's, and the coherent shrink above is what tests it."
+  },
+  {
+    "name": "simulation artifact DELETED — the artifact of record every Pass-1 and Pass-2 figure is quoted from",
+    "script": "tests/forgeries/simulation-artifact-unpinned.mjs",
+    "args": [
+      "absent"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) must fail when outputs/simulation-results.json is absent. EXECUTED COUNTEREXAMPLE, framework gate-forgery F11 run against this package on 2026-09-11: deleting the file returned 21/21 PROVABLY FAIR — Full Pass, exit 0, because SIMULATION_SHA256 was declared in src/config.ts and read by nothing. A guard whose evidence can be deleted is not a guard, and absence is not the same event as a fresh clone: this artifact ships WITH the package and the RTP-analysis chapter quotes it on every page. Nothing in this entry re-pins, deliberately — the pin is half of what is under test."
+  },
+  {
+    "name": "simulation convergence chart DELETED — the twin output of the same producer run",
+    "script": "tests/forgeries/simulation-artifact-unpinned.mjs",
+    "args": [
+      "absent-html"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) must fail when outputs/rtp-convergence.html is absent. SIMULATION_HTML_SHA256 had the same defect as its sibling pin — declared and read by nothing — so the chart could be removed from a published package without a scored step noticing. Same class as the entry above; listed separately because a pin that is enforced for one file and decorative for the other is the shape in which this defect survives a partial fix."
+  },
+  {
+    "name": "simulation artifact present but UNREADABLE (the literal bytes `{not JSON`)",
+    "script": "tests/forgeries/simulation-artifact-unpinned.mjs",
+    "args": [
+      "malformed"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) must fail on an artifact it could not read, and must fail with a named PARSE ERROR rather than swallowing the throw and classifying the file as merely stale. Client QA 2026-09-10 (D2) established the class on the sibling dice package, where a file containing exactly these bytes scored 21/21. Here the SHA-256 comparison rejects it first and the parse arm is the second net; both are asserted because a future re-pin would remove the first."
+  },
+  {
+    "name": "simulation artifact replaced by a degenerate stub, pin left alone (framework gate-vacuity M2)",
+    "script": "tests/forgeries/simulation-artifact-unpinned.mjs",
+    "args": [
+      "degenerate"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) must fail on a well-formed artifact that carries no statistics and no declared depths. EXECUTED COUNTEREXAMPLE, framework gate-vacuity M2 run against this package on 2026-09-11: the stub {\"pass1_fresh_seeds\":{},\"pass2_casino_seeds\":{\"seeds_tested\":1},\"pass1\":{},\"pass2\":{}} returned PROVABLY FAIR — Full Pass with hardFail 0 and flags 0, reported as SURVIVED (VACUOUS). Two arms now reject it: the SHA-256 pin, and the shape/depth bind that requires pass1.draws, pass1.serial and a non-empty pass1.effectiveEdge[] to be present and to agree with SIM_UNIFORMITY_DRAWS / SIM_SERIAL_DRAWS / SIM_EDGE_BETS. What it still does NOT establish is that the numbers were measured — see L9, and the fabricated-and-re-pinned entry below, which every step passes."
+  },
+  {
+    "name": "simulation artifact fabricated (perfect uniformity, zero serial correlation, a 5% PLAYER edge) and re-pinned",
+    "script": "tests/forgeries/simulation-artifact-forged.mjs",
+    "runner": "verify",
+    "marker": "THIS RUN DISAGREES WITH THE COMMITTED EVIDENCE",
+    "expect": "every step at its baseline status and the verdict of record, but exit 1 — the run disagrees with outputs/verification-results.json",
+    "guard": "RECLASSIFIED FROM DECLARED SURVIVOR TO KILL, 2026-09-23, and the declaration is deliberately narrow because the thing that kills it is narrow. outputs/simulation-results.json is rewritten with a uniformity chi-squared of exactly 0 at 2,000,000 draws (p = 1.0), lag-1 and runs statistics of exactly 0, every convergence point and the first effective-edge band at an RTP of 1.05 — a five percent PLAYER edge — every `pass` flag left true, and SIMULATION_SHA256 re-pinned in the same edit as a fabricating auditor would. THIS ENTRY NAMES NO STEP BECAUSE NO STEP FAILS: all 25 steps keep their baseline status and the verdict line still reads the verdict of record. What produces the non-zero exit is `fieldDiff` (src/diff.ts, called in tests/verify.ts), the run-vs-committed-artifact reproduction gate: Step 19's detail string carries the RECOMPUTED digest of the simulation artifact, the forgery moves those bytes, the string no longer matches the one in outputs/verification-results.json, and the run exits 1 reporting `1 field(s) DISAGREE — step 19 detail changed`. Measured on 2026-09-23: exactly that, one field. WHAT THIS DOES NOT CLOSE, AND L9 IS UNCHANGED BY IT: the gate compares this run's bytes to a committed record of a previous run. It does not re-derive a single Pass-1 or Pass-2 statistic, and a forger who fabricated the artifact and then regenerated the committed record with `npm run report` in the same breath would leave no diff to find. The legacy Pass-1 figures in that file therefore remain producer-attested (L9, narrowed: Pass 2 is re-derived by Step 24 and the Pass-1 claims are carried by Step 23's grid), no prose here may describe those legacy statistics as verified, and the audit's RTP RESULT still rests where it always did — on the closed-form edge identity of Step 16, now enumerated over all 99,999,900 legal targets, anchored by Step 15's full-grid tally and tied to the operator by Step 5's reproduction of all 6,700 settled results, none of which reads the artifact."
+  },
+  {
+    "name": "the dataset's own advertised-limits block doctored",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "advertised-limits-doctored"
+    ],
+    "runner": "verify",
+    "marker": "THIS RUN DISAGREES WITH THE COMMITTED EVIDENCE",
+    "expect": "every step at its baseline status and the verdict of record, but exit 1 — the run disagrees with outputs/verification-results.json",
+    "guard": "RECLASSIFIED FROM DECLARED SURVIVOR TO KILL, 2026-09-23. meta.limits is set to minBetUsdc 5, maxExposureUsdc 1 and maxMultiplier 7 — values the 6,700 settled bets contradict on every row — and the dataset is re-pinned. THIS ENTRY NAMES NO STEP BECAUSE NO STEP FAILS, and the original reason it was declared a survivor still holds exactly as written: no scored step reads meta.limits. The audited limits are MIN_BET_USDC, MAX_EXPOSURE_USDC and MAX_MULTIPLIER in src/config.ts, sourced from the operator's client bundle and witnessed in evidence/E15, and Steps 11, 12, 17 and 19 score against those, not against a limit the artifact states about itself (G-BIND). What produces the non-zero exit is `fieldDiff` (src/diff.ts, called in tests/verify.ts): re-pinning moves DATASET_SHA256, and the run then reports a different datasetSha256 and different Step 12 and Step 19 detail strings from the ones committed in outputs/verification-results.json. Measured on 2026-09-23: `3 field(s) DISAGREE — datasetSha256 8e3ce5b5e1494d1f… vs 7d70682f9494d1cf…, step 12 detail changed, step 19 detail changed`. SO READ THE KILL FOR WHAT IT IS: the suite catches that the dataset is not the dataset of record, NOT that the doctored block is false. A forger who doctored meta.limits before the committed record was ever generated would still sail through, and this entry remains the clearest demonstration of G-BIND — that a limit an artifact asserts about itself is a limit a forger chooses, and must never be the thing scored."
+  },
+  {
+    "name": "Pass-1 grid prefix win count moved by one and re-pinned",
+    "script": "tests/forgeries/pass1-grid-forged.mjs",
+    "args": [
+      "prefix"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 23 (Simulation Pass 1 — Pinned Master Seed, Re-Derived) recomputes every stream's prefix from the recorded master seed on every run; a stored row that does not replay must FAIL even though the artifact is re-pinned."
+  },
+  {
+    "name": "Pass-1 grid: target 2x loses 4,000 wins (~8.9 sd) and is re-pinned",
+    "script": "tests/forgeries/pass1-grid-forged.mjs",
+    "args": [
+      "wins"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 23 re-derives RTP convergence from the stored win counts against the EXACT win probability floor(N/ci)/1e8 with a 5 sd + 1 band; a forged count outside it must FAIL."
+  },
+  {
+    "name": "Pass-1 grid master seed rewritten and re-pinned",
+    "script": "tests/forgeries/pass1-grid-forged.mjs",
+    "args": [
+      "seed"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 23 binds the artifact's masterSeed to PASS1_MASTER_SEED in src/config.ts; an artifact that names another seed must FAIL."
+  },
+  {
+    "name": "Pass-1 grid acquires a generatedAt timestamp and is re-pinned",
+    "script": "tests/forgeries/pass1-grid-forged.mjs",
+    "args": [
+      "metadata"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 23 rejects run metadata in a pinned artifact of record (profile LIMBO-27)."
+  },
+  {
+    "name": "Pass-1 grid: 500 counts moved between two histogram bins, totals kept, re-pinned",
+    "script": "tests/forgeries/pass1-grid-forged.mjs",
+    "args": [
+      "bins"
+    ],
+    "runner": "verify",
+    "expect": "PROVABLY FAIR",
+    "marker": "THIS RUN DISAGREES WITH THE COMMITTED EVIDENCE",
+    "guard": "NOT killed by a scored step: the re-derived chi-squared moves but stays well inside the bound and the prefix replay does not cover the body of the stream, so Step 23 PASSES. Killed by BYTE IDENTITY only — the run-vs-committed-artifact reproduction gate sees Step 23's detail (the digest and the chi-squared) differ from outputs/verification-results.json — and by `npm run pass1:check`, which replays all 12,000,000 draws and requires the regeneration to be byte-identical. Declared so the limit of the per-run prefix replay is on the record."
+  },
+  {
+    "name": "declared capture-retry nonce gap — epoch 5 nonce 25 removed and named in DECLARED_CAPTURE_GAPS",
+    "script": "tests/forgeries/declared-capture-gap.mjs",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 4 (Nonce Audit) must DISCLOSE a gap the capture log attributes to a retry as a FLAG with origin = capture (profile LIMBO-04) — never fold it into a PASS. The population constants are untouched, so Step 12 also fails; the entry names Step 4 because its [FLAG] line is what is under test."
+  },
+  {
+    "name": "legacy simulation artifact: a p-value of 1.7 written in and re-pinned",
+    "script": "tests/forgeries/simulation-domain-violation.mjs",
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 19 (Artifact Integrity & Evidence Reproduction) checks every numeric leaf of every pinned JSON artifact against src/domains.ts (profile LIMBO-27); an impossible value must FAIL even though the artifact is re-pinned."
+  },
+  {
+    "name": "supplement result forged in dataset AND journal, both re-pinned",
+    "script": "tests/forgeries/supplement-forgeries.mjs",
+    "args": [
+      "result-forged-repinned"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must recompute every supplement round from its revealed seed. The forgery moves one served result by 0.01 in both the dataset and the journal (so the journal-vs-dataset arm still agrees) and re-pins both hashes; only the recomputation can see it."
+  },
+  {
+    "name": "supplement resume-check erased from the journal, re-pinned",
+    "script": "tests/forgeries/supplement-forgeries.mjs",
+    "args": [
+      "resume-erased-repinned"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must assert the declared resume count against the journal in both directions: deleting the resume-check hides the pause, and SUPPLEMENT_DECLARED_RESUMES = 1 must then fail."
+  },
+  {
+    "name": "refused 93,830.94x request written in as settled in probe run 1, re-pinned",
+    "script": "tests/forgeries/supplement-forgeries.mjs",
+    "args": [
+      "refusal-settled-repinned"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must hold the ceiling witness to the probe journal: a settled record at the refused target contradicts the finding, and the re-pinned E20 journal must fail Step 25."
+  },
+  {
+    "name": "a 10,000x supplement round relabelled 10,000.01x, re-pinned",
+    "script": "tests/forgeries/supplement-forgeries.mjs",
+    "args": [
+      "above-ceiling-repinned"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must bound every supplement target by LIVE_TARGET_CEILING; a round above it (and off the decade plan) must fail."
+  },
+  {
+    "name": "supplement dataset edited, NOT re-pinned",
+    "script": "tests/forgeries/supplement-forgeries.mjs",
+    "args": [
+      "unpinned-edit"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must recompute the supplement pin itself: the supplement is not read through the loader, so its SHA-256 check lives in Step 25, and an unpinned edit must fail it there."
+  },
+  {
+    "name": "cap re-probe journal (E21) deleted while its pin stays in src/config.ts",
+    "script": "tests/forgeries/cap-probe-forgeries.mjs",
+    "args": [
+      "pinned-absent"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must FAIL when CAP_PROBE_JOURNAL / CAP_PROBE_SHA256 name a re-probe journal that is not in evidence/E21-target-cap-probe/: once the pins are set the journal is an artifact of record, and a pinned artifact that is missing is a reproduction failure, never a silent fallback to the un-probed FLAG. (Since 2026-10-02 the pins name the real E21 journal and the forgery deletes it; before, it set the pins to an absent name.)"
+  },
+  {
+    "name": "cap re-probe journal (E21) edited after pinning — meta platform qa.liqd.com → liqd.com — NOT re-pinned",
+    "script": "tests/forgeries/cap-probe-forgeries.mjs",
+    "args": [
+      "pinned-off-pin"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 25 (Target-Decade Supplement & Live Target Ceiling) must recompute the re-probe journal's SHA-256 itself and FAIL when it differs from CAP_PROBE_SHA256 — a file edited after it was pinned must not be read as the cap evidence. The edit leaves every refusal intact, so only the pin can catch it. (A hand-written journal pinned with its OWN digest is not caught: a refusal leaves no commitment to recompute. That is disclosed in MANIFEST.md (L17), not hidden here.)"
+  },
+  {
+    "name": "every epoch acquires an operator-sourced bet counter (limitation L2 stops being true)",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "operator-bet-count-all"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 21 (Scope & Declared Limitations) must FAIL when limitation L2 stops being true. Until 2026-10-02 a counter on all 134 epochs made the step print \"no longer applies — update the prose\" and PASS, so the published register could go stale under a passing run (QA 2026-10-02, C7). Now any operator counter fails the step until the prose and the step are updated together."
+  },
+  {
+    "name": "every bet acquires a wallet balance record (limitation L3 stops being true)",
+    "script": "tests/forgeries/dataset-field-forgeries.mjs",
+    "args": [
+      "balance-ledger-all"
+    ],
+    "runner": "verify",
+    "expect": "NOT PROVABLY FAIR",
+    "guard": "Step 21 (Scope & Declared Limitations) must FAIL when limitation L3 stops being true: a balance field on all 6,700 bets used to PASS with \"no longer applies\" (QA 2026-10-02, C7); now any balance record fails the step until the register is updated."
+  }
+]
