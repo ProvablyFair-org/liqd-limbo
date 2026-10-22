@@ -3,7 +3,7 @@
   "auditIdStatus": "confirmed by ProvablyFair.org",
   "game": "limbo",
   "casino": "liqd",
-  "release": "v1.0.0",
+  "release": "v1.0.1",
   "framework": "1.1",
   "datasetSha256": "8e3ce5b5e1494d1fcc3a783965d3ba7b6a7099f120a64d61e21a577098c07334",
   "artifacts": {
@@ -38,6 +38,6 @@
     "node": "22",
     "command": "npm ci && npm test"
   },
-  "supersedes": null,
+  "supersedes": "v1.0.0",
   "signature": "SHA256:gEujiJm2pRyq7lQsfYQfQ1r97H/J7GdaKHbOW8GtikY"
 }

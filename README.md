@@ -1,6 +1,6 @@
 # LIQD Limbo — Provably Fair Audit
 
-**Auditor:** [ProvablyFair.org](https://www.provablyfair.org) · **Audit ID:** `PF-2026-LQ05` · **Release:** `v1.0.0` (the first public release) · **Capture:** 11 September 2026, `qa.liqd.com` (pre-production)
+**Auditor:** [ProvablyFair.org](https://www.provablyfair.org) · **Audit ID:** `PF-2026-LQ05` · **Release:** `v1.0.1` (errata to `v1.0.0`, the first public release) · **Capture:** 11 September 2026, `qa.liqd.com` (pre-production)
 
 **Result: PROVABLY FAIR — Full Pass** *(provisional — pre-launch capture)*. 25 of 25 scored steps pass: no flag, no hard fail. Every one of the 6,700 captured rounds recomputes bit-for-bit from its `(serverSeed, clientSeed, nonce)` inputs; the commit-reveal chain is intact across all 134 seed epochs; every winning credit is the exact decimal product of stake and chosen target; and the house edge is a closed-form floor at or above 1.00% on every legal target, with no player-favourable target. Until 2 October 2026 the verdict was a Conditional Pass on one operator FLAG (Step 25, the target cap); the cap re-probe that day (E21) saved the server's refusal of four targets above the RTP-CLAIM band edge, and Step 25 passes on it.
 
@@ -55,6 +55,6 @@ Save `hashedServerSeed` before betting. The `serverSeed` is revealed only after 
 - [Verification results](outputs/verification-results.json), [RTP claim table](outputs/rtp-claim-table.json) and [release manifest](RELEASE-MANIFEST.json).
 - [Audit report](https://audit.provablyfair.org/casino/liqd/games/limbo/overview) · [Public repository](https://github.com/ProvablyFair-org/liqd-limbo) · [MIT license](LICENSE).
 
-This tree is `v1.0.0`, the first public release, published as one commit on 21 October 2026. The release commit and tag are signed with the ProvablyFair.org release key (SSH, `SHA256:gEujiJm2pRyq7lQsfYQfQ1r97H/J7GdaKHbOW8GtikY`), which the release manifest records. The 4 October 2026 consolidation is recorded in the [release history](MANIFEST.md#release-history).
+This tree is `v1.0.1`, an errata release on `v1.0.0`, the first public release, which was published as one commit on 21 October 2026. The release commit and tag are signed with the ProvablyFair.org release key (SSH, `SHA256:gEujiJm2pRyq7lQsfYQfQ1r97H/J7GdaKHbOW8GtikY`), which the release manifest records. The 4 October 2026 consolidation is recorded in the [release history](MANIFEST.md#release-history).
 
 There are two documentation files: this README and [MANIFEST.md — consolidated audit overview](MANIFEST.md), which holds the game rules, algorithm, RTP analysis, verification results, evidence register, limitations and release history. The written specification the RNG module is rebuilt from is [docs/ALGORITHM.md](docs/ALGORITHM.md).

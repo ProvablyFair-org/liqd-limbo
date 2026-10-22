@@ -1,6 +1,6 @@
 # LIQD Limbo — Consolidated Audit Overview
 
-**Audit ID:** `PF-2026-LQ05` · **Auditor:** ProvablyFair.org · **Release:** `v1.0.0` (the first public release) · **Framework:** 1.1
+**Audit ID:** `PF-2026-LQ05` · **Auditor:** ProvablyFair.org · **Release:** `v1.0.1` (errata to `v1.0.0`, the first public release) · **Framework:** 1.1
 
 Limbo (`gameId` `originals-limbo`) on LIQD.com, captured against `qa.liqd.com` (authenticated live session) in USDC. Algorithm recon 7 September 2026. Dataset of record: 11 September 2026, 13:16:45–14:12:05 UTC, with endpoint, boundary and limit probes in the same session. Target-decade supplement and ceiling probe: 26 September 2026. Cap re-probe: 2 October 2026. Report: `https://audit.provablyfair.org/casino/liqd/games/limbo/overview`. Publication date: 21 October 2026 (release `v1.0.0`). This overview consolidates the package documentation; the machine-readable release identity is in [RELEASE-MANIFEST.json](RELEASE-MANIFEST.json).
 
@@ -852,6 +852,8 @@ The next stage is an anonymous production capture published as a separately iden
 ## Release history
 
 **`v1.0.0`** — the audit as packaged, release identity in [RELEASE-MANIFEST.json](RELEASE-MANIFEST.json): audit ID `PF-2026-LQ05` (confirmed by ProvablyFair.org), framework 1.1 (1.0 until 14 October 2026), environment pre-production / provisional, supersedes nothing; released 21 October 2026 as the first public release, one commit, signed with the release key whose fingerprint the release manifest records. Recorded verdict: **PROVABLY FAIR — Full Pass** *(provisional — pre-launch capture)*, 25/25, 0 FLAG, 0 hard fails. The history below is the package's own dated record.
+
+**`v1.0.1`** (errata): adds `.gitattributes` (`* -text`) so a Windows git clone keeps every file byte-identical; no audit content changed.
 
 - **7 September 2026** — algorithm recon: model reverse-derived from the client bundle; four Verify-calculator vectors recorded (L14).
 - **11 September 2026** — dataset captured (13:16:45–14:12:05 UTC) with the boundary and limit probes (E13, E15). The missing result floor was caught by the inline check on the first epoch of the session and corrected. Step 19 began enforcing the simulation pins and depth constants (until then the artifact could be deleted and the suite still returned 21/21).
