@@ -1,0 +1,5 @@
+[
+  { "game": "limbo", "phases": ["A"], "capture": "captures/liqd-limbo-prod-capture-2026-11-07T16-28-43-825Z.ndjson", "sha256": "88490b8e821085d8c1b28cc9b47de1dc4c0984251c77de41df39b81fb69611c5" },
+  { "game": "limbo", "phases": ["D", "A+"], "capture": "captures/liqd-limbo-prod-capture-2026-11-10T04-11-27-073Z.ndjson", "sha256": "af84273906c85b57f778df01fb9d986dc875a2768346b89d5ace20f961daa833" },
+  { "game": "limbo", "phases": ["C"], "capture": "captures/liqd-limbo-prod-capture-2026-11-10T10-47-42-943Z.ndjson", "sha256": "1dfd38dee0f4a1f68f3626f1fbd04189d7a59fae73779517dbda0a3c38bda3f2" }
+]

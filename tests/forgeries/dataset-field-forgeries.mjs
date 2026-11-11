@@ -1,6 +1,6 @@
 // DATASET FIELD FORGERIES — one documented case per invocation, each re-pinning DATASET_SHA256.
 //
-// WHY THESE ARE SCRIPTS AND NOT find/replace ENTRIES. `data/limbo-master-6700bets.json` is pinned by
+// WHY THESE ARE SCRIPTS AND NOT find/replace ENTRIES. `data/limbo-prod-full-5838bets.json` is pinned by
 // SHA-256 in src/config.ts and the loader exits(1) on a mismatch BEFORE any step is scored. A static
 // find/replace therefore never reaches the guard it is supposed to test: the run dies at the pin and
 // the entry proves only that the pin exists. A forger who edits the capture re-pins in the same
@@ -21,7 +21,7 @@ const repo = process.argv[2];
 const kase = process.argv[3];
 if (!repo || !kase) { console.error('usage: dataset-field-forgeries.mjs <sandboxRepo> <case>'); process.exit(2); }
 
-const dsPath = path.join(repo, 'data/limbo-master-6700bets.json');
+const dsPath = path.join(repo, 'data/limbo-prod-full-5838bets.json');
 const ds = JSON.parse(fs.readFileSync(dsPath, 'utf8'));
 
 const betById = (id) => {
@@ -41,26 +41,26 @@ let note;
 switch (kase) {
   // ── Step 2 ────────────────────────────────────────────────────────────────────────────────────
   case 'precommit-link-severed': {
-    const was = ds.meta.preCapture.nextHashedServerSeed;
-    ds.meta.preCapture.nextHashedServerSeed = bendHex(was);
-    note = `meta.preCapture.nextHashedServerSeed ${was.slice(0, 12)}… -> ${ds.meta.preCapture.nextHashedServerSeed.slice(0, 12)}… `
+    const was = ds.meta.captures[0].preCapture.nextHashedServerSeed;
+    ds.meta.captures[0].preCapture.nextHashedServerSeed = bendHex(was);
+    note = `meta.captures[0].preCapture.nextHashedServerSeed ${was.slice(0, 12)}… -> ${ds.meta.captures[0].preCapture.nextHashedServerSeed.slice(0, 12)}… `
       + '(the pre-capture record no longer names epoch 0\'s commitment; the in-capture chain is untouched)';
     break;
   }
   case 'precommit-reveal-forged': {
-    const was = ds.meta.preCapture.revealedServerSeed;
-    ds.meta.preCapture.revealedServerSeed = bendHex(was);
-    note = `meta.preCapture.revealedServerSeed ${was.slice(0, 8)}… -> ${ds.meta.preCapture.revealedServerSeed.slice(0, 8)}… `
+    const was = ds.meta.captures[0].preCapture.revealedServerSeed;
+    ds.meta.captures[0].preCapture.revealedServerSeed = bendHex(was);
+    note = `meta.captures[0].preCapture.revealedServerSeed ${was.slice(0, 8)}… -> ${ds.meta.captures[0].preCapture.revealedServerSeed.slice(0, 8)}… `
       + '(the seed released before the first bet no longer hashes to the commitment recorded with it)';
     break;
   }
 
   // ── Step 3 ────────────────────────────────────────────────────────────────────────────────────
   case 'unbacked-commitment': {
-    const b = betById('USzRL9gyMBxZg8NLCNoYS');       // epoch 0, nonce 0
+    const b = betById('3G5Wm6eniZ8jXrzab4IJd');       // epoch 0, nonce 0
     const was = b.hashedServerSeed;
     b.hashedServerSeed = bendHex(was);
-    note = `bet USzRL9gyMBxZg8NLCNoYS (epoch 0 nonce 0) settled against ${b.hashedServerSeed.slice(0, 12)}…, `
+    note = `bet 3G5Wm6eniZ8jXrzab4IJd (epoch 0 nonce 0) settled against ${b.hashedServerSeed.slice(0, 12)}…, `
       + 'a commitment no seed record backs';
     break;
   }
@@ -69,55 +69,55 @@ switch (kase) {
   case 'nonce-window-doctored': {
     const s = seedByEpoch(3);
     const was = s.nonceEnd;
-    s.nonceEnd = 48;
-    note = `seeds[epoch 3].nonceEnd ${was} -> 48 while 50 bets with nonces 0..49 remain in the epoch`;
+    s.nonceEnd = 198;
+    note = `seeds[epoch 3].nonceEnd ${was} -> 198 while 200 bets with nonces 0..199 remain in the epoch`;
     break;
   }
 
   // ── Step 6 ────────────────────────────────────────────────────────────────────────────────────
   case 'win-flag-flipped': {
-    const b = betById('USzRL9gyMBxZg8NLCNoYS');       // R 2.47x against target 4.58x — a real loss
+    const b = betById('9woTGRttiUxaK2tF7nmig');       // epoch 0 nonce 6, R 1.21x against target 1.77x — a real loss
     b.win = true;
     b.resultLabel = 'won';
-    note = 'bet USzRL9gyMBxZg8NLCNoYS (R 2.47x, target 4.58x) relabelled a WIN, credit left at 0 — '
+    note = 'bet 9woTGRttiUxaK2tF7nmig (R 1.21x, target 1.77x) relabelled a WIN, credit left at 0 — '
       + 'the settled outcome no longer follows from the recomputed result';
     break;
   }
 
   // ── Step 8 ────────────────────────────────────────────────────────────────────────────────────
   case 'paid-multiplier-forged': {
-    const b = betById('zFT06HYCJUcIINZ9CX3Nd');       // epoch 0 nonce 2, target 1.07x, credited 0.107
+    const b = betById('3G5Wm6eniZ8jXrzab4IJd');       // epoch 0 nonce 0, target 1.01x, served multiplier 1.01
     const was = b.multiplier;
-    b.multiplier = 1.08;
-    note = `bet zFT06HYCJUcIINZ9CX3Nd credited at ${b.multiplier}x rather than the chosen target ${was}x`;
+    b.multiplier = 1.02;
+    note = `bet 3G5Wm6eniZ8jXrzab4IJd served at ${b.multiplier}x rather than the chosen target ${was}x`;
     break;
   }
 
   // ── Step 9 ────────────────────────────────────────────────────────────────────────────────────
   case 'credit-off-by-1e8': {
-    const b = betById('zFT06HYCJUcIINZ9CX3Nd');       // $0.10 at 1.07x -> exactly 0.107
+    const b = betById('3G5Wm6eniZ8jXrzab4IJd');       // 0.10 at 1.01x -> exactly 0.10100000
     const was = b.winningAmount;
-    b.winningAmount = 0.10700001;
-    b.winningAmountWallet = 0.10700001;               // wallet moved too, so Step 11 cannot be the catcher
-    note = `bet zFT06HYCJUcIINZ9CX3Nd credited ${b.winningAmount} instead of ${was} — one unit in the 8th `
+    b.winningAmount = '0.10100001';
+    b.winningAmountWallet = '0.10100001';             // wallet moved too, so Step 11 cannot be the catcher
+    note = `bet 3G5Wm6eniZ8jXrzab4IJd credited ${b.winningAmount} instead of ${was} — one unit in the 8th `
       + 'decimal place, on both the game ledger and the wallet ledger';
     break;
   }
 
   // ── Step 10 ───────────────────────────────────────────────────────────────────────────────────
   case 'loss-relabelled-won': {
-    const b = betById('DbC72X6-SkOFWEqoJrLvj');       // epoch 1 nonce 3, R 1x against target 2.14x
+    const b = betById('4thzOegbI0ipF1HbnCn0O');       // epoch 1 nonce 86, R 1x against target 29.55x
     b.resultLabel = 'won';
-    note = 'bet DbC72X6-SkOFWEqoJrLvj labelled "won" while win=false, credit 0 and multiplier 0';
+    note = 'bet 4thzOegbI0ipF1HbnCn0O labelled "won" while win=false, credit 0 and multiplier 0';
     break;
   }
 
   // ── Step 11 ───────────────────────────────────────────────────────────────────────────────────
   case 'wallet-ledger-divergence': {
-    const b = betById('yAVLBL0QWD0RVuewVxG_v');       // epoch 3 nonce 29
+    const b = betById('Vo0z4ovk6NRP1rcZ-sGYc');       // epoch 3 nonce 29
     const was = b.stakeWallet;
-    b.stakeWallet = 0.09;
-    note = `bet yAVLBL0QWD0RVuewVxG_v: wallet-denominated stake ${b.stakeWallet} against a game-ledger stake of ${was}`;
+    b.stakeWallet = '0.09000000';
+    note = `bet Vo0z4ovk6NRP1rcZ-sGYc: wallet-denominated stake ${b.stakeWallet} against a game-ledger stake of ${was}`;
     break;
   }
 
@@ -125,34 +125,34 @@ switch (kase) {
   case 'duplicate-bet-id': {
     const was = ds.bets[1].id;
     ds.bets[1].id = ds.bets[0].id;
-    note = `bets[1].id ${was} -> ${ds.bets[0].id} — 6,700 records carrying 6,699 distinct settlement ids`;
+    note = `bets[1].id ${was} -> ${ds.bets[0].id} — ${ds.bets.length} records carrying ${ds.bets.length - 1} distinct settlement ids`;
     break;
   }
 
   // ── Step 13 ───────────────────────────────────────────────────────────────────────────────────
   case 'phase-relabelled': {
-    const b = betById('USzRL9gyMBxZg8NLCNoYS');
+    const b = betById('3G5Wm6eniZ8jXrzab4IJd');
     const was = b.phase;
     b.phase = 'C';
-    note = `bet USzRL9gyMBxZg8NLCNoYS moved from phase ${was} to phase C at its $0.10 stake`;
+    b.phaseId = 'C';
+    note = `bet 3G5Wm6eniZ8jXrzab4IJd moved from phase ${was} to phase C at its 0.10 stake and its 1.01x target`;
     break;
   }
 
   // ── Step 21 ───────────────────────────────────────────────────────────────────────────────────
   case 'capture-host-relabelled': {
     const was = ds.meta.platform;
-    ds.meta.platform = 'liqd.com';
-    note = `meta.platform ${was} -> liqd.com — a QA capture presented as production`;
+    ds.meta.platform = 'staging.liqd.invalid';
+    note = `meta.platform ${was} -> staging.liqd.invalid — the production capture relabelled as another host`;
     break;
   }
   case 'operator-bet-count-partial': {
     const s = seedByEpoch(0);
-    s.operatorBetCount = 50;
-    note = 'seeds[epoch 0].operatorBetCount = 50 — one epoch acquires an operator-sourced trailing '
-      + 'witness while 133 do not';
+    s.operatorBetCount = 200;
+    note = 'seeds[epoch 0].operatorBetCount = 200 — one epoch acquires an operator-sourced trailing '
+      + 'witness while 32 do not';
     break;
   }
-  // Added 2026-10-02 (QA C7): until then Step 21 PASSED these two and printed "no longer applies".
   case 'operator-bet-count-all': {
     for (const s of ds.seeds) s.operatorBetCount = ds.bets.filter((b) => b.epoch === s.epoch).length;
     note = `operatorBetCount set on all ${ds.seeds.length} epochs (each to its own recorded round count) — limitation L2 no longer holds as declared`;
@@ -164,13 +164,55 @@ switch (kase) {
     break;
   }
 
+  // ── Step 2, a later run ───────────────────────────────────────────────────────────────────────
+  case 'run2-anchor-severed': {
+    const c = ds.meta.captures.find((x) => x.capture === 2);
+    const was = c.preCapture.nextHashedServerSeed;
+    c.preCapture.nextHashedServerSeed = bendHex(was);
+    note = `meta.captures[run 2].preCapture.nextHashedServerSeed ${was.slice(0, 12)}… -> ${c.preCapture.nextHashedServerSeed.slice(0, 12)}… `
+      + '(the pair read before the 10 November run no longer names that run\'s first commitment)';
+    break;
+  }
+
+  // ── Step 18 ───────────────────────────────────────────────────────────────────────────────────
+  case 'player-seed-tag-moved': {
+    // a Phase D epoch relabelled as an ordinary one: the plan says epoch 25 is Phase D under a player-set seed
+    const s = seedByEpoch(25);
+    s.phase = 'A'; s.phaseId = 'A'; s.seedTag = 'audit';
+    for (const b of ds.bets) if (b.epoch === 25) { b.phase = 'A'; b.phaseId = 'A'; }
+    note = 'epoch 25 (Phase D, player-set seed pfaudit-prod-limbo-d1-…) relabelled Phase A on its seed record and its 100 rounds';
+    break;
+  }
+
+  // ── Step 25 ───────────────────────────────────────────────────────────────────────────────────
+  case 'verifier-reply-forged': {
+    const b = betById('3G5Wm6eniZ8jXrzab4IJd');       // epoch 0 nonce 0: the verifier returned 8.78
+    const was = b.verifier.result;
+    b.verifier.result = 8.79;
+    note = `bet 3G5Wm6eniZ8jXrzab4IJd: the stored verifier reply's result ${was} -> ${b.verifier.result} (one 2-dp tick), the settled round untouched`;
+    break;
+  }
+  case 'verifier-request-not-round': {
+    const b = betById('3G5Wm6eniZ8jXrzab4IJd');
+    const was = b.verifier.request.nonce;
+    b.verifier.request.nonce = was + 1;
+    note = `bet 3G5Wm6eniZ8jXrzab4IJd: the stored verifier REQUEST's nonce ${was} -> ${b.verifier.request.nonce}, so the reply no longer answers this round`;
+    break;
+  }
+  case 'verifier-reply-removed': {
+    const b = betById('3G5Wm6eniZ8jXrzab4IJd');
+    delete b.verifier;
+    note = 'bet 3G5Wm6eniZ8jXrzab4IJd: its verifier reply deleted — 5,837 of 5,838 rounds carry one';
+    break;
+  }
+
   // ── DECLARED SURVIVOR ─────────────────────────────────────────────────────────────────────────
   case 'advertised-limits-doctored': {
-    const was = JSON.stringify(ds.meta.limits);
-    ds.meta.limits.minBetUsdc = 5;
-    ds.meta.limits.maxExposureUsdc = 1;
-    ds.meta.limits.maxMultiplier = 7;
-    note = `meta.limits ${was} -> ${JSON.stringify(ds.meta.limits)} — the dataset's own advertised-limits `
+    // The production dataset carries no meta.limits block (no limit configuration is served in the production
+    // replies), so the forgery ADDS one with values the capture flatly contradicts.
+    const was = JSON.stringify(ds.meta.limits ?? null);
+    ds.meta.limits = { ...(ds.meta.limits ?? {}), minBetUsdc: 5, maxExposureUsdc: 1, maxMultiplier: 7 };
+    note = `meta.limits ${was} -> ${JSON.stringify(ds.meta.limits)} — an advertised-limits `
       + 'block set to values the capture flatly contradicts';
     break;
   }

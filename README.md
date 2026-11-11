@@ -1,60 +1,73 @@
 # LIQD Limbo — Provably Fair Audit
 
-**Auditor:** [ProvablyFair.org](https://www.provablyfair.org) · **Audit ID:** `PF-2026-LQ05` · **Release:** `v1.0.1` (errata to `v1.0.0`, the first public release) · **Capture:** 11 September 2026, `qa.liqd.com` (pre-production)
+**Auditor:** [ProvablyFair.org](https://www.provablyfair.org) · **Audit ID:** `PF-2026-LQ05` · **Release:** `v1.1.0` · **Capture:** 7 and 10 November 2026, `liqd.com` (production)
 
-**Result: PROVABLY FAIR — Full Pass** *(provisional — pre-launch capture)*. 25 of 25 scored steps pass: no flag, no hard fail. Every one of the 6,700 captured rounds recomputes bit-for-bit from its `(serverSeed, clientSeed, nonce)` inputs; the commit-reveal chain is intact across all 134 seed epochs; every winning credit is the exact decimal product of stake and chosen target; and the house edge is a closed-form floor at or above 1.00% on every legal target, with no player-favourable target. Until 2 October 2026 the verdict was a Conditional Pass on one operator FLAG (Step 25, the target cap); the cap re-probe that day (E21) saved the server's refusal of four targets above the RTP-CLAIM band edge, and Step 25 passes on it.
+**Result: PROVABLY FAIR — Full Pass.** 25 of 25 scored steps pass: no flag, no hard fail. Every check of LIQD's behaviour rests on production data: 5,838 rounds played on `liqd.com` in 33 seed epochs, and LIQD's production verifier's reply for every one of them. Every round recomputes bit-for-bit from its `(serverSeed, clientSeed, nonce)` inputs; the commit-reveal chain is intact inside each of the three capture runs; LIQD's bet replies settle 1,318 of 1,318 winning rounds at exactly stake × target.
 
-**Scope:** This certification applies to the game as capped at 10,000×, as observed on `qa.liqd.com` on 26 September and 2 October 2026. That `liqd.com` production serves the same game build is not established by this capture, and no claim in this package extends to it (L1). The 6,700 audited rounds were captured on 11 September, before the cap; after the cap the package holds 304 settled rounds, all 304 recompute and all 304 lost (L18). LIQD's stated 99% RTP passes the RTP-CLAIM rule on every target up to 10,000×; on the range the 11 September build accepted (targets up to 500,000×) the same rule fails on 23,885,381 of 49,999,900 targets, so **this result depends on the cap**. The live sample return (100.4475%) is a variance illustration only (L7).
+| Phase | Rounds | Stake (USDT) | Targets |
+|---|---:|---:|---|
+| A | 5,000 | 0.10 | 50 targets from 1.01× to 100×, 100 rounds each |
+| A top-up | 100 | 0.10 | 50 rounds in [1,000×, 10,000×) and 50 at exactly 10,000× |
+| D | 500 | 0.10 | the same 50 targets, under 5 player-set client seeds |
+| C | 238 | 10.00 | fixed 2.00× |
+
+**Scope:** the highest target played is 10,000×. Whether `liqd.com` accepts a bet above 10,000× is not established: no refused bet is held, and the one record on the question is a production verifier reply (HTTP 400 on target 100000, 3 November 2026). No production win was paid above 100×: none of the 100 rounds at 1,000× and above won. The 1,000,000× result cap is shown by LIQD's verifier on four requests (three distinct draws) whose uncapped value is above it, not by a settled round. LIQD's stated 99% RTP passes the RTP-CLAIM rule on every target from 1.01× to 10,000×.
 
 ## What was verified
 
-| Check | Captured evidence |
+| Check | Production evidence |
 |---|---|
-| Results | 6,700 of 6,700 results recomputed from server seed, client seed and nonce under strict `===`, no tolerance |
-| RNG source | `src/rng.ts` rebuilt from the written specification [docs/ALGORITHM.md](docs/ALGORITHM.md) by an implementer who never opened LIQD's code; it reproduces 7,004 of 7,004 captured rounds (the 6,700 plus 300 supplement and 4 probe rounds). LIQD's own output is a second check, not the source: 4 of 4 Verify-calculator values, 2 of 2 `/verify` replies |
-| Commitments | 134 of 134 revealed seeds hash to their commitment; 133 of 133 next-seed links, plus a pre-capture link naming epoch 0's commitment |
-| Win rule | 6,700 of 6,700 win flags reproduced under `R >= target`; 20 rounds landed exactly on their target and all 20 settled as wins |
-| Payouts | 2,822 wins credit `stake × target` as an exact integer identity; 3,878 losses pay 0; no win above 100× was captured (L16) |
-| House edge | ≥ 1.00% at all 99,999,900 legal targets in exact integers, 0 player-favourable; not flat: at most 1.009982% on targets up to 10,000×, 1.497487% at the worst target playable on 11 September |
-| RTP claim | RTP-CLAIM 1.2.0 PASS: 999,900 settings from 1.01× to 10,000×, true RTP 98.990018% to 99.000000%, 0 beyond the 0.10-point band |
-| Target cap | 2 October 2026: 100,101.12×, 497,487.44×, 500,000× and 990,000.01× each refused, HTTP 400, errorCode 3001, reply saved, no nonce consumed (E21) |
-| Simulation | Pass 1 on a pinned master seed re-derived by Step 23; Pass 2 cherry-pick screen **not rejected**: rank-sum Z −0.1711, exact-method recount 10 flags vs 5.8712 expected, P 0.0708 |
-| Falsifiability | 117 declared counterexamples: 116 killed, 1 declared survivor (run 2026-10-20 on the rebuilt tree, one entry retargeted and rerun on its own) |
+| Results | 5,838 of 5,838 results recomputed from server seed, client seed and nonce under strict equality, no tolerance |
+| Commitments | 33 of 33 revealed seeds hash to their commitment; 30 of 30 next-seed links inside the runs; each run anchored by the pair read before its first bet |
+| Client seeds | every epoch's seed submitted by the auditor after the epoch's commitment was published; 500 rounds under 5 player-set seeds recompute |
+| Win rule | 5,838 of 5,838 win flags under `R >= target`; 2 rounds landed exactly on their target and both settled as wins; 12 landed one tick below and all lost |
+| Payouts | on 1,318 wins the payout in LIQD's bet reply is `stake × target` as an exact integer identity; 4,520 losses pay 0; 238 rounds at 10.00 USDT settle by the same rule (114 wins) |
+| LIQD's verifier | result, win flag and multiplier equal the settled round on 5,838 of 5,838; the 7 cap-probe replies reproduce (4 requests, on 3 distinct draws, above the cap) |
+| House edge | at least 1.00% at every 2-dp value up to the result cap, in exact integers; not flat: at most 1.009982% on targets up to 10,000× |
+| RTP claim | RTP-CLAIM 1.2.0 PASS: 999,900 settings from 1.01× to 10,000×, exact RTP 98.990018% to 99.000000%, 0 beyond the 0.10-point band |
+| Simulation | Pass 1 on a pinned master seed re-derived by Step 23; Pass 2 cherry-pick screen on the 33 production seeds **not rejected** (rank-sum Z −1.4316, 0 flags against 1.4459 expected) |
+| Falsifiability | 110 declared counterexamples run in a sandbox copy; the result of the run of record is in [exploit-testing.md](exploit-testing.md) |
 
-Matching hashes and an intact chain establish which seed goes with which round and in what order the records sit; they do not establish when a commitment came into being (L6). Production parity, the 1,000,000× result ceiling, the wallet balance and the other open items are in the [overview's limitations](MANIFEST.md#limitations-and-trust).
+**Declared residual.** Three things are anchored by something other than settled money and are stated as such: the 1,000,000× result cap (LIQD's verifier only, **L4**), the payout of a win above 100× (not exercised: no such win in the capture, **L13**) and whether a target above 10,000× can be played (not established, **L1**).
+
+Matching hashes and an intact chain establish which seed goes with which round and in what order the records sit; they do not establish when a commitment came into being. LIQD's own Date headers put the commitment, the client seed and the first bet of every epoch in that order, on LIQD's clock as the runner recorded it (L6). No account balance was read: payouts are the amounts in LIQD's bet replies, not observed balance changes (DL-3). That, the casino's limits and the other open items are in the [overview's limitations](MANIFEST.md#limitations-and-trust).
 
 ## Run the audit
 
-Open a terminal in the package directory. Use **Node 22.x**, as declared in [.nvmrc](.nvmrc) and [package.json](package.json); the committed run was produced on v22.23.1.
+Open a terminal in the package directory. Use **Node 22.18.0 or later in 22.x** ([.nvmrc](.nvmrc) pins 22.23.1, the version the committed run was produced on). It requires Node >= 22.18.0 because Step 19 reruns the converter, which loads `src/*.ts` through Node's built-in type stripping, on by default from 22.18.0; on 22.17.1 the converter stops with ERR_UNKNOWN_FILE_EXTENSION and Step 19 fails.
 
 ```sh
 npm ci
 npm test
 ```
 
-Expected: **release check OK; 27 unit tests pass; 25/25 PASS, 0 FLAG, 0 hard fails; PROVABLY FAIR — Full Pass; REPRODUCED; exit 0.** `npm test` runs the standalone staleness gate, `node scripts/release-manifest.mjs --check`, then the single-file bundles `test.js` (27 unit tests) and `verify.js` (25 scored steps). It needs no install, scores the committed artifacts and writes only to `outputs/run/`.
+Expected: **release check OK; 25 unit tests pass; 25/25 PASS, 0 FLAG, 0 hard fails; PROVABLY FAIR — Full Pass; REPRODUCED; exit 0.** `npm test` runs the standalone staleness gate, `node scripts/release-manifest.mjs --check`, then `scripts/check-docs.mjs`, then the single-file bundles `test.js` (25 unit tests) and `verify.js` (25 scored steps). It scores the committed artifacts and writes only to `outputs/run/`.
 
 ```sh
 npm run test:full                 # unit tests, three byte-identical regenerations, then verification
-npm run mutate                    # the falsifiability battery: 117 counterexamples in a sandbox copy
+npm run mutate                    # the falsifiability battery in a sandbox copy
 node scripts/release-manifest.mjs --check
 ```
 
-On an Apple M2 Max (Node 22.23.1, 2026-10-03, fresh clone) `npm run verify` took about 18 s and `npm run mutate` about 27 minutes (1,640 s). See [reproduction details](MANIFEST.md#reproduce-the-audit) for exit codes, tolerances, the mutation battery and the deliberate artifact-refresh procedure.
+See [reproduction details](MANIFEST.md#reproduce-the-audit) for exit codes and tolerances.
 
 ## Verify a bet
 
-Save `hashedServerSeed` before betting. The `serverSeed` is revealed only after that seed epoch rotates. Check that `SHA-256` of the server-seed hex string, as text, equals the commitment; key HMAC-SHA256 with the hex-decoded seed over `clientSeed:nonce:0`; take the first 4-byte chunk below 4,200,000,000 modulo 100,000,000 as the draw `k`; then `R = max(100, floor(9900000000 / (k + 1))) / 100`. The round wins if `R >= target`, and a win pays `stake × target`. These steps are the written specification, [docs/ALGORITHM.md](docs/ALGORITHM.md). The [complete instructions and worked real rounds](MANIFEST.md#verify-a-bet) give every field name and step.
+The quickest way: the ProvablyFair.org verifier at [provablyfair.org/verify-bets/liqd](https://www.provablyfair.org/verify-bets/liqd) (choose Limbo), which takes the revealed server seed, the client seed, the nonce and the target and returns the result and whether the bet wins.
+
+By hand: Save `hashedServerSeed` before betting. The `serverSeed` is revealed only after that seed pair is rotated. Check that `SHA-256` of the server-seed hex string, as text, equals the commitment; key HMAC-SHA256 with the hex-decoded seed over `clientSeed:nonce:0`; take the first 4-byte chunk below 4,200,000,000 modulo 100,000,000 as the draw `k`; then `R = max(100, floor(9900000000 / (k + 1))) / 100`, capped at 1,000,000. The round wins if `R >= target` and pays `betAmount × target`. LIQD's verifier (`POST https://liqd.com/api/v1/originals/limbo/verify`) returns the same result. [Step by step, with worked production rounds](MANIFEST.md#verify-a-bet).
 
 ## Files and evidence
 
-- [Captured rounds](data/limbo-master-6700bets.json) — 6,700 rounds, 134 epochs, SHA-256 `8e3ce5b5e1494d1fcc3a783965d3ba7b6a7099f120a64d61e21a577098c07334`.
-- [2026-09-26 supplement](data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.json), SHA-256 `a2dee374cfd48c62736cf5958fd67f42b1cb7c622ab0883c3f84278d8429ab1e`, and [its journal](data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.journal.ndjson), SHA-256 `bcacab9c674df62a3b2219cba008542f2e798e9c81559c6321489e1a43949c32` — scored by Step 25 only.
-- [Cap re-probe journal, E21](evidence/E21-target-cap-probe/liqd-limbo-cap-probe-2026-10-02T18-22-46-633Z.journal.ndjson), SHA-256 `14f9880eff8294a5a7d8b0ce3fe715093eda5061899713ff87d3c9c098719809`, run as [capture/PROBE-2026-10-02.md](capture/PROBE-2026-10-02.md) describes.
-- Limbo has no multiplier-table config file: the payout is `stake × target`, so there is no config artifact to pin.
+- [Captured rounds](data/limbo-prod-full-5838bets.json): 5,838 production rounds, 33 epochs, SHA-256 `65c7a472b503bbcd9db9f26caee28d51d6536427f286fb9d3d9ec038ab17e101`, converted from the three runner exports (provenance in the file's `meta.conversion` and `meta.captures`).
+- The offline checker's printouts on the three raw exports: [7 November](capture/prod-2026-11-07/limbo-5k-check.txt), [10 November, Phases D and A top-up](capture/prod-2026-11-10/limbo-phases-2026-11-10-check.txt), [10 November, Phase C](capture/prod-2026-11-10/limbo-C-2026-11-10-check.txt).
+- From the capture: [the three exports](capture/captures/) (first line edited, [what and why](evidence.md)), [the converter](capture/converter/full-limbo.mjs), which Step 19 reruns on them to reproduce the dataset byte for byte, the runner source of [build 6fd6576d4561](capture/runner/limbo-prod-capture-runner-build-6fd6576d4561.js) (run 1) and [build 7e33ea9cd02d](capture/runner/limbo-prod-capture-runner-build-7e33ea9cd02d.js) (runs 2 and 3), and a record of every reply LIQD sent in [run 1](capture/replies/liqd-limbo-prod-replies-capture-1.jsonl), [run 2](capture/replies/liqd-limbo-prod-replies-capture-2.jsonl) and [run 3](capture/replies/liqd-limbo-prod-replies-capture-3.jsonl).
+- [Production verifier probes at the result cap](evidence/E02-prod-verifier-result-cap-2026-11-09/probes-limbo.jsonl), [the verifier reply on target 100000](evidence/E03-prod-verifier-target-100000.json) and [the figures on LIQD's game page](evidence/rtp-page-labels-2026-10-01.json).
+- Limbo has no multiplier-table file: the payout is `stake × target`.
 - [Verification results](outputs/verification-results.json), [RTP claim table](outputs/rtp-claim-table.json) and [release manifest](RELEASE-MANIFEST.json).
-- [Audit report](https://audit.provablyfair.org/casino/liqd/games/limbo/overview) · [Public repository](https://github.com/ProvablyFair-org/liqd-limbo) · [MIT license](LICENSE).
+- [The algorithm specification](docs/ALGORITHM.md) the RNG module is built from.
+- [Audit report](https://audit.provablyfair.org/casino/liqd/games/limbo/overview) · [Public repository](https://github.com/ProvablyFair-org/liqd-limbo/tree/v1.1.0) · [MIT license](LICENSE).
 
-This tree is `v1.0.1`, an errata release on `v1.0.0`, the first public release, which was published as one commit on 21 October 2026. The release commit and tag are signed with the ProvablyFair.org release key (SSH, `SHA256:gEujiJm2pRyq7lQsfYQfQ1r97H/J7GdaKHbOW8GtikY`), which the release manifest records. The 4 October 2026 consolidation is recorded in the [release history](MANIFEST.md#release-history).
+This tree is `v1.1.0`. The [release history](MANIFEST.md#release-history) records what changed.
 
-There are two documentation files: this README and [MANIFEST.md — consolidated audit overview](MANIFEST.md), which holds the game rules, algorithm, RTP analysis, verification results, evidence register, limitations and release history. The written specification the RNG module is rebuilt from is [docs/ALGORITHM.md](docs/ALGORITHM.md).
+Documents: this README; [MANIFEST.md](MANIFEST.md), the consolidated audit overview (dataset, algorithm, RTP analysis, verification results, limitations, release history); [evidence.md](evidence.md), the evidence register; [exploit-testing.md](exploit-testing.md), the integrity, forgery and mutation matrix; [SUMMARY.md](SUMMARY.md), the table of contents. `npm test` runs `scripts/check-docs.mjs`, which holds the hashes and counts in these documents to the files they describe.

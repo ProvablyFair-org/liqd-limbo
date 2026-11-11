@@ -2,7 +2,7 @@
 // never pass it silently and never fail the operator for it (profile LIMBO-04).
 // The round at epoch 5 nonce 25 is removed, DECLARED_CAPTURE_GAPS names it, and the dataset is
 // re-pinned; the population constants are left alone, so Step 12 also fails (the audited population
-// is 6,700) — the entry names Step 4, whose [FLAG] line is what is under test.
+// is 5,838) — the entry names Step 4, whose [FLAG] line is what is under test.
 // usage: node declared-capture-gap.mjs <sandboxRepo>
 import fs from 'node:fs';
 import path from 'node:path';
@@ -10,7 +10,7 @@ import crypto from 'node:crypto';
 
 const repo = process.argv[2];
 if (!repo) { console.error('usage: declared-capture-gap.mjs <sandboxRepo>'); process.exit(2); }
-const dp = path.join(repo, 'data/limbo-master-6700bets.json');
+const dp = path.join(repo, 'data/limbo-prod-full-5838bets.json');
 const raw = fs.readFileSync(dp, 'utf8');
 const d = JSON.parse(raw);
 d.bets = d.bets.filter((b) => !(b.epoch === 5 && b.nonce === 25));

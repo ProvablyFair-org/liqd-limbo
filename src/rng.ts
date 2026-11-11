@@ -1,35 +1,22 @@
 /**
- * PROVENANCE (header added on integration, 20 Oct 2026; everything below this comment is the
- * clean-room module byte for byte).
+ * PROVENANCE (this header is the package's; everything below it is the module as rebuilt).
  *
- * This module was REBUILT FROM A WRITTEN SPECIFICATION, not ported from LIQD's code:
- *   spec      docs/ALGORITHM.md, a copy of games/liqd-limbo/ALGORITHM.md in the ProvablyFair.org audit
- *             framework (SHA-256 2b6698b4…68c9db15 as copied). Written from LIQD's public pages and API
- *             replies, the standard provably-fair construction and the 7,000 captured rounds, without
- *             opening LIQD's code (its §8 lists every file read).
- *   rebuild   written by an implementer who read ONLY that spec and a module-interface file, and never
- *             opened LIQD's code, its client bundle, or this package's earlier src/rng.ts.
- *   self-test tests/limbo/RngSpecTests.ts (the spec's vectors and properties).
+ * This module was BUILT FROM A WRITTEN SPECIFICATION, docs/ALGORITHM.md, by an implementer who read only
+ * that specification and the module-interface file docs/INTERFACE.md. No LIQD code file is shipped or
+ * executed by this package. Self-test: tests/limbo/RngSpecTests.ts.
  *
- * LIQD's own verification output is NOT the source of this module. It is used as a SECOND CHECK: the
- * four values read from LIQD's Verify calculator (E12, tests/limbo/rngTests.ts) and LIQD's /verify
- * endpoint replies (E13, Step 19). No LIQD code file is shipped or executed by this package (src/config.ts
- * still carries constants and the result map read from LIQD's client bundle; see its header). The audit's
- * draw-bias bound is src/bias.ts, built on this module's generateProvablyFairNumber.
+ * What ties it to the casino is production evidence only: every one of the 5,838 settled rounds
+ * recomputes under it (commitment, draw, result; verify Steps 1 and 5), and the production verifier
+ * returns the same result for each of them (Step 25). The audit's draw-bias bound is src/bias.ts, built
+ * on this module's generateProvablyFairNumber.
  *
- * Three-way agreement measured on integration (20 Oct 2026, every captured round: 6,700 master +
- * 300 supplement + 4 probe rounds in E20/E21): this module vs the live rounds, commitment and result
- * 7,004/7,004; vs LIQD's Verify-calculator values 4/4 and /verify replies 2/2. No ProvablyFair.org
- * site verifier exists for limbo, so there is no third leg.
- *
- * Where this module and the package's earlier, ported code differ on inputs no captured round reaches:
- *   (1) when all eight chunks of a digest are rejected (spec O1, unspecified; about 6e-14 per round)
- *       this module throws; the earlier code redrew at cursor + 1,000,000;
- *   (2) this module's limboResult applies no upper cap (spec O3); src/config.ts resultMultiplier, which
- *       the scored steps use for the result map, caps at 1,000,000x (LIQD's client constant
- *       LIMBO_MAX_RESULT_MULTIPLIER). They differ only for a draw r <= 97 (98 of 10^8 draws), which no
- *       captured round reaches (smallest captured draw 534, result 185,046.72x) and which wins at every
- *       legal target either way.
+ * Two inputs no settled round reaches:
+ *   (1) when all eight chunks of a digest are rejected (about 6e-14 per round) this module throws; what
+ *       the casino does then is not known from any capture;
+ *   (2) this module's limboResult applies no upper cap; src/config.ts resultMultiplier, which the scored
+ *       steps use for the result map, caps at 1,000,000x. They differ only for a draw r <= 97 (98 of 10^8
+ *       draws). No settled round reaches it; the production verifier reports 1,000,000 on such draws
+ *       (evidence/E02, Step 25), which is what the capped map returns.
  */
 // Clean-room LIQD Limbo RNG module.
 // Built only from ALGORITHM.md (behaviour) and INTERFACE.md (names and types).

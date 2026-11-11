@@ -9,7 +9,7 @@
 //   bins     — 500 counts moved between two histogram bins, totals kept: re-derivation still passes
 //              (chi2 moves, p stays high), prefix untouched — killed only by the run-vs-committed-artifact
 //              reproduction gate noticing the digest in Step 23's detail moved (byte identity), and
-//              by `npm run pass1:check`, which replays all 12,000,000 draws. Declared as a marker kill.
+//              by `npm run pass1:check`, which replays all 11,000,000 draws. Declared as a marker kill.
 // Every mode re-pins PASS1_GRID_SHA256 in the same edit, exactly as a fabricating auditor would.
 import fs from 'node:fs';
 import path from 'node:path';

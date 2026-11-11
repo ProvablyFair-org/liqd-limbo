@@ -1,21 +1,21 @@
 {
   "audit": "LIQD Limbo",
-  "captureHost": "qa.liqd.com",
+  "captureHost": "liqd.com",
   "expectedSteps": 25,
-  "totalBets": 6700,
-  "totalSeeds": 134,
-  "datasetSha256": "8e3ce5b5e1494d1fcc3a783965d3ba7b6a7099f120a64d61e21a577098c07334",
+  "totalBets": 5838,
+  "totalSeeds": 33,
+  "datasetSha256": "65c7a472b503bbcd9db9f26caee28d51d6536427f286fb9d3d9ec038ab17e101",
   "artifactHashes": {
     "dataset": {
-      "file": "data/limbo-master-6700bets.json",
-      "expected": "8e3ce5b5e1494d1fcc3a783965d3ba7b6a7099f120a64d61e21a577098c07334",
-      "actual": "8e3ce5b5e1494d1fcc3a783965d3ba7b6a7099f120a64d61e21a577098c07334",
+      "file": "data/limbo-prod-full-5838bets.json",
+      "expected": "65c7a472b503bbcd9db9f26caee28d51d6536427f286fb9d3d9ec038ab17e101",
+      "actual": "65c7a472b503bbcd9db9f26caee28d51d6536427f286fb9d3d9ec038ab17e101",
       "match": true
     },
     "simulation": {
       "file": "outputs/simulation-results.json",
-      "expected": "2d609344650eac723c262449fb8929b05c68b75f149ceee708b89ad4ade670cc",
-      "actual": "2d609344650eac723c262449fb8929b05c68b75f149ceee708b89ad4ade670cc",
+      "expected": "b4e529119b24e1845d01a00e97d2cf7d4d895f0ef6cb1a34566928d591552c36",
+      "actual": "b4e529119b24e1845d01a00e97d2cf7d4d895f0ef6cb1a34566928d591552c36",
       "match": true
     },
     "simulationChart": {
@@ -26,49 +26,21 @@
     },
     "pass1Grid": {
       "file": "outputs/pass1-grid.json",
-      "expected": "9999f98ba17fe534b5350274da8e423aa6c1c096f4e136d40daec60a0cbdcae7",
-      "actual": "9999f98ba17fe534b5350274da8e423aa6c1c096f4e136d40daec60a0cbdcae7",
+      "expected": "d4284dc5260c43180c2ec7e2fa3d31c23331f0660b581a1fc968f14a4d205caf",
+      "actual": "d4284dc5260c43180c2ec7e2fa3d31c23331f0660b581a1fc968f14a4d205caf",
       "match": true
     },
-    "supplementDataset": {
-      "file": "data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.json",
-      "expected": "a2dee374cfd48c62736cf5958fd67f42b1cb7c622ab0883c3f84278d8429ab1e",
-      "actual": "a2dee374cfd48c62736cf5958fd67f42b1cb7c622ab0883c3f84278d8429ab1e",
-      "match": true
-    },
-    "supplementJournal": {
-      "file": "data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.journal.ndjson",
-      "expected": "bcacab9c674df62a3b2219cba008542f2e798e9c81559c6321489e1a43949c32",
-      "actual": "bcacab9c674df62a3b2219cba008542f2e798e9c81559c6321489e1a43949c32",
-      "match": true
-    },
-    "ceilingProbe1": {
-      "file": "evidence/E20-target-ceiling-probe-2026-09-26/liqd-limbo-capture-v2-probe-2026-09-26T17-43-21-558Z.journal.ndjson",
-      "expected": "c2401ee1fe468557585a053377b92e88d0ed7f45ef321a7cec86966abbedd836",
-      "actual": "c2401ee1fe468557585a053377b92e88d0ed7f45ef321a7cec86966abbedd836",
-      "match": true
-    },
-    "ceilingProbe2": {
-      "file": "evidence/E20-target-ceiling-probe-2026-09-26/liqd-limbo-capture-v2-probe-2026-09-26T17-47-53-359Z.journal.ndjson",
-      "expected": "58822ffa99740859c22bf7bae95e6504f1ee4dbaf8bf2f007c4bd5f8e26c53bc",
-      "actual": "58822ffa99740859c22bf7bae95e6504f1ee4dbaf8bf2f007c4bd5f8e26c53bc",
-      "match": true
-    },
-    "capProbe": {
-      "file": "evidence/E21-target-cap-probe/liqd-limbo-cap-probe-2026-10-02T18-22-46-633Z.journal.ndjson",
-      "expected": "14f9880eff8294a5a7d8b0ce3fe715093eda5061899713ff87d3c9c098719809",
-      "actual": "14f9880eff8294a5a7d8b0ce3fe715093eda5061899713ff87d3c9c098719809",
+    "capProbeRecords": {
+      "file": "evidence/E02-prod-verifier-result-cap-2026-11-09/probes-limbo.jsonl",
+      "expected": "4c5769e29a680be30998e4fd2748a2b9f58285e3542d265ec94971fbf18077c3",
+      "actual": "4c5769e29a680be30998e4fd2748a2b9f58285e3542d265ec94971fbf18077c3",
       "match": true
     },
     "rtpClaimTable": {
       "file": "outputs/rtp-claim-table.json",
-      "expected": "cdfbf600e0713b822acf00b420c10d12b7af7fca73cce96c395099f49634ba34",
-      "actual": "cdfbf600e0713b822acf00b420c10d12b7af7fca73cce96c395099f49634ba34",
+      "expected": "92670c4605ba60045ba5348c4022e5241199857f9d3346aa9c2ec3888ebf42a0",
+      "actual": "92670c4605ba60045ba5348c4022e5241199857f9d3346aa9c2ec3888ebf42a0",
       "match": true
-    },
-    "evidence": {
-      "evidence/E13-limbo-boundary-probes.json": "reproduced under the model in Step 19 (not hash-pinned)",
-      "evidence/E15-limbo-max-exposure.json": "reconciled against src/config.ts in Step 19 (not hash-pinned)"
     }
   },
   "steps": [
@@ -76,7 +48,7 @@
       "step": 1,
       "name": "Seed Hash Integrity",
       "status": "PASS",
-      "detail": "134/134 revealed seeds (denominator from src/config.ts EXPECTED_SEEDS, not from the artifact — G-BIND): SHA-256(utf8(serverSeed hex string)) == hashedServerSeed; 0 mismatches; 0 records with a malformed commitment (64 hex) or server seed (32 hex); 134 distinct server seeds across 134 epochs (a repeat would replay a whole draw stream)",
+      "detail": "33/33 revealed seeds (denominator from src/config.ts EXPECTED_SEEDS, not from the artifact — G-BIND): SHA-256(utf8(serverSeed hex string)) == hashedServerSeed; 0 mismatches; 0 records with a malformed commitment (64 hex) or server seed (32 hex); 33 distinct server seeds across 33 epochs (a repeat would replay a whole draw stream)",
       "profileIds": [
         "LIMBO-01"
       ],
@@ -92,7 +64,7 @@
       "step": 2,
       "name": "Next-Seed Pre-Commitment Chain",
       "status": "PASS",
-      "detail": "133/133 transitions: nextHashedServerSeed == next epoch's hashedServerSeed (chain INTACT); pre-capture link verified: the pair recorded before the first bet reveals a seed hashing to its own commitment (6e7ed0a2be10…) and its nextHashedServerSeed IS epoch 0's commitment (394004d9c915…) — epoch 0's commitment was already fixed by an EARLIER LINK IN THE CHAIN. A hash chain orders records, it does not date them: that this link predates the first bet is the auditor's capture record, not independently authenticated timing, so the no-post-hoc-choice reading is CONDITIONAL on that attested chronology",
+      "detail": "30/30 transitions inside the 3 runs: nextHashedServerSeed == next epoch's hashedServerSeed (chain INTACT inside each run; the runs are separate sessions and no link is asserted between them); pre-capture anchors 3/3: run 1 (epoch 0): anchor a41223fdcdee… reveals a seed hashing to its own commitment, its nextHashedServerSeed IS that epoch's commitment c391eb4f199b…; run 2 (epoch 25): anchor 8db26d2aaa96… reveals a seed hashing to its own commitment, its nextHashedServerSeed IS that epoch's commitment c7bc348c45bd…; run 3 (epoch 31): anchor c6edcbfe2984… reveals a seed hashing to its own commitment, its nextHashedServerSeed IS that epoch's commitment 729e9926f5c4…. Each run's first commitment was therefore already fixed by an EARLIER LINK IN THE CHAIN. A hash chain orders records, it does not date them. LIQD'S CLOCK (the Date header of LIQD's replies in the reply record, one-second resolution): on 33/33 epochs the reply that published the commitment, the rotation reply to the request that submitted the client seed and the place-bet reply of the first round are resolved; they come in that order on 33/33 and out of order on 0; the commitment reply is a second or more earlier than the client-seed reply on 32 and in the same second on 1; the client-seed reply is a second or more earlier than the first bet's reply on 10 and in the same second on 23. The Date header is LIQD's own clock as its replies carry it, recorded by the auditor's runner; it is not an independently authenticated timestamp, so the no-post-hoc-choice reading stays CONDITIONAL on the attested capture chronology (L6)",
       "profileIds": [
         "LIMBO-02"
       ],
@@ -100,7 +72,7 @@
         {
           "id": "LIMBO-02",
           "coverage": "full",
-          "note": "next-hash chain recomputed from the raw fields on all 133 transitions plus the meta.preCapture link"
+          "note": "next-hash chain recomputed from the raw fields on all 30 transitions inside the three runs, plus each run's own pre-capture link (meta.captures[].preCapture); the three runs are separate sessions and no link is asserted between them"
         }
       ]
     },
@@ -108,7 +80,7 @@
       "step": 3,
       "name": "Hash Consistency & Epoch Coverage",
       "status": "PASS",
-      "detail": "134 epochs observed, covering 0..133 with 0 missing and 0 out of range (bounds from src/config.ts EXPECTED_SEEDS — G-BIND); all bets within each epoch share one hashedServerSeed (0 violations); the commitments the bets settle against and the revealed seed set are the SAME SET hash-for-hash: 134 settled vs 134 revealed, 0 bet commitment(s) with no seed record, 0 seed record(s) no bet used",
+      "detail": "33 epochs observed, covering 0..32 with 0 missing and 0 out of range (bounds from src/config.ts EXPECTED_SEEDS — G-BIND); all bets within each epoch share one hashedServerSeed (0 violations); the commitments the bets settle against and the revealed seed set are the SAME SET hash-for-hash: 33 settled vs 33 revealed, 0 bet commitment(s) with no seed record, 0 seed record(s) no bet used",
       "profileIds": [
         "LIMBO-03"
       ],
@@ -123,7 +95,7 @@
       "step": 4,
       "name": "Nonce Audit",
       "status": "PASS",
-      "detail": "134/134 epochs: single client seed each, 50 distinct contiguous nonces 0..49 (no interior gaps, no reuse, none out of range), epoch size bound to src/config.ts not to the dataset header (G-BIND); leading bound operator-sourced (nonceStart) on 134/134; trailing bound operator-witnessed (operatorBetCount) on 0/134 and auditor-recorded on 134/134 — where it is auditor-recorded, trailing withholding is NOT observable client-side (declared limitation, Step 21)",
+      "detail": "33/33 epochs: single client seed each, distinct contiguous nonces 0..size-1 with size the epoch's planned size (6 epochs of 100, 2 epochs of 119, 25 epochs of 200; no interior gaps, no reuse, none out of range), epoch size bound to src/config.ts EPOCH_PLAN, not to the dataset (G-BIND); leading bound operator-sourced (nonceStart) on 33/33; trailing bound operator-witnessed (operatorBetCount) on 0/33 and auditor-recorded on 33/33 — where it is auditor-recorded, trailing withholding is NOT observable client-side (declared limitation, Step 21)",
       "profileIds": [
         "LIMBO-04"
       ],
@@ -131,7 +103,7 @@
         {
           "id": "LIMBO-04",
           "coverage": "full",
-          "note": "nonces exactly 0..49 per epoch against EXPECTED_EPOCH_SIZE, no reuse, none out of range; an operator-side or undeclared gap is a HARD FAIL; a gap the capture log attributes to a retry (DECLARED_CAPTURE_GAPS) whose revealed seed reconstructs every recorded bet is returned as FLAG origin = capture, verdict-neutral (verify.ts). The branch does not fire on this gap-free capture; it is shown reachable by tests/forgeries/declared-capture-gap.mjs"
+          "note": "nonces exactly 0..size-1 per epoch against the epoch's planned size in src/config.ts EPOCH_PLAN (200, 100 or 119), no reuse, none out of range; an operator-side or undeclared gap is a HARD FAIL; a gap the capture log attributes to a retry (DECLARED_CAPTURE_GAPS) whose revealed seed reconstructs every recorded bet is returned as FLAG origin = capture, verdict-neutral (verify.ts). The branch does not fire on this gap-free capture; it is shown reachable by tests/forgeries/declared-capture-gap.mjs"
         }
       ]
     },
@@ -139,7 +111,7 @@
       "step": 5,
       "name": "Draw & Result Recomputation",
       "status": "PASS",
-      "detail": "6700/6700 bets (denominator from src/config.ts EXPECTED_BETS — G-BIND): R = min(1000000, max(1, floor(9900000000/(k+1))/100)) recomputed from the revealed (serverSeed, clientSeed, nonce) equals the served result EXACTLY (strict ===, no tolerance); 0 bets whose epoch seed was never revealed; 0 served results outside [1, 1000000] or not a 2-dp value (G-RANGE, bounds from config); draws span k 534..99990804 of [0, 100000000); results span 1x..185046.72x; 147 rounds served at the R = 1 floor (2.19% of the capture), of which 78 had a RAW formula value below 1 so the clamp actually fired — legitimate rounds, and the clamp they exercise was absent from the model until the capture's own inline check caught it on 2026-09-11 in an earlier capture run that is not shipped (serverSeed 5d8a6efd…, nonce 49); 0 rounds at the 1000000x ceiling (the upper clamp is therefore NOT witnessed in this capture — see Step 21); DRAW-BIAS BOUND: maxFair = floor(2^32/100000000) x 100000000 = 4200000000 (a whole number of ranges), so each k is reached by exactly 42 accepted chunk values and the per-value bias is 0 (ceiling 2^-32); 94967296 of 2^32 chunk values (2.2111%) fall in the discarded tail; rejection census over the capture: 126 of 6700 rounds had their FIRST chunk rejected (128 chunks rejected in all, expected 148.15 rounds) and 126 of them reproduce under the guarded model — an unguarded server would have served a different result on every one; acceptance probe (src/bias.ts, 4000 fixed rounds through src/rng.ts): 0 draws disagree with \"first chunk below maxFair, mod range\", 81 of the probe rounds exercised the rejected tail",
+      "detail": "5838/5838 bets (denominator from src/config.ts EXPECTED_BETS — G-BIND): R = min(1000000, max(1, floor(9900000000/(k+1))/100)) recomputed from the revealed (serverSeed, clientSeed, nonce) equals the served result EXACTLY (strict ===, no tolerance); 0 bets whose epoch seed was never revealed; 0 served results outside [1, 1000000] or not a 2-dp value (G-RANGE, bounds from config); draws span k 3512..99977417 of [0, 100000000); results span 1x..28181.04x; 116 rounds served at the R = 1 floor (1.99% of the capture), of which 66 had a RAW formula value below 1 so the clamp actually fired (a round at the floor loses at every target); 0 rounds at the 1000000x result cap (the upper clamp is therefore NOT reached by a settled round of this capture: the production verifier probes of Step 25 are its witness); DRAW-BIAS BOUND: maxFair = floor(2^32/100000000) x 100000000 = 4200000000 (a whole number of ranges), so each k is reached by exactly 42 accepted chunk values and the per-value bias is 0 (ceiling 2^-32); 94967296 of 2^32 chunk values (2.2111%) fall in the discarded tail; rejection census over the capture: 135 of 5838 rounds had their FIRST chunk rejected (138 chunks rejected in all, expected 129.09 rounds) and 135 of them reproduce under the guarded model; the guardless form (first chunk mod range) gives a different result on 134 of the 135 and the same result on 1 (bet QVa47RZmz6DTZoHGxY2GM), and a different win flag on 32; acceptance probe (src/bias.ts, 4000 fixed rounds through src/rng.ts): 0 draws disagree with \"first chunk below maxFair, mod range\", 81 of the probe rounds exercised the rejected tail",
       "profileIds": [
         "LIMBO-07",
         "LIMBO-10",
@@ -160,12 +132,12 @@
         {
           "id": "LIMBO-17",
           "coverage": "full",
-          "note": "floor half: 147 rounds served at R = 1, 78 of them with the raw formula below 1 (the clamp fired); the tie half is Step 6 + E13 (Step 19); the 1e6 cap is declared UNWITNESSED (L4, Step 21) and exercised by grid arithmetic in Step 14"
+          "note": "floor half: 116 production rounds served at R = 1, 66 of them with the raw formula below 1 (the clamp fired); the tie half is Step 6; the cap half is Step 25 (production verifier probes; no settled round at the cap, L4)"
         },
         {
           "id": "LIMBO-08",
           "coverage": "full",
-          "note": "draw-bias bound computed from the same maxFair rule the draw applies and ASSERTED: maxFair = 4,200,000,000 = 42 x 1e8, a whole number of ranges, per-value bias exactly 0 (<= 2^-32); rejected tail 94,967,296 of 2^32 chunk values (2.2111%) printed; rejection census over the capture: 126 rounds had their first chunk rejected and all reproduce, so the operator applies the guard (formerly L11 prose)"
+          "note": "draw-bias bound computed from the same maxFair rule the draw applies and ASSERTED: maxFair = 4,200,000,000 = 42 x 1e8, a whole number of ranges, per-value bias exactly 0 (<= 2^-32); rejected tail 94,967,296 of 2^32 chunk values (2.2111%) printed; rejection census over the production capture: 135 rounds had their first chunk rejected and all reproduce, so the operator applies the guard"
         }
       ]
     },
@@ -173,7 +145,7 @@
       "step": 6,
       "name": "Win-Rule Reproduction",
       "status": "PASS",
-      "detail": "6700/6700 bets: win == (recomputed R >= chosen target) reproduces the served win flag exactly; 0 targets outside the operator's own legal window (2-dp, [1.01, 1000000]) — G-RANGE; the >= boundary is WITNESSED, not assumed: 20 captured rounds land with R EXACTLY on the chosen target and the operator settled 20 of them as WINS (under a strict R > target rule 20 of the 6700 settled bets would flip, so this dataset has real discriminating power — unlike the sibling dice capture, where the two boundary models disagreed on zero bets); the same boundary is independently witnessed against the operator's own /verify endpoint in evidence/E13 and reproduced in Step 19; boundary-hit expectation over the bets actually placed, Σ [floor(N/ci) − floor(N/(ci+1))]/100000000 = 18.24 against 20 observed; RESULT FLOOR: 147 recomputed rounds at R = 1x, 0 of them settled as a win (the floor 1x is below the minimum legal target 1.01x, so every floor round must lose)",
+      "detail": "5838/5838 bets: win == (recomputed R >= chosen target) reproduces the served win flag exactly; 0 targets off the game's grid (2-dp, [1.01, 1000000]) — G-RANGE; the >= boundary is WITNESSED, not assumed: 2 captured rounds land with R EXACTLY on the chosen target and the operator settled 2 of them as WINS (under a strict R > target rule 2 of the 5838 settled bets would flip); rounds landing one 2-dp tick BELOW their target: 12, of which 12 settled as losses; boundary-hit expectation over the bets actually placed, Σ [floor(N/ci) − floor(N/(ci+1))]/100000000 = 6.78 against 2 observed; RESULT FLOOR: 116 recomputed rounds at R = 1x, 0 of them settled as a win (the floor 1x is below the minimum target 1.01x, so every floor round must lose)",
       "profileIds": [
         "LIMBO-10",
         "LIMBO-17"
@@ -187,7 +159,7 @@
         {
           "id": "LIMBO-17",
           "coverage": "full",
-          "note": "tie half: 20 captured rounds land exactly on the target (18.24 expected from the bets placed) and all 20 settle as wins (>=), a rule a strict > model would flip on 20 bets; floor half: all 147 recomputed floor rounds settle as losses and MIN_RESULT < MIN_MULTIPLIER is asserted"
+          "note": "tie half: 2 production rounds land exactly on the target (6.78 expected from the bets placed) and both settle as wins (>=), a rule a strict > model would flip on 2 bets; 12 rounds land one tick below their target and all settle as losses; floor half: all 116 recomputed floor rounds settle as losses and MIN_RESULT < MIN_MULTIPLIER is asserted"
         }
       ]
     },
@@ -195,7 +167,7 @@
       "step": 7,
       "name": "Recomputation Determinism",
       "status": "PASS",
-      "detail": "the full 6700-bet derivation was executed twice and once in reverse order: 0 bet(s) disagreed between the two forward passes, 0 between forward and reverse (order independence — the HMAC path carries no state between bets); 204 sampled bets recomputed 5x each produced more than one distinct result on 0 of them; coverage ok (this is producer-side determinism over the real seed inputs: nothing in this step reads the served result field, so a replayed stored answer could not pass it)",
+      "detail": "the full 5838-bet derivation was executed twice and once in reverse order: 0 bet(s) disagreed between the two forward passes, 0 between forward and reverse (order independence — the HMAC path carries no state between bets); 202 sampled bets recomputed 5x each produced more than one distinct result on 0 of them; coverage ok (this is producer-side determinism over the real seed inputs: nothing in this step reads the served result field, so a replayed stored answer could not pass it)",
       "profileIds": [
         "LIMBO-07"
       ],
@@ -211,7 +183,7 @@
       "step": 8,
       "name": "Paid-Multiplier Derivation",
       "status": "PASS",
-      "detail": "2822 winning bets: on every win the dataset's multiplier column equals the target, bit-exact (strict ===, no tolerance); 0 mismatches; max deviation 0.00e+0. The capture script fills that column itself when the casino's response has no wager-level multiplier, and no response kept in the package has one. So this checks the file, not the casino. The payout is checked in Step 9",
+      "detail": "1318 winning bets: on every win the multiplier the casino served in its place-bet reply (outcome.multiplier, carried in the dataset's multiplier column) equals the target, bit-exact (strict ===, no tolerance); 0 mismatches; max deviation 0.00e+0. The payout is checked in Step 9, from the casino's credited amount",
       "profileIds": [
         "LIMBO-13"
       ],
@@ -219,7 +191,7 @@
         {
           "id": "LIMBO-13",
           "coverage": "full",
-          "note": "on every win the dataset's multiplier column equals the target, bit-exact; the capture script fills that column itself when the casino's response has no wager-level multiplier, and none of the 303 raw responses kept has one, so this checks the file, not the casino (the payout is Step 9); the edge sits in the result numerator N = 9.9e9 (client-bundle constants, confirmed by four operator Verify vectors, tests/limbo/rngTests.ts); the dataset carries no operator win-chance or edge field, so the derivation can read none"
+          "note": "on every win the multiplier the casino served in its production place-bet reply (outcome.multiplier, the dataset's multiplier column) equals the target, bit-exact (the payout is Step 9); the edge sits in the result numerator N = 9.9e9, which every settled production result confirms (Step 5); the dataset carries no operator win-chance or edge field, so the derivation can read none"
         }
       ]
     },
@@ -227,7 +199,7 @@
       "step": 9,
       "name": "Credit Arithmetic",
       "status": "PASS",
-      "detail": "6700/6700 bets: on a win the credit is the EXACT decimal product of stake and target, asserted as the integer identity credit x 1e8 == hundredths(stake) x hundredths(target) x 1e4 with zero tolerance (0 violations); the same credits also satisfy credit == ROUND_8(stake x target) in binary64 on 2822/2822 wins (0 violations); against the raw binary64 product the credit lands EXACTLY on it for 1472 of 2822 wins, max |credit - stake x target| 4.44e-16, net -2.33e-14 USDC — that residual is a property of binary64, NOT of the settlement, which is why it is measured here and scored nowhere; no rounding rule is assumed: the capture exhibits none, because a 2-dp stake times a 2-dp target is already exact in 4 dp",
+      "detail": "5838/5838 bets: on a win the credit is the EXACT decimal product of stake and target, asserted as the integer identity credit x 1e8 == hundredths(stake) x hundredths(target) x 1e4 with zero tolerance (0 violations); the same credits also satisfy credit == ROUND_8(stake x target) in binary64 on 1318/1318 wins (0 violations); against the raw binary64 product the credit lands EXACTLY on it for 826 of 1318 wins, max |credit - stake x target| 1.78e-15, net -2.67e-14 USDT — that residual is a property of binary64, NOT of the settlement, which is why it is measured here and scored nowhere; no rounding rule is assumed: the capture exhibits none, because a 2-dp stake times a 2-dp target is already exact in 4 dp",
       "profileIds": [
         "LIMBO-11"
       ],
@@ -243,7 +215,7 @@
       "step": 10,
       "name": "Loss Settlement",
       "status": "PASS",
-      "detail": "3878 losing bets: winningAmount == 0 and multiplier == 0 (0 violations), and every one of them genuinely failed the rule — R < target on all 3878, so no bet was labelled a loss while reaching its target; resultLabel agrees with the win flag on 3878/3878 losses and 2822/2822 wins",
+      "detail": "4520 losing bets: winningAmount == 0 and multiplier == 0 (0 violations), and every one of them genuinely failed the rule — R < target on all 4520, so no bet was labelled a loss while reaching its target; resultLabel agrees with the win flag on 4520/4520 losses and 1318/1318 wins",
       "profileIds": [
         "LIMBO-11"
       ],
@@ -257,9 +229,9 @@
     },
     {
       "step": 11,
-      "name": "Wallet Ledger, Stake Floor & Exposure Ceiling",
+      "name": "Wallet Fields, Stakes & Exposure As Played",
       "status": "PASS",
-      "detail": "6700/6700 bets carry both wallet fields (0 missing) and the wallet ledger equals the game ledger on 6700 of them (0 divergent); every stake clears the $0.1 minimum (inferred, not probed: E15's 3113 refusal is recorded at $0.10, and that it was the $0.05 retry follows from the capture script) (0 below, 0 not a 2-dp amount) and every target is a legal 2-dp value at or below MAX_PLAYABLE_TARGET 500000x (0 outside); maximum exposure (stake x target) in the capture $50000 against the $50000 ceiling witnessed in evidence/E15, 0 bets over it — compared in whole hundredths so the result does not depend on floating-point rounding (for 427 of the capture's 1105 distinct stake x target pairs the binary64 product is not the decimal answer, e.g. 0.1 x 1.07 = 0.10700000000000001); wallet BALANCE ledger present on 0/6700 bets — stakeWallet/winningAmountWallet are settle-RESPONSE fields, so this step establishes internal consistency with the rule, NOT what the wallet was credited (declared limitation, Step 21)",
+      "detail": "5838/5838 bets carry both wallet fields (0 missing) and the wallet fields equal the game fields on 5838 of them (0 divergent); every stake is its phase's planned stake from src/config.ts (0 off plan, 0 not a 2-dp amount) and every target is a 2-dp value in [1.01, 10000] (0 outside); largest exposure (stake x target) accepted in the capture 1000 USDT (0.1 x 10000x, phase A); largest credit paid 20 USDT (10 x 2x, phase C). These are measured maxima, NOT limits: no bet was refused in the three runs, so the casino's minimum stake, maximum stake, maximum payout and exposure ceiling are not established by this audit (declared limitation). Products are compared in whole hundredths so the result does not depend on floating-point rounding (for 41 of the capture's 102 distinct stake x target pairs the binary64 product is not the decimal answer); wallet BALANCE ledger present on 0/5838 bets: stakeWallet/winningAmountWallet are settle-RESPONSE fields, so this step establishes internal consistency with the rule, NOT what the wallet was credited (declared limitation, Step 21)",
       "profileIds": [
         "LIMBO-14"
       ],
@@ -267,7 +239,7 @@
         {
           "id": "LIMBO-14",
           "coverage": "full",
-          "note": "every target a legal 2-dp value <= MAX_PLAYABLE_TARGET, every stake >= the $0.10 minimum, exposure <= the $50,000 ceiling compared in integer hundredths; the client-code-maximum half is Step 17, the live-ceiling half is Step 25 and the UI cap is recorded in Step 16"
+          "note": "every target a 2-dp value in [1.01, 10,000], every stake the planned stake of its phase; the largest exposure the casino accepted is measured and printed as a measured maximum; maximum payout and exposure limit are declared undeclared (no bet was refused); the target-bound half is Step 17"
         }
       ]
     },
@@ -275,7 +247,7 @@
       "step": 12,
       "name": "Dataset Integrity & Population Identity",
       "status": "PASS",
-      "detail": "SHA-256 pin match (8e3ce5b5e1494d1f… vs 8e3ce5b5e1494d1f…); population bound to src/config.ts, NOT to the dataset header (G-BIND): 6700/6700 bets (ok), 134/134 seeds (ok), 134 epochs x 50 bets each (ok, and 134 x 50 == 6700 so the three constants cannot be satisfied by moving bets between epochs), 0 epoch(s) whose nonce window 0..49 does not close; 6700/6700 distinct bet ids; dataset header reconciles with those constants (meta.plannedTotal=6700, meta.epochSize=50, meta.progress.bets=6700, meta.progress.seeds=134: ok); seed[0].serverSeed present; 134/134 seeds revealed (100% verifiable yes); G-RANGE field sweep: 0 bet-field and 0 seed-field values outside their physically possible bounds",
+      "detail": "SHA-256 pin match (65c7a472b503bbcd… vs 65c7a472b503bbcd…); population bound to src/config.ts, NOT to the dataset header (G-BIND): 5838/5838 bets (ok), 33/33 seeds (ok), 33 epochs each holding exactly its planned number of bets (25 x 200 A + 5 x 100 D + 1 x 100 A+ + 2 x 119 C = 5838; ok; the code plan adds up to the typed pins 5838 / 33 / 3 runs: true), 0 epoch(s) whose nonce window 0..size-1 does not close; 5838/5838 distinct bet ids; dataset header and record tags reconcile with those constants (meta.plannedTotal=5838, meta.progress.bets=5838, meta.progress.seeds=33, 3 runs in meta.captures each completed with its planned epochs and bets: true; capture / phase / plan-entry / seed-tag / plannedBets on every seed record: true; capture / phase / plan-entry on every bet: true); seed[0].serverSeed present; 33/33 seeds revealed (100% verifiable yes); G-RANGE field sweep: 0 bet-field and 0 seed-field values outside their physically possible bounds",
       "profileIds": [
         "LIMBO-05",
         "LIMBO-26"
@@ -284,7 +256,7 @@
         {
           "id": "LIMBO-05",
           "coverage": "full",
-          "note": "bets, seeds, epochs x epoch size bound to src/config.ts EXPECTED_*; header reconciled, never the denominator"
+          "note": "bets, seeds, runs and each epoch's size bound to src/config.ts (EXPECTED_*, CAPTURE_PLAN); header and record tags reconciled, never the denominator"
         },
         {
           "id": "LIMBO-26",
@@ -297,7 +269,7 @@
       "step": 13,
       "name": "Phase Plan Conformance",
       "status": "PASS",
-      "detail": "phases {\"A\":5000,\"B\":1000,\"C\":200,\"D\":500} match the CODE plan {\"A\":5000,\"B\":1000,\"C\":200,\"D\":500} (true), no undeclared phase present (true); each phase ran at its planned stake (true: A $0.1, B $0.1, C $10, D $0.1); the header's per-phase bet counts reconcile (true); its Phase B label reads \"100/1000/100k/1M\", a fixed string in the capture script, and the dataset has 0 bets at 1000000x; Phase B tranches 100x:250, 1000x:250, 100000x:250, 500000x:250 — 250 bets each as planned (true). The top tranche is 500000x and NOT the 1000000x maximum target in LIQD's client code: that is a FINDING, scored in Step 17, not a choice of coverage; stake independence: stakes $0.1, $10 with Phase C pinned to a single target 2x (true); Phase D custom client seeds (pfaudit-) on 500/500 bets (true); ELEVATED STAKE: 200/200 Phase C bets recomputed from primitives, 0 settled differently from the base-stake rule (result, win flag or credit = stake x target in integer hundredths), 104 elevated-stake WINS through the payout path against a floor of 100 (true); TARGET COVERAGE by decade against PLANNED_TARGET_DECADES: 10^0 5245/50, 10^1 455/50, 10^2 250/250, 10^3 250/250, 10^5 500/500 (true); minimum legal target 1.01x played (true); 6200 bets at or below the 10000x UI cap and 500 above it up to 500000x (server-accepted on 2026-09-11; on 2026-09-26 the live API refused a target above 10000x — Step 25); 5 decades reached, 1104 distinct targets; decade 10^4 (10000x..99999.99x) UNPLAYED in this dataset — outside the 2026-09-11 capture plan, a capture-origin coverage gap disclosed here, not a finding about the operator; Phase A coverage up to the declared ceiling, decade 10^4 included, is Step 25 on the 2026-09-26 supplement",
+      "detail": "phases {\"A\":5100,\"D\":500,\"C\":238} and plan entries {\"A\":5000,\"D\":500,\"A+\":100,\"C\":238} match the CODE plan {\"A\":5100,\"C\":238,\"D\":500} / {\"A\":5000,\"A+\":100,\"C\":238,\"D\":500} (true), no undeclared phase present (true); each phase ran at its planned stake (true: A 0.10 USDT, C 10.00 USDT, D 0.10 USDT); the header's per-phase bet counts, stakes and currency reconcile (true); TARGET LADDER: Phase A holds 50 distinct targets against the 50 of PROD_TARGET_LADDER in src/config.ts, each played exactly 100 times (true); Phase D holds the same 50, each exactly 10 times (true); the ladder recorded in the header (meta.ladder) is the same list (true); TOP-UP (A+): 50/50 rounds on targets in [1000, 10000) (50 distinct), 50/50 at exactly 10000x, 0 elsewhere (true); PHASE C, BET-SIZE INVARIANCE (profile LIMBO-12): 238 rounds at 10.00 USDT (100 times the base stake) on the single target 2.00x (true); every one recomputes from its revealed seed and is settled by the base-stake rule (win == R >= target, credit == stake x target exactly, multiplier == target; 0 on a loss): 0 deviations; 114 wins went through the payout path (floor 100: true); TARGET COVERAGE by decade, Phase A rounds against PLANNED_TARGET_DECADES (floor 50 per decade): 10^0 2500/2500, 10^1 2400/2400, 10^2 100/100, 10^3 50/50, 10^4 50/50 (true); minimum target 1.01x played (true); highest target played 10000x = PROD_TOP_TARGET, 0 rounds above it. NOT EXERCISED, a capture limit and not a finding about the casino: 0 of the 100 rounds at 1000x and above won (their win chances are 0.0099% to 0.099% each), so the highest target on which a production WIN was paid is 100x; above it the payout rule rests on the losses settling as the rule says, on the verifier replies (Step 25) and on the closed form (Steps 15-16)",
       "profileIds": [
         "LIMBO-05",
         "LIMBO-12",
@@ -307,17 +279,17 @@
         {
           "id": "LIMBO-05",
           "coverage": "full",
-          "note": "per-phase counts and stakes asserted against EXPECTED_PHASES both ways"
+          "note": "per-phase and per-plan-entry counts and stakes asserted against EXPECTED_PHASES / EXPECTED_PHASE_IDS both ways; the 50-target ladder asserted against PROD_TARGET_LADDER (Phase A each target exactly 100 times, Phase D exactly 10) and reconciled with meta.ladder; the top-up asserted as 50 rounds in [1000, 10000) and 50 at exactly 10,000x"
         },
         {
           "id": "LIMBO-12",
           "coverage": "full",
-          "note": "Phase C: 200/200 bets at $10 on target 2x recomputed from primitives in this step and settled by the base-stake rule (result, win flag, credit = stake x target in integer hundredths); 104 elevated-stake wins against the PHASE_C_MIN_WINS = 100 floor; the price has no stake input"
+          "note": "Phase C: 238 production rounds at 10.00 USDT (100 times the base stake) on the fixed target 2.00x; every one recomputes from its revealed seed and settles by the base-stake rule (win == R >= target, credit == stake x target, multiplier == target); 114 wins went through the payout path (floor 100). 2.00x is not on the 0.10 ladder, so the comparison is rule against rule, not round against round"
         },
         {
           "id": "LIMBO-15",
           "coverage": "full",
-          "note": "audited-dataset half: per-decade coverage asserted against PLANNED_TARGET_DECADES (10^0 5,245, 10^1 455, 10^2 250, 10^3 250, 10^5 500), minimum legal target 1.01x played, 6,200 bets at or below the 10,000x UI cap and 500 above it (server-accepted on 2026-09-11); decade 10^4 is unplayed IN THIS DATASET. The Phase A floor of 50 per declared decade up to the declared ceiling (10,000x, live 2026-09-26) is Step 25: Phase A covers 10^0 and 10^1 here, the 2026-09-26 supplement covers 10^2, 10^3 and 10^4 at 100 each"
+          "note": "Phase A coverage asserted against PLANNED_TARGET_DECADES with the 50-per-decade floor: 10^0 2,500, 10^1 2,400, 10^2 100, 10^3 50, 10^4 50 (all at exactly 10,000x, the one target of that decade inside the audited range); minimum target 1.01x played; highest target 10,000x, 0 rounds above it; 102 distinct targets. Disclosed: none of the 100 rounds at 1,000x and above won, so no production win was paid above 100x"
         }
       ]
     },
@@ -325,7 +297,7 @@
       "step": 14,
       "name": "Anti-Circularity (Negative Control + Grid Boundary Anchor)",
       "status": "PASS",
-      "detail": "negative control on epoch 0 nonce 0: the predicate Step 5 uses ACCEPTS the recomputed 2.47x and REJECTS 2.48x (one 2-dp tick away), NaN and Infinity (falsifiable); boundary anchor over 1104/1104 distinct captured targets: for each, k = floor(9900000000/ci(m)) - 1 WINS and k = floor(9900000000/ci(m)) LOSES under the real formula and rule — 0 violations; grid extremes exercised directly because the capture cannot witness them: k=0 -> 1000000x (upper clamp), k=98 -> 1000000x, k=99 -> 990000x (first draw below the clamp), k=99999999 -> 1x (lower clamp) — all as published; every quantity in this step is derived from the draw grid and the operator's published constants; no operator payout, odds or win-chance field is read",
+      "detail": "negative control on epoch 0 nonce 0: the predicate Step 5 uses ACCEPTS the recomputed 8.78x and REJECTS 8.79x (one 2-dp tick away), NaN and Infinity (falsifiable); boundary anchor over 102/102 distinct captured targets: for each, k = floor(9900000000/ci(m)) - 1 WINS and k = floor(9900000000/ci(m)) LOSES under the real formula and rule — 0 violations; grid extremes exercised directly on the draw grid: k=0 -> 1000000x (upper clamp), k=98 -> 1000000x, k=99 -> 990000x (first draw below the clamp), k=99999999 -> 1x (lower clamp) — all as published; every quantity in this step is derived from the draw grid and the constants of src/config.ts; no served payout, odds or win-chance field is read",
       "profileIds": [
         "LIMBO-18"
       ],
@@ -333,7 +305,7 @@
         {
           "id": "LIMBO-18",
           "coverage": "full",
-          "note": "negative control (rejects 2.48x, NaN, Infinity) + boundary anchor over all captured targets from the grid alone"
+          "note": "negative control (rejects a result one 2-dp tick away, NaN, Infinity) + boundary anchor over all captured targets from the grid alone"
         }
       ]
     },
@@ -341,7 +313,7 @@
       "step": 15,
       "name": "Win-Chance vs Result-Distribution Identity",
       "status": "PASS",
-      "detail": "1104 distinct captured targets: the number of winning draws on the 100000000-point grid is exactly floor(9900000000/ci(m)) == winChance(m) x 100000000, asserted as an INTEGER equality with no tolerance — 0 violations; so the win chance given by LIQD's pricing formula (read from its client code) equals the probability the result formula delivers — LIQD's page states two of these figures, 49.5% at 2x and 0.0099% at 10,000x (evidence/rtp-page-labels-2026-10-01.json), and both match. Literal tally anchor, 4 full 100000000-draw sweeps of the real formula and rule: 1.01x tallied 98019801 vs closed form 98019801 (agree); 2x tallied 49500000 vs closed form 49500000 (agree); 100x tallied 990000 vs closed form 990000 (agree); 500000x tallied 198 vs closed form 198 (agree); MODEL IDENTITY, stated plainly: it holds by algebra for every legal target, so no dataset can falsify it — it enforces our model and is anchored by the tally, while the tie to the operator is Step 5's reproduction of all 6700 settled results",
+      "detail": "102 distinct captured targets: the number of winning draws on the 100000000-point grid is exactly floor(9900000000/ci(m)) == winChance(m) x 100000000, asserted as an INTEGER equality with no tolerance — 0 violations; so the win chance of the formula equals the probability the result formula delivers. LIQD's game page states two of these figures, 49.5% at 2x and 0.0099% at 10,000x (liqd.com/originals/limbo, read logged out 2026-10-01, evidence/rtp-page-labels-2026-10-01.json), and both match (true). Literal tally anchor, 4 full 100000000-draw sweeps of the real formula and rule: 1.01x tallied 98019801 vs closed form 98019801 (agree); 2x tallied 49500000 vs closed form 49500000 (agree); 100x tallied 990000 vs closed form 990000 (agree); 10000x tallied 9900 vs closed form 9900 (agree); MODEL IDENTITY, stated plainly: it holds by algebra for every target on the grid, so no dataset can falsify it — it enforces our model and is anchored by the tally, while the tie to the operator is Step 5's reproduction of all 5838 settled results",
       "profileIds": [
         "LIMBO-18",
         "LIMBO-13"
@@ -350,12 +322,12 @@
         {
           "id": "LIMBO-18",
           "coverage": "full",
-          "note": "winning draws on the 1e8 grid == floor(N/ci) for every captured target, plus four literal full-grid tallies"
+          "note": "winning draws on the 1e8 grid == floor(N/ci) for every captured target, plus four literal full-grid tallies (1.01x, 2x, 100x, 10,000x)"
         },
         {
           "id": "LIMBO-13",
           "coverage": "full",
-          "note": "the win chance given by LIQD's pricing formula (read from its client code) equals the probability the result formula delivers, integer identity; LIQD's page states two of these figures (49.5% at 2x, 0.0099% at 10,000x) and both match"
+          "note": "the win chance of the formula equals the probability the result formula delivers, integer identity; the production game page states two of these figures (49.5% at 2x, 0.0099% at 10,000x) and both match"
         }
       ]
     },
@@ -363,7 +335,7 @@
       "step": 16,
       "name": "Effective-Edge Curve",
       "status": "PASS",
-      "detail": "PROFILE LIMBO-19, judged against the RTP-CLAIM band (0.1 pp from the 1.00% edge claim) on the current build's target range, 1.01x to the 10000x ceiling seen on the live API on 2026-09-26 (one request above it probed, not settled — Step 25): 0 of the 999900 targets sit more than the band from the claim (no FLAG); inside the band the derived edge differs from the 1.00% claim at 999618 of the 999900 targets, always on the house side, by at most 0.009982 pp (1.009982% at 9989.91x) — printed, not flagged. The first legal target beyond the band is 100101.12x (RTP 98.899907%). NOT THE CURRENT BUILD, disclosed for reference: on the 2026-09-11 range (targets up to 500000x, the highest target the audited capture settled; 49999900 targets) the worst edge is 1.497487% at 497487.44x and the RTP-CLAIM rule would FAIL: 23885381 of the 49999900 targets sit more than 0.1 pp below the claim, worst RTP 98.502513% at 497487.44x; over the whole declared legal grid the edge differs from the claim at 99999490 of 99999900 targets, up to 1.989999%. EXHAUSTIVE over the legal grid: house edge >= 1.00% asserted in EXACT INTEGERS (floor(9900000000/ci(m)) x ci(m) <= 9900000000, no tolerance) at EVERY one of the 99999900 legal 2-dp targets in [1.01x, 1000000x] — 0 violations (the grid size is both what the legal window implies and the pinned population 99999900). THE EDGE IS NOT FLAT ABOVE 1.00%, and this is the measurement that says so: edge(ci) = (10000000000 - 9900000000 + (9900000000 mod ci)) / 10000000000, so the excess over 1% is driven by (N mod ci) and grows with ci. Worst edge anywhere in the legal range 1.989999% at 990000.01x; worst target playable on 2026-09-11 (<= 500000x, the $50000/$0.1 exposure ceiling of Step 17; on 2026-09-26 the live API did not settle the one target probed above 10000x, Step 25) 1.497487% at 497487.44x; worst at or below the operator's UI target cap of 10000x 1.009982% at 9989.91x; the FIRST target whose edge exceeds 1.01% is 10009.10x (1.010001%), i.e. just above that UI cap; 94389859 of the 99999900 legal targets carry an edge above 1.01%, and only 410 are priced at EXACTLY 1.00% (those are the ci that divide 9900000000 evenly); mechanically it is a same-odds/different-payout effect — targets sharing one value of floor(N/ci) share an IDENTICAL win chance but are each paid their own multiplier, so within a group RTP = cr x ci / 10000000000 rises with ci and only the LARGEST member is priced as well as those odds allow; every smaller member is strictly dominated (same win chance, strictly lower payout). Just 198798 of 99999900 targets (0.199%) are the best-priced member of their group. NOTE, because the obvious misreading is wrong: best-priced does NOT mean priced at 99.00% — only 410 targets in the whole grid are, so a group maximum is usually still above a 1.00% edge. CAPTURED-TARGET SUB-MEASUREMENT, reported separately and NOT to be read as the curve: across the 1104 distinct targets this capture actually used, spanning 1.01x..500000x, 0 violations, 0 player-favourable targets (none — not exploitable anywhere in the captured range); 0 targets at which OUR OWN reference formula returned a non-finite value (none — the curve above is a measurement of the pricing, not of a broken verifier), counted explicitly because every comparison against NaN is false and an unguarded curve would read as clean; captured edge spans 1.000000% (at 1.1x) to 1.000041% (at 43.86x), stake-weighted mean across the capture 1.000000% — that narrow span is an ARTEFACT OF WHICH TARGETS THE CAPTURE USED (every high tranche it played divides 9900000000 evenly), not a property of the game; 57 of the 1104 captured targets price to EXACTLY 1.00% (e.g. target 2.00 -> win chance 49.50%, RTP 99.0000%) — that is the arithmetic working, not an anomaly; the flooring can only LOWER the payout, never raise it, which is why 1.00% is a provable floor rather than a measured average, and why the dispersion above it runs one way only; legal-range extremes also satisfy the identity (1.01x, 500000x, 1000000x: ok), max win chance 98.019801% at the 1.01x minimum target; the comparison is done in integers, so no tolerance is needed; the largest edge on the captured targets is 1.00004134% at 43.86x, a real difference from 1.00% and not a rounding effect",
+      "detail": "PROFILE LIMBO-19, judged against the RTP-CLAIM band (0.1 pp from the 1.00% edge claim) on the AUDITED RANGE, every 2-dp target from 1.01x to 10000x (the lowest and the highest target settled on production): 0 of the 999900 targets sit more than the band from the claim (no FLAG); inside the band the derived edge differs from the 1.00% claim at 999618 of the 999900 targets, always on the house side, by at most 0.009982 pp (1.009982% at 9989.91x) — printed, not flagged; 282 are priced at exactly 1.00% and 0 carry an edge above 1.01%. EXHAUSTIVE: house edge >= 1.00% asserted in EXACT INTEGERS (floor(9900000000/ci(m)) x ci(m) <= 9900000000, no tolerance) at every one of the 99999900 2-dp values in [1.01x, 1000000x], the formula's whole grid up to the result cap — 0 violations (both population sizes are what their windows imply and what this step pins, 999900 and 99999900). THE EDGE IS NOT FLAT ABOVE 1.00%: edge(ci) = (10000000000 - 9900000000 + (9900000000 mod ci)) / 10000000000, so the excess over 1% is driven by (N mod ci) and grows with ci. Mechanically it is a same-odds/different-payout effect: targets sharing one value of floor(N/ci) share an IDENTICAL win chance but are each paid their own multiplier, so within a group RTP = cr x ci / 10000000000 rises with ci and only the LARGEST member is priced as well as those odds allow; 188997 of the 999900 audited targets (18.902%) are the best-priced member of their group (best-priced does not mean priced at 99.00%). ABOVE THE AUDITED RANGE, arithmetic about the formula only (whether production accepts a target above 10000x is not established, Step 17): the first value whose edge exceeds 1.01% is 10009.10x (1.010001%); the first value beyond the RTP-CLAIM band is 100101.12x (RTP 98.899907%); over the whole grid the worst edge is 1.989999% at 990000.01x, 94389859 of 99999900 values carry an edge above 1.01% and 410 are exactly 1.00%. CAPTURED-TARGET SUB-MEASUREMENT, reported separately and NOT to be read as the curve: across the 102 distinct targets the production capture played, spanning 1.01x..10000x (the ends of the audited range), 0 violations, 0 player-favourable targets; 0 targets at which OUR OWN reference formula returned a non-finite value (none), counted explicitly because every comparison against NaN is false; captured edge spans 1.000000% (at 100x) to 1.007054% (at 8571.56x), stake-weighted mean across the capture 1.000006%; 5 of the 102 captured targets price to EXACTLY 1.00% (e.g. target 2.00 -> win chance 49.5000%, RTP 99.0000%); the flooring can only LOWER the payout, never raise it, which is why 1.00% is a provable floor and why the dispersion above it runs one way only; the ends also satisfy the identity (1.01x, 10000x, 1000000x: ok), max win chance 98.019801% at the 1.01x minimum target; the largest edge on the captured targets is 1.00705356% at 8571.56x, a real difference from 1.00% and not a rounding effect",
       "profileIds": [
         "LIMBO-19"
       ],
@@ -371,15 +343,15 @@
         {
           "id": "LIMBO-19",
           "coverage": "full",
-          "note": "the edge is derived in exact integers at all 99,999,900 legal targets and min/max/where/count off 1.00% are printed; LIMBO-19 follows the RTP-CLAIM band (decided 2026-10-02): a target more than the 0.1 pp band from the claim is a FLAG (origin operator, magnitude stated), inside the band the curve is printed, not flagged. Judged on the current build's range, 1.01x to the 10,000x live ceiling of 2026-09-26 (the range the RTP-CLAIM rule is scored on): 0 of 999,900 targets beyond the band, so PASS; inside it 999,618 are off 1.00%, by at most 0.009982 pp (1.009982% at 9,989.91x). The first target beyond the band is 100,101.12x. Disclosed beside it, not scored: the 2026-09-11 range (<= 500,000x), worst 1.497487% at 497,487.44x, where the RTP-CLAIM rule would fail on 23,885,381 of 49,999,900 targets; the whole declared grid, up to 1.989999%"
+          "note": "the edge is derived in exact integers at every 2-dp target of the audited range, 1.01x to 10,000x (the lowest and highest target settled on production; the range the RTP-CLAIM rule is scored on), and min/max/where/count off 1.00% are printed: 0 of 999,900 targets beyond the 0.1 pp band, so PASS; inside it 999,618 are off 1.00%, always on the house side, by at most 0.009982 pp (1.009982% at 9,989.91x). A target more than the band from the claim would be a FLAG (origin operator). The floor edge >= 1.00% is also asserted at all 99,999,900 2-dp values up to the result cap, printed as arithmetic about the formula: whether a target above 10,000x can be played is not established"
         }
       ]
     },
     {
       "step": 17,
-      "name": "Client-Code Maximum Multiplier (2026-09-11 state, note)",
+      "name": "Target Bounds & Maximum Payout (as evidenced on production)",
       "status": "PASS",
-      "detail": "NOTE (profile LIMBO-14), not a flag: client-code maximum 1000000x, read 2026-09-07, not retained in this package; the player-facing text this package holds (evidence/rtp-page-labels-2026-10-01.json, read 2026-10-01) shows 10000x as its top example, and nothing in the package shows players are told 1000000x. CURRENT BUILD: on 2026-09-26 the live API settled bets at 10000x and did not settle the one request above it (93830.94x; Step 25, evidence/E20), so the range this audit judges ends at 10000x. That ceiling is also tested by the cap re-probe (evidence/E21, run 2026-10-02; Step 25 judges whether its requests at 100101.12x, 497487.44x, 500000x, 990000.01x were refused); of the targets the audited capture played above the ceiling, 500000x is among those requests and 100000x is not. 2026-09-11 STATE, reproduced from the evidence: the 1000000x maximum target in LIQD's client code could not be played at any legal stake. The cheapest legal bet at 1000000x stakes the $0.1 minimum and creates $100000 of exposure against the $50000 ceiling (over by 50000); evidence/E15 records that bet refused with errorCode 3138 and the casino's own maximum stake of $0.05 for that target (maxAllowedBetUsdc, below the $0.1 minimum stake), then a second refusal with errorCode 3113; E15 records $0.1 as the stake on both, and that the second request was the $0.05 retry follows from the capture script, not from the record; maximum PLAYABLE target = $50000 / $0.1 = 500000x, which is MAX_PLAYABLE_TARGET 500000x in src/config.ts (derivation agrees); the capture's top tranche is therefore 500000x and not 1000000x (the plan names the playable maximum), 250 bets were placed at 500000x and 0 at 1000000x, and the highest target anywhere in the capture is 500000x (the playable ceiling); the pricing is unaffected — edge is 1.000000% at 500000x and 1.000000% at 1000000x — so on 2026-09-11 the exposure ceiling was enforced and the client-code maximum could not be reached at the minimum stake. SCOPE: the $50000 ceiling is DERIVED from a single witnessed refusal on qa.liqd.com in one currency; it is not established for other currencies, other targets or production. DATED: the 500000x playable maximum is the 2026-09-11 state and is not claimed live",
+      "detail": "PROFILE LIMBO-14. Every one of the 5838 targets played is a 2-dp value in [1.01, 10000] (true). HIGHEST TARGET: the casino accepted and settled 50 rounds at exactly 10000x (0 won; 0.0049 wins expected at a 0.0099% win chance); 0 production rounds were placed above it. ABOVE 10000x: NOT ESTABLISHED. This audit holds no refused bet, so whether liqd.com accepts a bet on a target above 10000x is not known from it. evidence/E03 (2026-11-03): one logged-out request to the production VERIFIER with target 100000 was answered HTTP 400, a validation error on the target; the reply body was not retained (the record says exactly this). That is a verifier reply to one request, not a refused bet. The game page's own text uses 10000x as its top example (\"10,000x lands 0.0099% of the time\", liqd.com/originals/limbo read logged out 2026-10-01, evidence/rtp-page-labels-2026-10-01.json: true); this package holds no text that tells players of a higher target. RESULT CAP: 1000000x, a property of the result and not of the target; no settled round reached it; its witness is the production verifier probe set of Step 25. MAXIMUM PAYOUT / EXPOSURE: UNDECLARED. No bet was refused in the three runs; the largest potential payout (stake x target) the casino accepted is 1000 USDT, a measured maximum and not a limit. The pricing does not change at the top of the range: edge 1.000000% at 10000x",
       "profileIds": [
         "LIMBO-14"
       ],
@@ -387,15 +359,15 @@
         {
           "id": "LIMBO-14",
           "coverage": "full",
-          "note": "client-code-maximum half: re-derives the 2026-09-11 evidence that the 1,000,000x maximum target in LIQD's client code (read 2026-09-07, not retained) was unplayable at the $0.10 minimum (E15) and prints it as a NOTE, not a FLAG: the player-facing text held (evidence/rtp-page-labels-2026-10-01.json) shows 10,000x as its top example and nothing in the package shows players are told 1,000,000x. The step FAILs if the 2026-09-11 evidence stops reproducing"
+          "note": "target-bound half, stated from production only: every target played lies in [1.01, 10,000]; 50 rounds were accepted and settled at exactly 10,000x and none was placed above it; whether a higher target is accepted is NOT established (no refused bet is held; the one record is a production verifier reply, HTTP 400 on target 100000, evidence/E03, read by the step); the game page's own text uses 10,000x as its top example; the result cap is 1,000,000x (Step 25); maximum payout and exposure are undeclared"
         }
       ]
     },
     {
       "step": 18,
-      "name": "Custom Client-Seed Control (Phase D)",
+      "name": "Client-Seed Control & Phase D (player-set seeds)",
       "status": "PASS",
-      "detail": "500/500 Phase-D bets under auditor-chosen client seeds (denominator from src/config.ts EXPECTED_PHASES.D — G-BIND) recompute EXACTLY: 0 result mismatches, 0 win-flag mismatches — the operator honoured the seed it was handed rather than substituting one; 10 distinct pfaudit- seeds across 10 epochs, none of them operator-generated; client-seed sensitivity over 64 probed bets: altering one character of the client seed changes the underlying draw k on 64/64 and the resulting multiplier on 63/64 (the claim rests on the DRAW — R is a coarse function of k over a 100000000-point grid, so R collisions are expected and are not evidence of an ignored seed); nonce sensitivity on the same pair: 64/64 consecutive-nonce pairs produce different draws; parity: the same recomputation, win rule and edge arithmetic scored these 500 bets and the 6200 Phase A-C bets (auditor-rig CSPRNG seeds, not operator-generated) — Phase D is not handled by a separate code path here, so it cannot be passing for a different reason; MODEL-RATE GATE over 6700/6700 bets: a wrong client seed left the draw unchanged on 0 and the EMPTY-SEED control on 0, against E = n/100000000 = 6.700e-5 and an allowance of floor(E + 5·sqrt(E)) = 0 (true); CLIENT-SEED GENERATORS: Phases A-C 6200/6200 bets carry an 'audit'+12-hex seed, 124 distinct seeds over 124 epochs, generator read from capture/capture-limbo.reference.mjs: randomBytes(6) from node:crypto — a CSPRNG (true); Phase D seeds are PREDICTABLE by construction ('pfaudit-<ms timestamp>-<epoch>', true) — exposed epochs 124, 125, 126, 127, 128, 129, 130, 131, 132, 133 (10); each exposed epoch's commitment was published one epoch earlier as the previous epoch's nextHashedServerSeed on 10/10 — but the seed was derivable from the session timestamp before that commitment existed, so for these 10 epochs the order \"commitment before client seed\" does NOT exclude a server seed chosen against a known client seed: DISCLOSED exposure (Operator Trust R-CHERRY), not a claim of containment",
+      "detail": "5838/5838 rounds settled under client seeds the auditor submitted (denominator from src/config.ts EXPECTED_BETS — G-BIND) recompute EXACTLY: 0 result mismatches, 0 win-flag mismatches — the operator honoured the seed it was handed and did not substitute one; PHASE D (profile LIMBO-06, floor 2 distinct seeds): 5 epochs (25-29) under 5/5 distinct PLAYER-SET client seeds of the shape 'pfaudit-prod-limbo-d<k>-' + 12 hex (true), 500/500 Phase D rounds carry their epoch's player-set seed and 500/500 recompute under it (result and win flag); player-set seeds on rounds outside Phase D: 0. The Phase D seeds are not predictable (6 bytes of the browser CSPRNG each); they were drawn when the run's plan was built and each was sent to the casino at the rotation opening its epoch; client-seed sensitivity over 64 probed bets: altering one character of the client seed changes the underlying draw k on 64/64 and the resulting multiplier on 64/64 (the claim rests on the DRAW: R is a coarse function of k over a 100000000-point grid, so R collisions are expected and are not evidence of an ignored seed); nonce sensitivity on the same pair: 64/64 consecutive-nonce pairs produce different draws; MODEL-RATE GATE over 5838/5838 bets: a wrong client seed left the draw unchanged on 0 and the EMPTY-SEED control on 0, against E = n/100000000 = 5.838e-5 and an allowance of floor(E + 5·sqrt(E)) = 0 (true); CLIENT-SEED GENERATORS: 5338/5338 rounds outside Phase D carry an 'audit'+12-hex seed, 33 distinct seeds over 33 epochs, one per epoch (true); generators as each run's header describes them (meta.clientSeedGenerator): 6 bytes of crypto.getRandomValues, the browser CSPRNG, for both seed shapes (true); the runner is not part of this package, so the generator is the capture's own statement; ORDER: on 33/33 epochs the commitment the epoch settles under was already published as the previous record's nextHashedServerSeed (the first epoch of each run: that run's pre-capture pair) before the rotation that submitted its client seed, and that record carries the seed its rounds used — a hash chain orders records, it does not date them, so this rests on the auditor's capture order (L6)",
       "profileIds": [
         "LIMBO-06"
       ],
@@ -403,15 +375,15 @@
         {
           "id": "LIMBO-06",
           "coverage": "full",
-          "note": "Phase D 500/500 recompute under 10 auditor seeds; model-rate gate over all 6,700 bets (wrong seed and EMPTY-SEED control each leave 0 draws unchanged against floor(E + 5 sqrt(E)) = 0, E = n/1e8); Phase A-C seeds are the rig's randomBytes(6) CSPRNG, read from the shipped capture script and matched on all 6,200 bets; Phase D seeds are predictable by construction and the 10 exposed epochs (124-133) are enumerated"
+          "note": "every one of the 5,838 rounds settled under a client seed the auditor submitted and recomputes; Phase D: 500 rounds in 5 epochs under 5 distinct player-set seeds ('pfaudit-prod-limbo-d<k>-' + 12 hex), each round under its epoch's seed, none outside Phase D; the Phase D seeds are not predictable (6 CSPRNG bytes each), which the step prints; model-rate gate over all 5,838 (wrong seed and EMPTY-SEED control each leave 0 draws unchanged against floor(E + 5 sqrt(E)) = 0, E = n/1e8); the generators of both seed shapes as the runs' headers describe them (crypto.getRandomValues); every epoch's commitment published before the rotation that submitted its seed"
         }
       ]
     },
     {
       "step": 19,
-      "name": "Artifact Integrity & Evidence Reproduction",
+      "name": "Artifact Integrity",
       "status": "PASS",
-      "detail": "data/limbo-master-6700bets.json sha256 8e3ce5b5e1494d1f… matches the pin in src/config.ts 8e3ce5b5e1494d1f… (the loader aborts on a mismatch before any step runs); evidence/E13 REPRODUCED from its own seed triple: our model computes R = 7.5x for (serverSeed 76bb5f88…, clientSeed audit53bafd211bdd, nonce 0) against the casino's serverResult 7.5x and 7.5x on the two /verify probes and the file's R 7.5x (match); target == R (7.5x) the operator settled as WIN and our rule agrees (ok); target == R + 0.01 (7.51x, exactly one 2-dp tick higher: true) the operator settled as LOSS and our rule agrees (ok); the probe discriminates >= from > (true), which is the whole point of it; sha256 3705c52e55af72c2… recorded, not pinned — reproduction is the guard here, not a hash. This checks that E13 agrees with the model and with itself; it cannot show the file came from the casino (no commitment ties its seed). The shipped evidence for the >= rule is the on-target rounds of the settled dataset (Step 6); evidence/E15 reconciles with src/config.ts: recorded ceiling $50000 == MAX_EXPOSURE_USDC $50000 (ok); the 3138 refusal at 1000000x states maxAllowedBetUsdc $0.05, and that stake x that target re-derives the ceiling exactly (ok) — it is also BELOW the $0.1 minimum stake (true), which is what made 1000000x unplayable on 2026-09-11 rather than merely expensive; E15 then holds a second refusal, errorCode 3113 — E15 records $0.1 as the stake on both, and that the second request was the $0.05 retry follows from the capture script, not from the record; sha256 dcbbf1408e93ac75… recorded, not pinned; outputs/simulation-results.json sha256 2d609344650eac72… matches SIMULATION_SHA256 2d609344650eac72… and outputs/rtp-convergence.html sha256 efd121156f8255f3… matches SIMULATION_HTML_SHA256; recorded seed pass1.masterSeed \"pf.org/liqd-limbo/simulate/2026-09-26\" == SIM_MASTER_SEED (ok); declared depths bind to src/config.ts — uniformity 2000000 == SIM_UNIFORMITY_DRAWS 2000000 (ok); all 8 effective-edge samples at n == SIM_EDGE_BETS 2000000 (ok); the serial screen's stored lag-1 Z -0.62 is recovered as r1 x sqrt(SIM_SERIAL_DRAWS 200000) at the artifact's own precision (ok); the producer's model block equals the model this audit verified — range 100000000, cursor 0, numerator 9900000000, ceiling 1000000x, edge 0.01 (ok). READ THIS FOR EXACTLY WHAT IT IS: the pin establishes that the shipped bytes are the bytes this audit read and that the artifact is present and well formed — it does NOT establish that the statistics inside THIS artifact were measured, because no scored step re-derives them (L9, narrowed: the Pass-1 claims are now re-derived by Step 23 from the separate, replayable outputs/pass1-grid.json; the Pass-2 block of this artifact is re-derived from the dataset by Step 24 and must equal it leaf for leaf at the reproduction bound (1e-14 absolute + 1e-12 relative on floats, exact otherwise); only the legacy Pass-1 half of this artifact stays producer-attested — since 2026-09-26 it is drawn from the recorded SIM_MASTER_SEED and `npm run simulate:check` regenerates the whole artifact byte for byte, but no scored step re-derives its statistics) and a fabricating auditor re-pins in the same edit. That forgery IS executed, in tests/structural-forgeries.json: it leaves every other step PASSing and is caught only by the run-vs-committed-artifact reproduction gate noticing that this very digest moved — a kill by byte identity. Its generatedAt run-metadata field was removed 2026-09-26 with the producer's own JSON.stringify(…, null, 2) call (0 values changed; the pin moved from 9ce82a70… to the value above); VALUE DOMAINS: 966 numeric leaves across 2 pinned JSON artifacts checked against src/domains.ts — 0 without a domain or outside it",
+      "detail": "data/limbo-prod-full-5838bets.json sha256 65c7a472b503bbcd… matches the pin in src/config.ts 65c7a472b503bbcd… (the loader aborts on a mismatch before any step runs); RUNNER BUILDS: 3/3 runs carry the runner build recorded for them in src/config.ts (6fd6576d4561, 7e33ea9cd02d); CAPTURE CHAIN: RUNNER SOURCE: 2 builds shipped (capture/runner/limbo-prod-capture-runner-build-6fd6576d4561.js, capture/runner/limbo-prod-capture-runner-build-7e33ea9cd02d.js): 2/2 match their pins; on 2/2 the version string names the build once and the code (the source with every full-line // comment removed) has the SHA-256 the auditor computed from the original build file the same way, after replacing a person's name in two plan-note strings of 7e33ea9cd02d (the build id itself is a digest of the original source, which is not shipped, so it is not recomputed here); 2/2 are the build a run names, and every run's build is shipped (true); 2/2 draw the per-epoch client seed as 'audit' + 6 bytes of crypto.getRandomValues and carry the generator text the dataset header names; EXPORTS (capture/captures/liqd-limbo-prod-capture-2026-11-07T16-28-43-825Z.ndjson, capture/captures/liqd-limbo-prod-capture-2026-11-10T04-11-27-073Z.ndjson, capture/captures/liqd-limbo-prod-capture-2026-11-10T10-47-42-943Z.ndjson): 3/3 match their pins and 3/3 are the files the dataset header names by file name and SHA-256; 11715/11715 reply bodies (expected 11715: seed pairs, rotations, place-bet and verifier replies) have the byte length and SHA-256 the runner recorded for the bytes as received; user-agent fields left: 0 (the first line of each export is the edited copy of the runner's meta line, capture/redact-export.mjs); CONVERTER: 5/5 files match their pins; its input list names 3/3 exports by the file name and SHA-256 the dataset header records; the dataset header names this converter (true); RERUN on the shipped exports: node capture/converter/full-limbo.mjs exited 0, SELF-CHECK PASS; its output IS byte for byte data/limbo-prod-full-5838bets.json; REPLY RECORD (capture/replies/liqd-limbo-prod-replies-capture-1.jsonl, capture/replies/liqd-limbo-prod-replies-capture-2.jsonl, capture/replies/liqd-limbo-prod-replies-capture-3.jsonl; built from the exports by capture/build-reply-record.mjs): 3/3 files match their pins and parse; RERUN on the shipped exports: the builder exited 0 and reproduced 3/3 files byte for byte; 3/3 name the export the dataset header records (file, SHA-256, line count, runner build); replies by kind pre 3, rotate 36, bet 5838, verify 5838; 5877/5877 replies kept with their body have the byte length and SHA-256 the runner recorded for the bytes as received; 5838/5838 place-bet replies carry the recorded byte length and SHA-256, their bodies re-hashed in the exports above; place-bet replies equal the dataset's rounds in order on 5838/5838 (bet id, HTTP 200) and in time on 5838/5838; verifier replies: 5838 rows, the request and LIQD's reply equal the dataset's verifier field on 5838/5838 and the Date header on 5838/5838; seed records: 33/33 commitments, next commitments and client seeds are those of a rotation reply whose request submitted that client seed, 33/33 revealed seeds are in a rotation reply; pre-capture anchors 3/3 are the run's first seed-pair reply and the rotation reply that revealed it; IDENTIFIER SCAN over every file under capture/, data/, evidence/ (25 files): 0 hits (JSON keys naming a user, account, e-mail, cookie, authorization, token, session, user agent or Cloudflare ray id; values shaped as an e-mail, a JWT, an IPv4 address, a 0x wallet address or a Cloudflare ray id); EVIDENCE FILES: evidence/E02-prod-verifier-result-cap-2026-11-09/probes-limbo.jsonl sha256 4c5769e29a680be3… matches its pin; evidence/E03-prod-verifier-target-100000.json present, parses, sha256 9d5490f0a5a3aa6b… (recorded, not pinned: a transcription the auditor wrote; Steps 17 and 15 read its content); evidence/rtp-page-labels-2026-10-01.json present, parses, sha256 e159a3c173a1887c… (recorded, not pinned: a transcription the auditor wrote; Steps 17 and 15 read its content); outputs/simulation-results.json sha256 b4e529119b24e184… matches SIMULATION_SHA256 b4e529119b24e184… and outputs/rtp-convergence.html sha256 efd121156f8255f3… matches SIMULATION_HTML_SHA256; recorded seed pass1.masterSeed \"pf.org/liqd-limbo/simulate/2026-09-26\" == SIM_MASTER_SEED (ok); declared depths bind to src/config.ts — uniformity 2000000 == SIM_UNIFORMITY_DRAWS 2000000 (ok); all 8 effective-edge samples at n == SIM_EDGE_BETS 2000000 (ok); the serial screen's stored lag-1 Z -0.62 is recovered as r1 x sqrt(SIM_SERIAL_DRAWS 200000) at the artifact's own precision (ok); the producer's model block equals the model this audit verified — range 100000000, cursor 0, numerator 9900000000, ceiling 1000000x, edge 0.01 (ok). READ THIS FOR EXACTLY WHAT IT IS: the pin establishes that the shipped bytes are the bytes this audit read and that the artifact is present and well formed. It does NOT establish that the legacy Pass-1 statistics inside THIS artifact were measured, because no scored step re-derives them (L9): the Pass-1 claims are carried by outputs/pass1-grid.json, re-derived by Step 23, and the Pass-2 block is re-derived from the dataset by Step 24; VALUE DOMAINS: 621 numeric leaves across 2 pinned JSON artifacts checked against src/domains.ts — 0 without a domain or outside it",
       "profileIds": [
         "LIMBO-26",
         "LIMBO-27"
@@ -425,7 +397,7 @@
         {
           "id": "LIMBO-27",
           "coverage": "full",
-          "note": "every artifact of record pinned in src/config.ts and recorded in artifactHashes, un-ignored by name in .gitignore, free of run metadata (simulation-results.json generatedAt removed with the producer's own serialiser, 0 values changed, re-pinned), never written by verify (outputs/run/ only); 966 numeric leaves across the two pinned JSON artifacts carry a declared value domain (src/domains.ts); Pass-1 grid half is Step 23"
+          "note": "every artifact of record pinned in src/config.ts and recorded in artifactHashes (the dataset, the verifier probe records, the simulation artifacts), un-ignored by name in .gitignore, free of run metadata, never written by verify (outputs/run/ only); every numeric leaf of the two pinned JSON artifacts carries a declared value domain (src/domains.ts); Pass-1 grid half is Step 23"
         }
       ]
     },
@@ -433,15 +405,21 @@
       "step": 20,
       "name": "Settlement Determinism",
       "status": "PASS",
-      "detail": "6700/6700 bets: outcome AND credited amount are fully determined by (serverSeed, clientSeed, nonce, target, stake) — 0 disagreement(s) with the served settlement. No served outcome field is read while deriving: the served result, win and resultLabel, and the dataset's multiplier column (filled by the capture script, not served — Step 8), are all recomputed and only then compared, so a settlement chosen after the draw has nowhere to hide; coverage — 2822 wins / 3878 losses, 2 distinct stakes ($0.1, $10), 4/4 phases, 147 rounds at the R = 1 floor and 20 landing exactly on the target (the two cases a naive model gets wrong) (ok)",
+      "detail": "5838/5838 bets: outcome AND credited amount are fully determined by (serverSeed, clientSeed, nonce, target, stake) — 0 disagreement(s) with the served settlement. No served outcome field is read while deriving: the served result, win, multiplier and resultLabel are all recomputed and only then compared, so a settlement chosen after the draw has nowhere to hide; coverage — 1318 wins / 4520 losses, 2 distinct stakes (0.1, 10 USDT), 3/3 planned phases, 116 rounds at the R = 1 floor and 2 landing exactly on the target (the two cases a naive model gets wrong) (ok)",
       "profileIds": [
-        "LIMBO-11"
+        "LIMBO-11",
+        "LIMBO-12"
       ],
       "profileChecks": [
         {
           "id": "LIMBO-11",
           "coverage": "full",
           "note": "outcome and credit fully determined by (seeds, nonce, target, stake), no served outcome field read"
+        },
+        {
+          "id": "LIMBO-12",
+          "coverage": "full",
+          "note": "both stakes (0.10 and 10.00 USDT) go through the same determined-settlement chain; the Phase C counts are Step 13"
         }
       ]
     },
@@ -449,16 +427,16 @@
       "step": 21,
       "name": "Scope & Declared Limitations",
       "status": "PASS",
-      "detail": "L1 capture host: the dataset was captured against qa.liqd.com and this suite declares qa.liqd.com (agree). Production parity is NOT established by anything in this repo: no claim here extends to liqd.com until a production capture is scored | L2 trailing bound: 0/134 epochs carry an operator-sourced bet counter. With none, the last nonce in each epoch is the auditor's own last recorded bet — bets withheld AFTER it are not observable client-side. The leading bound IS operator-sourced (nonceStart) and the epoch size is fixed by the capture plan, so withholding could only occur at the tail of an epoch | L3 wallet credit: 0/6700 bets carry a before/after wallet BALANCE. stakeWallet and winningAmountWallet are settle-RESPONSE fields, so Steps 9/11/20 establish that the operator's reported credit follows the rule — not that the wallet was actually credited that amount | L4 upper clamp: 0 captured rounds reached the 1000000x result ceiling (highest result in the capture 185046.72x, probability of a ceiling round 99/1e8 per bet). The clamp is therefore exercised by arithmetic over the draw grid (Step 14) and not witnessed live; at the LOWER clamp 147 rounds were served at 1x and the clamp changed the value on 78 of them | L5 exposure ceiling: MAX_EXPOSURE_USDC $50000 and MAX_PLAYABLE_TARGET 500000x are DERIVED from one witnessed refusal in one currency (evidence/E15). They are not established for other currencies, other account tiers or production; every bet in this capture stayed inside them | L6 commitment chronology: the pre-capture chain link (Step 2) places epoch 0's commitment earlier IN THE CHAIN than the first bet, as recorded by the auditor's own capture. A hash chain orders records, it does not date them; there is no independently authenticated timestamp, so the no-post-hoc-choice reading is conditional on that attested chronology | L7 live RTP: the 6700-bet sample returned 100.4475% ($2650.00 wagered, $2661.86 returned). That is VARIANCE ILLUSTRATION ONLY and is never cited as RTP evidence: the RTP result in this audit is the closed-form edge identity of Step 16, anchored by the grid tally of Step 15 | L8 capture-side fields: localDraw / localResult / localWin / verified are present on 6700/6700 bets and are IGNORED by every scored step — each figure above is re-derived from primitives. They were the capture's own inline check, and they are the reason the missing result floor was caught on 2026-09-11 in an earlier capture run that is not shipped (serverSeed 5d8a6efd…, nonce 49) rather than after 6,700 bets",
+      "detail": "L1 capture host and scope: the scored dataset was captured against liqd.com and this suite declares liqd.com (agree): production, rounds dated 2026-11-07 and 2026-11-10 (UTC), one account, one currency (USDT). Production rounds were placed on targets from 1.01x to 10000x at two stakes; nothing above 10000x was played, and whether a higher target is accepted is not established (Step 17) | L2 trailing bound: 0/33 epochs carry an operator-sourced bet counter. With none, the last nonce in each epoch is the auditor's own last recorded bet — bets withheld AFTER it are not observable client-side. The leading bound IS operator-sourced (nonceStart) and the epoch size is fixed by the capture plan, so withholding could only occur at the tail of an epoch | L3 wallet credit: 0/5838 bets carry a before/after wallet BALANCE. stakeWallet and winningAmountWallet are settle-RESPONSE fields, so Steps 9/11/20 establish that the operator's reported credit follows the rule — not that the wallet was actually credited that amount | L4 result cap: 0 settled rounds reached the 1000000x result cap (highest result in the capture 28181.04x, probability of a cap round 99/1e8 per bet). The cap is therefore witnessed by the production VERIFIER only (Step 25, which counts the verifier probes of 9 November 2026) and exercised by arithmetic over the draw grid (Step 14); it is not witnessed by settled money. At the LOWER clamp 116 rounds were served at 1x and the clamp changed the value on 66 of them | L5 limits: no bet was refused in the three runs and none was placed above 10000x (0 rounds above it), so the casino's minimum stake, maximum stake, maximum payout, exposure ceiling and highest accepted target are NOT established by this audit; the stakes played are 0.1 and 10 USDT | L6 commitment chronology: the pre-capture chain links (Step 2) place each run's first commitment earlier IN THE CHAIN than that run's first bet, as recorded by the auditor's own capture. A hash chain orders records, it does not date them; there is no independently authenticated timestamp, so the no-post-hoc-choice reading is conditional on that attested chronology | L7 live RTP: the 5838-bet sample returned 95.5357% (2940.00 USDT wagered, 2808.75 returned). That is VARIANCE ILLUSTRATION ONLY and is never cited as RTP evidence: the RTP result in this audit is the closed-form edge identity of Step 16, anchored by the grid tally of Step 15 and the simulation of Step 23 | L8 capture-side fields: localDraw / localResult / localWin / verified are present on 5838/5838 bets and are IGNORED by every scored step — each figure above is re-derived from primitives. They were written by the converter from this package's own src (meta.conversion)",
       "profileIds": [],
       "profileChecks": [],
-      "profileNote": "re-checks L1-L4 against the dataset on every run and fails if one stops being true; recomputes the figures quoted for L7 and L8; L5 and L6 are restated, not measured; the register itself is LIMBO-30, a package check"
+      "profileNote": "re-checks L1-L5 against the dataset on every run and fails if one stops being true (L1: the capture host is liqd.com); recomputes the figures quoted for L7 and L8; L6 is restated, not measured; the register itself is LIMBO-30, a package check"
     },
     {
       "step": 22,
       "name": "Live-Sample Fit",
       "status": "PASS",
-      "detail": "6700/6700 recomputed draws in capture order (informational — policy INFORMATIONAL, never verdict-bearing): uniform fit chi2 108.985 df 99 p 0.2315 over 100 bins; KS D 0.00863 p 0.6985 against U(0,1); point mass at R = 1x: 147 observed vs 132.67 expected (p = 1.980199%), z 1.256; serial: lag-1 r -0.004247 z -0.348, runs z 0.465 p 0.6423; thresholds fixed in code on 2026-09-26, p >= 0.01, |z| < 3 — all met",
+      "detail": "5838/5838 recomputed draws in capture order (informational — policy INFORMATIONAL, never verdict-bearing): uniform fit chi2 74.539 df 99 p 0.9684 over 100 bins; KS D 0.00630 p 0.9744 against U(0,1); point mass at R = 1x: 116 observed vs 115.60 expected (p = 1.980199%), z 0.037; serial: lag-1 r -0.008456 z -0.646, runs z 0.709 p 0.4784; thresholds fixed in code on 2026-09-26, p >= 0.01, |z| < 3 — all met",
       "profileIds": [
         "LIMBO-22"
       ],
@@ -466,7 +444,7 @@
         {
           "id": "LIMBO-22",
           "coverage": "full",
-          "note": "recomputed draws in capture order: 100-bin chi-squared and KS against U(0,1) (the fit of P(R >= x), R being monotone in k), point mass at R = 1 counted separately as a binomial z, lag-1 z and runs test; thresholds fixed in code on 2026-09-26; informational (policy INFORMATIONAL, 2026-09-29): a deviation is INFO — reported, never counted, verdict unchanged — shown able to fire by the sorted-draws mutation"
+          "note": "recomputed draws in capture order: 100-bin chi-squared and KS against U(0,1) (the fit of P(R >= x), R being monotone in k), point mass at R = 1 counted separately as a binomial z, lag-1 z and runs test; thresholds fixed in code on 2026-09-26; informational (policy INFORMATIONAL): a deviation is INFO — reported, never counted, verdict unchanged — shown able to fire by the sorted-draws mutation"
         }
       ]
     },
@@ -474,7 +452,7 @@
       "step": 23,
       "name": "Simulation Pass 1 — Pinned Master Seed, Re-Derived",
       "status": "PASS",
-      "detail": "outputs/pass1-grid.json sha256 9999f98ba17fe534… matches PASS1_GRID_SHA256; run metadata keys: 0; master seed \"pf.org/liqd-limbo/pass1/2026-09-26\" (every seed = sha256(master|stream|block), replayable byte for byte by npm run pass1:check); UNIFORMITY re-derived from the 100-bin histogram of 2000000 draws: chi2 94.393 df 99 p 0.6122; SERIAL re-derived from the integer sums: lag-1 r 0.000663 z 0.937, runs 1000117 vs 999999.4 expected z 0.166 p 0.8679; family-wise alpha 0.01 (Bonferroni 0.00333 per test, |z| < 2.936); RTP CONVERGENCE at 10 targets x 1000000 rounds (decades 10^0..10^5), wins against the EXACT floor(N/ci)/100000000, band 5 sd + 1: worst 1.56 sd at 10x; simulated vs exact RTP 1.01x 99.004% vs 98.999999%, 1.5x 98.932% vs 99.000000%, 2x 98.915% vs 99.000000%, 5x 98.710% vs 99.000000%, 10x 98.534% vs 99.000000%, 50x 99.955% vs 99.000000%, 100x 99.810% vs 99.000000%, 1000x 100.300% vs 99.000000%, 10000x 114.000% vs 99.000000%, 100000x 80.000% vs 99.000000%; REPLAY: uniformity prefix 50000 draws reproduced, target prefixes 10/10 reproduced (20000 rounds each)",
+      "detail": "outputs/pass1-grid.json sha256 d4284dc5260c4318… matches PASS1_GRID_SHA256; run metadata keys: 0; master seed \"pf.org/liqd-limbo/pass1/2026-09-26\" (every seed = sha256(master|stream|block), replayable byte for byte by npm run pass1:check); UNIFORMITY re-derived from the 100-bin histogram of 2000000 draws: chi2 94.393 df 99 p 0.6122; SERIAL re-derived from the integer sums: lag-1 r 0.000663 z 0.937, runs 1000117 vs 999999.4 expected z 0.166 p 0.8679; family-wise alpha 0.01 (Bonferroni 0.00333 per test, |z| < 2.936); RTP CONVERGENCE at 9 targets x 1000000 rounds (decades 10^0..10^4), wins against the EXACT floor(N/ci)/100000000, band 5 sd + 1: worst 1.56 sd at 10x; simulated vs exact RTP 1.01x 99.004% vs 98.999999%, 1.5x 98.932% vs 99.000000%, 2x 98.915% vs 99.000000%, 5x 98.710% vs 99.000000%, 10x 98.534% vs 99.000000%, 50x 99.955% vs 99.000000%, 100x 99.810% vs 99.000000%, 1000x 100.300% vs 99.000000%, 10000x 114.000% vs 99.000000%; REPLAY: uniformity prefix 50000 draws reproduced, target prefixes 9/9 reproduced (20000 rounds each)",
       "profileIds": [
         "LIMBO-20",
         "LIMBO-27"
@@ -483,7 +461,7 @@
         {
           "id": "LIMBO-20",
           "coverage": "full",
-          "note": "2,000,000 uniformity draws (100-bin chi-squared) + lag-1 and runs from stored integer sums, family-wise alpha 0.01; RTP convergence at 10 targets (1.01x..100,000x, decades 10^0..10^5) x 1,000,000 rounds against the EXACT win probability floor(N/ci)/1e8; every statistic re-derived here from the artifact's integer rows; the experiment is seeded from a recorded master seed, its prefixes replayed on every run, and all 12,000,000 draws replayed byte for byte by npm run pass1:check (test:full)"
+          "note": "2,000,000 uniformity draws (100-bin chi-squared) + lag-1 and runs from stored integer sums, family-wise alpha 0.01; RTP convergence at 9 targets (1.01x..10,000x, decades 10^0..10^4) x 1,000,000 rounds against the EXACT win probability floor(N/ci)/1e8, band 5 sd + 1 count; every statistic re-derived here from the artifact's integer rows; the experiment is seeded from a recorded master seed, its prefixes replayed on every run, and all 11,000,000 draws replayed byte for byte by npm run pass1:check (test:full)"
         },
         {
           "id": "LIMBO-27",
@@ -496,7 +474,7 @@
       "step": 24,
       "name": "Simulation Pass 2 — Cherry-Pick Screen, 10,000 Nonces per Revealed Seed",
       "status": "PASS",
-      "detail": "134/134 revealed seeds x 10000 nonces (1340000 draws, 200 windows of 50); window 0 replays the captured results: 0 mismatches. A. SERVED-TARGET RETURN (each window bets the 50 targets the casino served in that epoch, unit stake, standardised by the exact per-target mean and variance from floor(N/ci)/RANGE): exact permutation null (the captured window exchangeable with the other 199), rank-sum Z = -0.1711 (one-sided p 0.4321; rule fixed in code on 2026-09-26, after the capture: cherry-pick indicated at Z < -3.090, alpha 0.001); direction split: captured window below its epoch median in 63 epochs, above in 62 (the rest tie at the median); captured-window return 6026.59 vs expectation 6632.9999 (unit stakes); power: detects with >= 50% probability a cherry-pick that puts >= 16.1% of epochs' captured windows in their worst decile. B. EARLY/LATE CHI-SQUARED SCREEN, EXACT METHOD (nonces 0-49 vs 50-99, 20 bins): exact multinomial null over 832 attainable values, critical chi2 >= 30.8 (Q >= 202), attained size 0.045924, p0 = a(1-a) = 0.043815; 10 flags vs 5.8712 expected, exact binomial P 0.0708 (rule fixed in code on 2026-09-26: rejected at < 0.05) — not rejected; flagged epochs 21, 55, 71, 91, 94, 98, 99, 117, 123, 130. Pooled captured draws: chi2 108.985 df 99 p 0.2315. committed pass2 block equals the re-derivation (every leaf; floats at the reproduction bound)",
+      "detail": "33/33 revealed seeds x 10000 nonces (330000 draws; 329992 of them in 2018 full windows the size of the seed's own captured epoch: 6 seeds x 100 windows of 100, 2 seeds x 84 windows of 119, 25 seeds x 50 windows of 200); window 0 replays the captured results: 0 mismatches. A. SERVED-TARGET RETURN (each window bets the targets the casino served in that epoch, in order, unit stake, standardised by the exact per-target mean and variance from floor(N/ci)/RANGE): exact permutation null (the captured window exchangeable with the epoch's other windows), rank-sum Z = -1.4316 (one-sided p 0.0761; rule fixed in code on 2026-09-26, before any production capture; the window follows each epoch's planned size, set on 2026-11-10, after the captures: cherry-pick indicated at Z < -3.090, alpha 0.001); direction split: captured window below its epoch median in 20 epochs, above in 12 (the rest tie at the median); captured-window return 5515.49 vs expectation 5779.6182 (unit stakes); power: detects with >= 50% probability a cherry-pick that puts >= 34.9% of epochs' captured windows in their worst decile. B. EARLY/LATE CHI-SQUARED SCREEN, EXACT METHOD (first 50 captured nonces 0-49 vs the first 50 nonces after the captured epoch; 20 bins): exact multinomial null over 832 attainable values, critical chi2 >= 30.8 (Q >= 202), attained size 0.045924, p0 = a(1-a) = 0.043815; 0 flags vs 1.4459 expected, exact binomial P 1 (rule fixed in code on 2026-09-26: rejected at < 0.05) — not rejected; flagged epochs none. Pooled captured draws: chi2 74.539 df 99 p 0.9684. committed pass2 block equals the re-derivation (every leaf; floats at the reproduction bound)",
       "profileIds": [
         "LIMBO-21"
       ],
@@ -504,29 +482,23 @@
         {
           "id": "LIMBO-21",
           "coverage": "full",
-          "note": "every revealed seed (134) x 10,000 nonces re-derived in verify from the dataset (src/pass2.ts, deterministic, no random number); early window = the captured nonces 0-49, reference = the other 199 windows of 50; statistic = the unit-stake return of the targets the casino served in that epoch, standardised by the exact per-target mean and variance (floor(N/ci)/RANGE); exact permutation null for the captured window's rank; one-sided rule fixed in code on 2026-09-26, after the capture, Z < -3.090 (alpha 0.001); direction split and detection power printed; window 0 replays every captured result. The original early/late chi-squared screen is recounted against its EXACT multinomial null (p0 computed, not the assumed 0.0475) and its binomial rule is scored too; the committed pass2 block must equal the re-derivation"
+          "note": "every revealed production seed (33) x 10,000 nonces re-derived in verify from the dataset (src/pass2.ts, deterministic, no random number); early window = the captured nonces of the epoch, reference = the other full windows of the same size (49 of 200, 99 of 100 or 83 of 119); statistic = the unit-stake return of the targets the casino served in that epoch, standardised by the exact per-target mean and variance (floor(N/ci)/RANGE); exact permutation null for the captured window's rank; one-sided rule fixed in code on 2026-09-26, before any production capture (the window follows each epoch's planned size, set on 2026-11-10, after the captures), Z < -3.090 (alpha 0.001); direction split and detection power printed; window 0 replays every captured result. The early/late chi-squared screen (first 50 captured nonces vs the first 50 after the epoch) is counted against its EXACT multinomial null (p0 computed, not assumed) and its binomial rule is scored too; the committed pass2 block must equal the re-derivation"
         }
       ]
     },
     {
       "step": 25,
-      "name": "Target-Decade Supplement & Live Target Ceiling (capture v2, 300 rounds)",
+      "name": "Production Verifier Parity & Result Cap",
       "status": "PASS",
-      "detail": "TARGET CAP EVIDENCED (profile LIMBO-14): E21 (evidence/E21-target-cap-probe/liqd-limbo-cap-probe-2026-10-02T18-22-46-633Z.journal.ndjson, pinned: true): control at 10000x settled 1, recomputed 1; 100101.12x refused (HTTP 400, code 3001, \"Too big: expected number to be <=10000; must be a multiple of 0.01 between 1.01 and 10000 (win chance 0.009900%–98.019801%)\", no nonce consumed); 497487.44x refused (HTTP 400, code 3001, \"Too big: expected number to be <=10000; must be a multiple of 0.01 between 1.01 and 10000 (win chance 0.009900%–98.019801%)\", no nonce consumed); 500000x refused (HTTP 400, code 3001, \"Too big: expected number to be <=10000; must be a multiple of 0.01 between 1.01 and 10000 (win chance 0.009900%–98.019801%)\", no nonce consumed); 990000.01x refused (HTTP 400, code 3001, \"Too big: expected number to be <=10000; must be a multiple of 0.01 between 1.01 and 10000 (win chance 0.009900%–98.019801%)\", no nonce consumed). DISCLOSED HISTORY: on 2026-09-11 the server settled 500 rounds above 10000x (250 at 100000x, 250 at 500000x); on the 2026-09-11 range the RTP-CLAIM rule would fail (Step 16). SUPPLEMENT to the audited dataset, scored here only (data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.json, pinned a2dee374cfd48c62… match; journal bcacab9c674df62a… match). (a) journal 300 bet records == dataset rows bet for bet (true), 300/300 preceded by their intent; event census {\"meta\":1,\"pre\":1,\"rotate\":7,\"epoch\":6,\"intent\":300,\"bet\":300,\"resume-check\":1,\"done\":1}; DECLARED RESUME: 1 resume(s) against SUPPLEMENT_DECLARED_RESUMES 1 (true) — 2026-09-26T17:53:10.536Z: active seed = epoch 0 commitment, operator nonce 50, rounds recorded under it 50; (b) 300/300 bets in 6/6 epochs x 50, 0 epoch(s) whose nonces do not close 0..49, all phase A2 at $0.1 (true); (c) 6/6 seeds revealed and hash to their commitment, 5/5 chain links, pre-capture anchor true, 0 rounds off their epoch's commitment or client seed, 6/6 client seeds set after the commitment was published; (d) 300/300 rounds recomputed from the revealed seeds: 0 result, 0 win-flag, 0 credit, 0 outcome.multiplier and 0 wallet mismatches; 0 wins (0.4182 expected from the targets played, so this supplement exercises the credit path on losses only — winning credit is carried by Steps 8-9 on the audited dataset); (e) 0 targets off the 2-dp grid or above the live ceiling 10000x, 100 at exactly 10000x, 201 distinct; (f) PHASE A COVERAGE per decade up to the declared ceiling 10000x (decade 10^4) against the floor 50: 10^0 4574 (audited A 4574 + supplement A2 0), 10^1 426 (audited A 426 + supplement A2 0), 10^2 100 (audited A 0 + supplement A2 100), 10^3 100 (audited A 0 + supplement A2 100), 10^4 100 (audited A 0 + supplement A2 100); minimum legal target 1.01x played in Phase A (true); (g) LIVE TARGET CEILING — E20 (evidence/E20-target-ceiling-probe-2026-09-26/, both journals pinned: true): the 2026-09-26 probe settled 2 $0.10 bet(s) at exactly 10000x across its two runs, 3/3 probe bets recompute from the seed later revealed for them; the request at 93830.94x has a journalled intent (true) and NO settlement in either run (true), probe run 1 has no done event (true), and probe run 2's opening read of that seed shows nonce 1 = the 1 round(s) settled under it (true: the request consumed no round); probe 2 hands over to this supplement's pre-capture commitment (true). The server's reply to the 93830.94x request is NOT in either journal — its text (errorCode 3001, \"<=10000\") is a hand-typed note in capture/capture-limbo-v2.mjs; one above-ceiling target was probed. The audited 2026-09-11 dataset holds 500 rounds above 10000x (max 500000x), settled then; on 2026-09-26 the one above-ceiling target probed (93830.94x) was not settled; on 2026-10-02 the re-probe (E21) saw 500000x refused, and the other audited target above the ceiling (100000x) was not re-probed",
+      "detail": "PARITY, every settled round (denominator EXPECTED_BETS from src/config.ts — G-BIND): 5838/5838 bets carry an HTTP 200 reply of the production verifier (POST https://liqd.com/api/v1/originals/limbo/verify); the request is the round itself (the epoch's revealed server seed, the round's client seed, nonce and target) on 5838/5838 and the reply echoes it on 5838/5838; the verifier's result, win flag and multiplier equal the SETTLED round on 5838/5838 and this package's own recomputation on 5838/5838. BOUNDARY WITNESSES IN THE VERIFIER (profile LIMBO-17): 2 rounds whose result equals the target exactly, the verifier says WIN on 2; 116 rounds at the 1x result floor, the verifier says LOSS on 116. RESULT CAP (verifier only; no settled round reached it): evidence/E02-prod-verifier-result-cap-2026-11-09/probes-limbo.jsonl (matches its pin; replies dated 09 Nov 2026): 7/7 records, every one an HTTP 200 reply of https://liqd.com/api/v1/originals/limbo/verify to a revealed seed of this dataset under its own client seed; 7/7 replies equal the recomputation from src/ (result, win, multiplier). 1 is a settled round sent again as a transport check; 6 are requests on 5 distinct draws (seed, client seed, nonce) the capture never played, chosen by the auditor's offline search of the Phase A seeds for draws at and around the cap (the search itself is not part of this package; each probe is recomputed here): 5 requests on 4 distinct draws recompute to the 1000000x cap, of which 4 requests on 3 distinct draws have a raw value ABOVE the cap (only a capped model reproduces the casino's 1000000) and 1 a raw value of exactly 1000000; 1 is a control just under the cap, reported uncapped. [limbo-sanity-1: epoch 0 nonce 0 target 1.01x, draw k = 11265120, raw value 8.78, model 8.78x; casino replied 8.78x win true multiplier 1.01 (equal) | L-1: epoch 2 nonce 1896728 target 10000x, draw k = 1, raw value 49500000, model 1000000x; casino replied 1000000x win true multiplier 10000 (equal) | L-2: epoch 19 nonce 784356 target 10000x, draw k = 2, raw value 33000000, model 1000000x; casino replied 1000000x win true multiplier 10000 (equal) | L-3: epoch 5 nonce 40232 target 10000x, draw k = 97, raw value 1010204.08, model 1000000x; casino replied 1000000x win true multiplier 10000 (equal) | L-4: epoch 18 nonce 1395326 target 10000x, draw k = 98, raw value 1000000, model 1000000x; casino replied 1000000x win true multiplier 10000 (equal) | L-5: epoch 5 nonce 1150803 target 10000x, draw k = 100, raw value 980198.01, model 980198.01x; casino replied 980198.01x win true multiplier 10000 (equal) | L-6: epoch 2 nonce 1896728 target 2x, draw k = 1, raw value 49500000, model 1000000x; casino replied 1000000x win true multiplier 2 (equal)]. NOT SHOWN by the cap probes: that a bet settling on such a draw is paid by the same rule (L4)",
       "profileIds": [
-        "LIMBO-15",
-        "LIMBO-14"
+        "LIMBO-17"
       ],
       "profileChecks": [
         {
-          "id": "LIMBO-15",
+          "id": "LIMBO-17",
           "coverage": "full",
-          "note": "Phase A >= PHASE_A_DECADE_FLOOR (50) asserted in every decade from 10^0 up to the declared ceiling LIVE_TARGET_CEILING 10,000x (decade 10^4): 10^0 4,574 and 10^1 426 from the audited Phase A, 10^2 100, 10^3 100 and 10^4 100 (all at exactly 10,000x, the one legal point of that decade under the ceiling) from the 2026-09-26 supplement (SUPPLEMENT_DECADES, bound in src/config.ts); minimum legal target 1.01x played in Phase A; every supplement round recomputed from its revealed seed (result, win, credit), 6/6 commitments, 5/5 chain links and the pre-capture anchor; the supplement is pinned and scored by this step only"
-        },
-        {
-          "id": "LIMBO-14",
-          "coverage": "full",
-          "note": "live-ceiling half, worded with dates: on 2026-09-11 the server accepted and settled targets up to 500,000x (250 at 100,000x, 250 at 500,000x); the 2026-09-26 probe above 10,000x (93,830.94x, itself inside the RTP-CLAIM band at 98.991642%) has an intent, no settlement and consumed no nonce, and its reply was not saved (evidence/E20); the first target outside the band is 100,101.12x. Until 2026-10-02 this was the audit's one operator FLAG. It cleared on a saved server reply: the cap re-probe (capture/PROBE-2026-10-02.md, capture/capture-limbo-v2.mjs --cap-probe), run on qa.liqd.com on 2026-10-02 and pinned in src/config.ts as evidence/E21, settled a $0.10 control at 10,000x that recomputes and saw 100,101.12x, 497,487.44x, 500,000x and 990,000.01x each refused (HTTP 400, errorCode 3001, \"Too big: expected number to be <=10000\"), no nonce consumed. 100,000x was not re-probed. Every supplement target is a legal 2-dp value at or below LIVE_TARGET_CEILING 10,000x"
+          "note": "cap half, by operator-verifier probes: six logged-out production verifier requests of 9 November 2026 on five unsettled draws of revealed seeds (evidence/E02, pinned) are recomputed from src/; on the four requests (three distinct draws) whose raw value is above 1,000,000 the verifier reports 1,000,000, on the one at exactly 1,000,000 it reports 1,000,000, and on the control just under it reports the uncapped value. No settled round is at the cap (L4). Tie and floor: the verifier says WIN on the 2 tie rounds and LOSS on the 116 floor rounds. The same step holds the verifier's result, win flag and multiplier equal to the settled round and to this package's recomputation on 5,838 of 5,838 rounds"
         }
       ]
     }
@@ -549,20 +521,20 @@
     "houseSideBeyondBand": 0,
     "table": {
       "file": "outputs/rtp-claim-table.json",
-      "sha256": "cdfbf600e0713b822acf00b420c10d12b7af7fca73cce96c395099f49634ba34"
+      "sha256": "92670c4605ba60045ba5348c4022e5241199857f9d3346aa9c2ec3888ebf42a0"
     }
   },
   "profileCoverage": {
     "game": "limbo",
-    "profileVersion": "1.0.2",
+    "profileVersion": "1.0.4",
     "notApplicable": [
       {
         "id": "LIMBO-16",
-        "reason": "applies={path: money.balanceField, notNull: true} is false — money.balanceField is null: the capture carries no running wallet-balance ledger (L3). The stakeWallet / winningAmountWallet settle-response fields are reconciled against the game ledger in Step 11, which the profile does not count as a balance ledger"
+        "reason": "applies={path: money.balanceField, notNull: true} is false — money.balanceField is null: the capture carries no running wallet-balance ledger (L3). The stakeWallet / winningAmountWallet settle-response fields are reconciled against the game fields in Step 11, which the profile does not count as a balance ledger"
       },
       {
         "id": "LIMBO-31",
-        "reason": "applies={path: gameModel.scalingEdge.presentAtCapture, eq: true} is false — no stake- or exposure-dependent edge: the client-bundle constants carry one HOUSE_EDGE = 0.01 (src/config.ts), and the edge dispersion Step 16 measures is a function of the target, not of the stake"
+        "reason": "applies={path: gameModel.scalingEdge.presentAtCapture, eq: true} is false — no stake- or exposure-dependent edge was seen: 238 rounds at 10.00 USDT settle by the rule of the 0.10 rounds (Step 13), the win chance has no stake input, and the edge dispersion Step 16 measures is a function of the target, not of the stake. The casino's configuration is not held by this audit, so this rests on the settled rounds at two stakes"
       }
     ],
     "packageChecks": [
@@ -570,82 +542,78 @@
         "id": "LIMBO-09",
         "artifact": "docs/ALGORITHM.md + tests/limbo/RngSpecTests.ts + tests/limbo/rngTests.ts + tests/limbo/resultFloorTests.ts",
         "coverage": "partial",
-        "note": "src/rng.ts is rebuilt from the written spec docs/ALGORITHM.md by an implementer who never opened LIQD's code (20 Oct 2026), and RngSpecTests.ts runs the spec's vectors against it; as a second check, not the source, four operator Verify-calculator vectors and a 2026-09-11 session round that is not in the shipped dataset (serverSeed 5d8a6efd…, nonce 49, the result-floor witness) reproduce; src/config.ts names the client-bundle functions it ports (ci, cr, LIMBO_* exports) but not line numbers — the bundle is minified and not retained in the package"
+        "note": "src/rng.ts is built from the written specification docs/ALGORITHM.md, and RngSpecTests.ts runs the spec's vectors against it; every vector is a settled production round of the dataset or a production verifier reply (evidence/E02), including first-chunk-rejected rounds, result-floor rounds and the result-cap probes. PARTIAL: the package ports no operator source file, so there is no operator source line to cite; the anchor is the casino's own verifier and settled rounds"
       },
       {
         "id": "LIMBO-23",
-        "artifact": "MANIFEST.md#verification-results",
+        "artifact": "exploit-testing.md",
         "coverage": "full",
-        "note": "the standardized framework matrix S5-1..S5-8 (seed substitution, client-seed manipulation, stake-conditional outcome, cherry-picking, rotation race, multiplier tampering, nonce manipulation, modulo bias), each row one verdict tied to a step or disclosed as not tested; the limbo-specific target hunt and input-contract probes are carried as supplementary rows S5-L1 / S5-L2"
+        "note": "the standardized framework matrix S5-1..S5-8 (seed substitution, client-seed manipulation, stake-conditional outcome, cherry-picking, rotation race, multiplier tampering, nonce manipulation, modulo bias), each row one verdict tied to a step or disclosed as not tested"
       },
       {
         "id": "LIMBO-24",
         "artifact": "none",
         "coverage": "none",
-        "note": "LIQD publishes a Verify calculator (E12, E13), so the check applies; no ProvablyFair.org site verifier for limbo exists to hash-match against computeResult"
+        "note": "LIQD publishes a verifier (POST /api/v1/originals/limbo/verify), so the check applies; Step 25 holds this package to that verifier on every settled round. The ProvablyFair.org verifier at provablyfair.org/verify-bets/liqd covers limbo (README and MANIFEST \"Verify a bet\" name it first); this package does not record a hash of that verifier's code against computeResult, which is what the check asks for"
       },
       {
         "id": "LIMBO-25",
         "artifact": "MANIFEST.md#verify-a-bet",
         "coverage": "full",
-        "note": "MANIFEST \"Verify a bet\" states, in order and in the declaration's field names: where the seed is revealed, the fields to paste (hashedServerSeed, serverSeed, clientSeed, nonce, params.target, betAmount), the commitment encoding SHA-256(utf8(serverSeed)), the draw and result formula, the >= win rule, and the credit; worked real rounds in the same section"
+        "note": "MANIFEST \"Verify a bet\" states, in order and in the declaration's field names: where the seed is revealed, the fields to paste (hashedServerSeed, serverSeed, clientSeed, nonce, params.target, betAmount), the commitment encoding SHA-256(utf8(serverSeed)), the draw and result formula, the >= win rule, and the credit; worked production rounds in the same section"
       },
       {
         "id": "LIMBO-28",
         "artifact": "package.json + .nvmrc + verify.js/test.js + src/simulate.ts",
         "coverage": "full",
-        "note": "npm test reproduces the verdict with the runtime pinned and the audit ID assigned; test:full writes every regeneration to outputs/run/ and requires each to equal the committed artifact: the Pass-1 grid (pass1:check), the Pass-2 block (pass2:check) and, since 2026-09-26, the whole legacy outputs/simulation-results.json and rtp-convergence.html (simulate:check) — its Pass-1 seeds are now sha256(SIM_MASTER_SEED|stream|n) from the recorded seed in src/config.ts (was crypto.randomBytes), the artifact records pass1.masterSeed and Step 19 binds it to the constant; the regeneration is compared byte for byte (stricter than field by field) with the runtime written to outputs/run/simulation-diff.json. Regenerating from the recorded seed moved every legacy Pass-1 figure (MANIFEST L9 note); verify's own reproduction diff is outputs/run/diff.json"
+        "note": "npm test reproduces the verdict with the runtime pinned and the audit ID assigned; test:full writes every regeneration to outputs/run/ and requires each to equal the committed artifact: the Pass-1 grid (pass1:check), the Pass-2 block (pass2:check) and the whole outputs/simulation-results.json and rtp-convergence.html (simulate:check, byte for byte, seeds from the recorded SIM_MASTER_SEED); verify's own reproduction diff is outputs/run/diff.json"
       },
       {
         "id": "LIMBO-29",
         "artifact": "tests/mutations.json + tests/structural-forgeries.json + tests/mutation-survivors.json",
         "coverage": "full",
-        "note": "115 entries — 73 single-file mutations, 41 structural forgeries, 1 declared survivor tied to register row L12 — run by tests/mutate.ts in a disposable copy (npm run mutate, 2026-10-03): 114 killed, 1 survivor as declared, 0 other than as declared; every scored step 1-25 has at least one entry that must move THAT step off its baseline status; 2 entries are killed by mocha and 4 are marker kills (the dataset pin aborting the loader, and three caught only by the run-vs-committed-artifact reproduction gate on byte identity); forgeries that re-pin the hash they invalidate are included. Added 2026-10-02: the Step 16 band arm, the Step 19 casino-result arm (E13), the Step 21 L2/L3 arms and the Step 25 cap re-probe pin arm. That count is the run of 2026-10-03 on the release tree, E21 pinned (baseline a Full Pass); the two cap re-probe entries were rewritten for the pinned journal on 2026-10-02 (deleted, and edited without re-pinning). The judge of the cap re-probe is also unit-tested in tests/limbo/capProbeTests.ts on journals the real capture engine writes"
+        "note": "100 entries: 64 single-file mutations, 36 structural forgeries and other non-step kills, 0 declared survivors, run by tests/mutate.ts in a disposable copy (npm run mutate); the result of the run of record is in exploit-testing.md. Dataset forgeries re-pin the production dataset as a forger would; the runner restores it between entries"
       },
       {
         "id": "LIMBO-30",
-        "artifact": "MANIFEST.md#limitations-and-trust + MANIFEST.md#evidence",
+        "artifact": "MANIFEST.md#limitations-and-trust + evidence.md",
         "coverage": "full",
-        "note": "MANIFEST carries the limitations register L1-L18 with magnitudes and the Load-Bearing Premises table; MANIFEST Evidence numbers exhibits from E01"
+        "note": "MANIFEST carries the limitations register with magnitudes and the Load-Bearing Premises table; evidence.md numbers exhibits from E01"
       }
     ]
   },
   "info": [
     {
       "label": "Live sample RTP (variance illustration ONLY)",
-      "detail": "100.4475% — $2650.00 wagered, $2661.86 returned over 6700 bets, net +$11.86 to the player. NOT RTP evidence and never cited as such: the RTP result is the closed-form edge of Step 16 (>= 1.00% on every legal target). A 6,700-bet sample on mixed targets has a standard error far wider than the 1% edge, so a figure above 100% here is ordinary."
+      "detail": "95.5357% — 2940.00 USDT wagered, 2808.75 returned over 5838 bets, net -131.25 to the player. NOT RTP evidence and never cited as such: the RTP result is the closed-form edge of Step 16 (>= 1.00% on every target). A 5838-bet sample on mixed targets has a standard error far wider than the 1% edge, so a figure on either side of 99% here is ordinary."
     },
     {
       "label": "Live win rate",
-      "detail": "2822/6700 = 42.12% against 2831.0 expected from the sum of each bet's own priced win chance (mixed targets — informational)"
+      "detail": "1318/5838 = 22.58% against 1311.2 expected from the sum of each bet's own priced win chance (mixed targets — informational)"
     },
     {
       "label": "Result distribution",
-      "detail": "min 1x, median 1.97x, max 185046.72x, ceiling 1000000x unreached; 147 rounds (2.19%) at the R = 1x floor, against ~1.98% of the draw grid that maps there — the floor is a normal part of the game, not an edge case"
+      "detail": "min 1x, median 1.97x, max 28181.04x, result cap 1000000x not reached by a settled round; 116 rounds (1.99%) at the R = 1x floor, against ~1.98% of the draw grid that maps there — the floor is a normal part of the game, not an edge case"
     },
     {
       "label": "Theoretical edge over captured targets",
-      "detail": "1104 distinct targets from 1.01x to 500000x: edge 1.000000%–1.000041%, mean 1.000005% (deterministic, from the operator's own pricing — a span over the targets this capture used, not the edge curve; the full curve over every legal target is Step 16)"
+      "detail": "102 distinct targets from 1.01x to 10000x: edge 1.000000%–1.007054%, mean 1.001120% (deterministic, from the win-chance formula — a span over the targets this capture used, not the edge curve; the full curve is Step 16)"
     },
     {
       "label": "Phase A sample return",
-      "detail": "5000 bets, $500.00 wagered, $496.23 returned = 99.245% against a stake-weighted theoretical 99.0000% (2470 wins — variance illustration)"
-    },
-    {
-      "label": "Phase B sample return",
-      "detail": "1000 bets, $100.00 wagered, $40.00 returned = 40.000% against a stake-weighted theoretical 99.0000% (4 wins — variance illustration)"
+      "detail": "5100 bets, 510.00 USDT wagered, 496.85 returned = 97.422% against a stake-weighted theoretical 99.0000% (1108 wins — variance illustration)"
     },
     {
       "label": "Phase C sample return",
-      "detail": "200 bets, $2000.00 wagered, $2080.00 returned = 104.000% against a stake-weighted theoretical 99.0000% (104 wins — variance illustration)"
+      "detail": "238 bets, 2380.00 USDT wagered, 2280.00 returned = 95.798% against a stake-weighted theoretical 99.0000% (114 wins — variance illustration)"
     },
     {
       "label": "Phase D sample return",
-      "detail": "500 bets, $50.00 wagered, $45.63 returned = 91.266% against a stake-weighted theoretical 99.0000% (244 wins — variance illustration)"
+      "detail": "500 bets, 50.00 USDT wagered, 31.90 returned = 63.794% against a stake-weighted theoretical 99.0000% (96 wins — variance illustration)"
     },
     {
       "label": "Capture-side self-check fields",
-      "detail": "localDraw / localResult / localWin / verified / creditedOk / walletOk are present in the dataset and IGNORED by verification — every scored figure is re-derived from primitives. They are the capture rig's own inline check, which is how the missing R = 1 result floor was caught on 2026-09-11 in an earlier capture run that is not shipped, instead of after the whole run."
+      "detail": "localDraw / localResult / localWin / verified are present in the dataset and IGNORED by verification — every scored figure is re-derived from primitives. The converter wrote them from this package's own src (meta.conversion)."
     }
   ],
   "summary": {

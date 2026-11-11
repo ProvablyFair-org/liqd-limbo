@@ -3,8 +3,7 @@
  *
  * Step 14 answers "could this suite fail?" — a verifier that cannot reject a wrong answer is not
  * evidence of anything. Step 15 answers the question that actually decides whether Limbo is fair:
- * the operator SELLS a win chance (its `cr` function prices the target), and the RNG PRODUCES a
- * result distribution. Those are two different objects, and nothing forces them to agree. Step 15
+ * the game QUOTES a win chance for a target (cr), and the RNG PRODUCES a result distribution. Those are two different objects, and nothing forces them to agree. Step 15
  * shows they do — exactly, in integers, for every target in the capture — and anchors the closed
  * form against a literal tally over the whole 100,000,000-point draw grid.
  */
@@ -14,7 +13,7 @@ import { step, servedResultMatches } from './context';
 import { limboDraw } from '../../src/rng';
 import {
   resultMultiplier, limboWin, winChance, targetToHundredths,
-  RANGE, RESULT_NUMERATOR, MIN_RESULT, MAX_MULTIPLIER,
+  RANGE, RESULT_NUMERATOR, MIN_RESULT, MAX_MULTIPLIER, MIN_MULTIPLIER, PHASE_C_TARGET, PROD_LADDER_TOP, PROD_TOP_TARGET,
 } from '../../src/config';
 
 /**
@@ -38,8 +37,7 @@ export function run(ctx: VerifyContext): StepResult[] {
   // (a) NEGATIVE CONTROL. Take a real bet, recompute its result, and require the EXACT predicate
   //     Step 5 uses to ACCEPT the true value while REJECTING a perturbed one and a non-numeric one.
   //     The perturbation is +0.01 — one tick of the 2-dp result grid, the smallest wrong answer
-  //     that exists — so this is not the tautological `x+1 !== x` control the dice audit shipped
-  //     and had to replace.
+  //     that exists, so this is not a tautological `x+1 !== x` control.
   const probe = bets.find((b) => seedMap.has(b.hashedServerSeed));
   if (!probe) throw new Error('anti-circularity: no bet with a revealed seed — the suite cannot establish falsifiability');
   const ss = seedMap.get(probe.hashedServerSeed)!;
@@ -70,8 +68,8 @@ export function run(ctx: VerifyContext): StepResult[] {
     boundaryChecked++;
   }
 
-  // (c) GRID EXTREMES. The two clamps are model behaviour no captured bet can fully witness (the
-  //     capture never reached the 1e6 ceiling), so they are exercised here directly.
+  // (c) GRID EXTREMES. No settled round reached the 1e6 result cap, so both clamps are exercised here
+  //     directly on the draw grid (the cap's production witness is the verifier probe set of Step 25).
   const bottomOfGrid = resultMultiplier(RANGE - 1);
   const topOfGrid = resultMultiplier(0);
   const clampsOk = bottomOfGrid === MIN_RESULT && topOfGrid === MAX_MULTIPLIER
@@ -82,12 +80,12 @@ export function run(ctx: VerifyContext): StepResult[] {
     `negative control on epoch ${probe.epoch} nonce ${probe.nonce}: the predicate Step 5 uses ACCEPTS the recomputed ${trueResult}x and REJECTS ${perturbed}x (one 2-dp tick away), NaN and Infinity (${negControlRejects ? 'falsifiable' : 'VACUOUS — this suite could not fail'}); `
     + `boundary anchor over ${boundaryChecked}/${distinctTargets.length} distinct captured targets: for each, k = floor(${RESULT_NUMERATOR}/ci(m)) - 1 WINS and k = floor(${RESULT_NUMERATOR}/ci(m)) LOSES under the real formula and rule — ${boundaryFails} violations`
     + (firstBoundaryFail ? ` (e.g. ${firstBoundaryFail})` : '')
-    + `; grid extremes exercised directly because the capture cannot witness them: k=0 -> ${topOfGrid}x (upper clamp), k=98 -> ${resultMultiplier(98)}x, k=99 -> ${resultMultiplier(99)}x (first draw below the clamp), k=${RANGE - 1} -> ${bottomOfGrid}x (lower clamp) — ${clampsOk ? 'all as published' : 'CLAMP BEHAVIOUR WRONG'}; `
-    + `every quantity in this step is derived from the draw grid and the operator's published constants; no operator payout, odds or win-chance field is read`,
+    + `; grid extremes exercised directly on the draw grid: k=0 -> ${topOfGrid}x (upper clamp), k=98 -> ${resultMultiplier(98)}x, k=99 -> ${resultMultiplier(99)}x (first draw below the clamp), k=${RANGE - 1} -> ${bottomOfGrid}x (lower clamp) — ${clampsOk ? 'all as published' : 'CLAMP BEHAVIOUR WRONG'}; `
+    + `every quantity in this step is derived from the draw grid and the constants of src/config.ts; no served payout, odds or win-chance field is read`,
   );
 
   // ── Step 15: Win-chance ↔ result-distribution identity ──────────────────────
-  // The operator prices a target as winChance(m) = floor(9.9e9 / ci(m)) / 1e8. The RNG produces
+  // The win chance of a target is winChance(m) = floor(9.9e9 / ci(m)) / 1e8. The RNG produces
   // R = min(1e6, max(1, floor(9.9e9/(k+1))/100)) from a uniform k. For the game to be what it
   // claims, P(R >= m) over the uniform grid must EQUAL the price. It does, and the proof is an
   // integer one:
@@ -95,15 +93,14 @@ export function run(ctx: VerifyContext): StepResult[] {
   // so exactly floor(N/ci(m)) of the 1e8 draws win — which is RANGE x winChance(m) exactly.
   //
   // Asserted as an INTEGER equality, with no tolerance: `Math.floor(N/ci) === winChance(m) * RANGE`.
-  // A float comparison at 1e-12 would be the dice audit's Step 15 mistake, where the threshold was
-  // under 2x the binary64 noise of the very quantity it was thresholding.
+  // A float comparison at a tolerance would sit close to the binary64 noise of the quantity it thresholds.
   //
   // HONESTY ABOUT WHAT THIS IS. The equality is a property of the MODEL — it holds by algebra for
-  // every legal target, so no dataset can falsify it. What it catches is a change to OUR model (a
+  // every target on the grid, so no dataset can falsify it. What it catches is a change to OUR model (a
   // clamp edit, a pricing edit, an inclusive/exclusive boundary regression), and that is worth a
   // scored step. What makes it a statement about the OPERATOR is the anchoring: the same closed
   // form is tallied literally over the full 1e8 grid below, and the model it prices is the one that
-  // reproduced all 6,700 settled results in Step 5.
+  // reproduced every settled production result in Step 5.
   let identityChecked = 0;
   let identityFails = 0;
   let firstIdentityFail = '';
@@ -120,22 +117,24 @@ export function run(ctx: VerifyContext): StepResult[] {
   // Literal tally anchor. Four targets spanning the captured range, each a full 100,000,000-draw
   // sweep of the real formula and the real rule — the check that would catch a clamp or flooring
   // error the closed form shares with itself.
-  const anchorTargets = [1.01, 2.00, 100.00, 500_000];
+  const anchorTargets = [MIN_MULTIPLIER, PHASE_C_TARGET, PROD_LADDER_TOP, PROD_TOP_TARGET];   // 1.01x, 2x, 100x, 10,000x
   const anchors = anchorTargets.map((m) => {
     const tallied = tallyWinningDraws(m);
     const closedForm = Math.floor(RESULT_NUMERATOR / targetToHundredths(m));
     return { m, tallied, closedForm, agree: tallied === closedForm };
   });
   const anchorsOk = anchors.every((a) => a.agree);
+  // the two win chances the production game page states, against the formula
+  const pageOk = winChance(2) * 100 === 49.5 && Math.round(winChance(10_000) * 1e8) === 9_900;
 
   const s15 = step(15, 'Win-Chance vs Result-Distribution Identity',
-    identityFails === 0 && anchorsOk && identityChecked === distinctTargets.length && distinctTargets.length > 0 ? 'PASS' : 'FAIL',
+    identityFails === 0 && anchorsOk && pageOk && identityChecked === distinctTargets.length && distinctTargets.length > 0 ? 'PASS' : 'FAIL',
     `${identityChecked} distinct captured targets: the number of winning draws on the ${RANGE}-point grid is exactly floor(${RESULT_NUMERATOR}/ci(m)) == winChance(m) x ${RANGE}, asserted as an INTEGER equality with no tolerance — ${identityFails} violations`
     + (firstIdentityFail ? ` (e.g. ${firstIdentityFail})` : '')
-    + `; so the win chance given by LIQD's pricing formula (read from its client code) equals the probability the result formula delivers — LIQD's page states two of these figures, 49.5% at 2x and 0.0099% at 10,000x (evidence/rtp-page-labels-2026-10-01.json), and both match. `
+    + `; so the win chance of the formula equals the probability the result formula delivers. LIQD's game page states two of these figures, 49.5% at 2x and 0.0099% at 10,000x (liqd.com/originals/limbo, read logged out 2026-10-01, evidence/rtp-page-labels-2026-10-01.json), and both match (${pageOk}). `
     + `Literal tally anchor, ${anchorTargets.length} full ${RANGE}-draw sweeps of the real formula and rule: `
     + `${anchors.map((a) => `${a.m}x tallied ${a.tallied} vs closed form ${a.closedForm} (${a.agree ? 'agree' : 'DISAGREE'})`).join('; ')}; `
-    + `MODEL IDENTITY, stated plainly: it holds by algebra for every legal target, so no dataset can falsify it — it enforces our model and is anchored by the tally, while the tie to the operator is Step 5's reproduction of all ${bets.length} settled results`,
+    + `MODEL IDENTITY, stated plainly: it holds by algebra for every target on the grid, so no dataset can falsify it — it enforces our model and is anchored by the tally, while the tie to the operator is Step 5's reproduction of all ${bets.length} settled results`,
   );
 
   return [s14, s15];

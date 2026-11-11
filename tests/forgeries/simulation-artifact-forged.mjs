@@ -11,7 +11,7 @@
 // re-derives a Pass-1 or Pass-2 statistic. tests/verify.ts says why in its header — "a Monte-Carlo
 // artifact scored by the same process that generates it is not evidence" — and the RTP result of this
 // audit is the closed-form edge identity of Step 16, anchored by the full-grid tally of Step 15 and
-// tied to the operator by Step 5's reproduction of all 6,700 settled results. Not one of those
+// tied to the operator by Step 5's reproduction of every settled production result. Not one of those
 // depends on the simulation.
 //
 // WHAT STEP 19 DOES AND DOES NOT STOP (changed 2026-09-11). Step 19 now recomputes SIMULATION_SHA256

@@ -1,0 +1,23 @@
+liqd-limbo-prod-capture-2026-11-10T10-47-42-943Z.ndjson
+LIQD limbo PROD capture check: ALL CHECKS PASS
+  PASS  file                           724 lines, 0 unreadable, SHA-256 cd5d8acd26234e7d15f4a8d80dbb35d6c6b2d5b7c6b121bc6d7c33defa339080
+  PASS  secret scan                    clean (JWT, e-mail, public IPv4, secret-looking keys, also inside reply bodies)
+  PASS  plan                           liqd.com (https://liqd.com), 2 epochs, 238 rounds in phases C 238 at 10.00000000 USDT (currencyId 3); every phase at or above its floor; runner limbo-prod-capture-runner 2026-11-03 build 7e33ea9cd02d
+  PASS  pre-capture anchor             active c6edcbfe2984... read and revealed before any bet: commit OK, link OK
+  PASS  epoch commitments              2/2 epochs: sha256(revealed server seed) = the hash committed before its first round (2 closed by a rotation)
+  PASS  chain                          2/2: each epoch's next hash is the hash active after its rotation
+  PASS  client seeds                   2/2 submitted client seeds accepted; 2/2 drawn after the commitment they were used under was published
+  PASS  bet count                      238 rounds recorded (cap 238), 0 recorded twice; 238 rounds started; 0 reply lost; 0 refused and skipped
+  PASS  round seeds                    seed hash 238/238 (238 served in the reply, the rest carry none); client seed 238/238 (238 served); nonce sequence 238/238
+  PASS  phases                         every round records its phase, phase id and the phase's stake 238/238; rounds per phase C 238/238
+  PASS  request = served               target, the phase's stake and idempotency key served as requested 238/238; stake = the phase's stake (0.10 / 10.00) 238/238
+  PASS  result (src/rng.ts)            result recomputed from the revealed seed 238/238; win = result >= target 238/238
+  PASS  payout                         multiplier = target on a win, 0 on a loss 238/238; winningAmount = stake x target 238/238; wallet fields 238/238; won/lost 238/238
+  PASS  coverage                       1/1 settings reached; rounds per setting 238..238
+  PASS  verifier replies               238/238 rounds have a verify reply (HTTP 200, the expected shape); 0 other replies stored (refusals, kept as received)
+  PASS  verifier requests              request = the round's revealed inputs 238/238; POST https://liqd.com/api/v1/originals/limbo/verify 238/238
+  PASS  verifier = served round        echo 238/238; result 238/238, win 238/238, multiplier 238/238 equal the served round; result = the src/rng.ts recompute 238/238
+  ----  run record                     refusals 0, re-sent after a stop 0, lost replies 0, skipped 0, gaps 0, resume checks 0, steps 0, stops 0
+  ----  money                          staked 2380.00000000 USDT, paid 2280.00000000, net -100.00000000 (live rounds illustrate variance only)
+  ----  window                         rounds 2026-11-10T10:38:35.524Z .. 2026-11-10T10:43:48.834Z; verify replies dated Tue, 10 Nov 2026 10:43:50 GMT .. Tue, 10 Nov 2026 10:47:42 GMT
+  PASS  export redaction               1 IP address(es) replaced by "[ip redacted]" in the exported copy (IPv4 1, IPv6 0; in line 1 (meta)); 1 marker(s) found in the file

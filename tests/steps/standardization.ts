@@ -2,8 +2,8 @@
  * Steps 19–21: Standardization-parity steps — the artifact set, the settlement chain end to end,
  * and the declared scope.
  *
- *   19  Artifact Integrity & Evidence Reproduction — every artifact of record present, readable and
- *       either PINNED (the dataset) or REPRODUCED (the boundary witness). An artifact that is only
+ *   19  Artifact Integrity — every artifact of record present, readable and PINNED (the dataset, the
+ *       verifier probe records, the simulation artifacts). An artifact that is only
  *       cited is not evidence.
  *   20  Settlement Determinism — outcome and credit fully determined by (serverSeed, clientSeed,
  *       nonce, target, stake), derived without reading a single served outcome field.
@@ -17,18 +17,20 @@ import * as path from 'path';
 import { createHash } from 'node:crypto';
 
 import type { StepResult, VerifyContext } from './context';
-import { step, hundredths, isHex } from './context';
-import { limboDraw, limboResult } from '../../src/rng';
+import { step, hundredths } from './context';
+import { limboDraw } from '../../src/rng';
 import {
-  resultMultiplier, limboWin, isTargetLegal, round8,
-  MIN_RESULT, MAX_MULTIPLIER, MIN_BET_USDC, MAX_EXPOSURE_USDC, MAX_PLAYABLE_TARGET,
-  EXPECTED_BETS, EXPECTED_SEEDS, DATA_PATH,
+  resultMultiplier, limboWin, round8,
+  MIN_RESULT, MAX_MULTIPLIER, PROD_TOP_TARGET, RUNNER_BUILDS,
+  CAP_PROBE_DIR, CAP_PROBE_RECORDS, CAP_PROBE_RECORDS_SHA256,
+  EXPECTED_BETS, EXPECTED_SEEDS, EXPECTED_PHASES, DATA_PATH,
   SIMULATION_SHA256, SIMULATION_HTML_SHA256,
   SIM_UNIFORMITY_DRAWS, SIM_SERIAL_DRAWS, SIM_EDGE_BETS, SIM_MASTER_SEED,
   RANGE, CURSOR, RESULT_NUMERATOR, HOUSE_EDGE,
 } from '../../src/config';
 
 import { DOMAINS, checkDomains } from '../../src/domains';
+import { captureChain } from './capture-chain';
 
 const sha256File = (p: string) => createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 
@@ -49,97 +51,46 @@ export function run(ctx: VerifyContext): StepResult[] {
     if (!hashOk) bad = true;
     notes.push(`${DATA_PATH} sha256 ${ctx.datasetSha256.slice(0, 16)}… ${hashOk ? 'matches' : '!='} the pin in src/config.ts ${ctx.expectedDatasetHash.slice(0, 16)}… (the loader aborts on a mismatch before any step runs)`);
 
-    // (2) E13 — the boundary witness. NOT pinned by a hash, and deliberately so: a hash pin proves
-    //     a file has not changed since we pinned it, which is worth little for a file we wrote. What
-    //     is worth something is REPRODUCTION — E13 records the operator's own /verify output for a
-    //     named (serverSeed, clientSeed, nonce), so our model must reproduce the result it reports —
-    //     the casino's own `serverResult` on BOTH probes, not only the file's `R` field, which the
-    //     capture script computed with our own model (capture/capture-limbo.reference.mjs) — and the
-    //     two outcomes it reports must follow from our win rule.
-    //
-    //     WHAT THIS DOES NOT SHOW (2026-10-02): that the file came from the casino. Nothing ties E13's
-    //     seed to a commitment, so an invented file whose values agree with the model still passes;
-    //     one whose "casino" results differ from the model fails. The shipped evidence for the `>=` rule
-    //     is the 20 on-target rounds in the settled dataset (Step 6); E13 agrees with it and with itself.
-    const e13Path = path.join(ctx.evidenceDir, 'E13-limbo-boundary-probes.json');
-    if (!fs.existsSync(e13Path)) {
-      bad = true;
-      notes.push('evidence/E13-limbo-boundary-probes.json ABSENT — an artifact of record the chapters cite for the >= win rule is missing (the settled on-target rounds of Step 6 are the shipped evidence for the rule; E13 must still be present to be cited)');
-    } else {
-      let e13: Record<string, unknown> | null = null;
-      try { e13 = JSON.parse(fs.readFileSync(e13Path, 'utf8')) as Record<string, unknown>; } catch (e) {
-        bad = true;
-        notes.push(`evidence/E13 PARSE ERROR (${(e instanceof Error ? e.message : String(e)).slice(0, 100)}) — a verifier must not approve an artifact it could not read`);
-      }
-      if (e13) {
-        const ss = e13.serverSeed as string;
-        const cs = e13.clientSeed as string;
-        const nonce = e13.nonce as number;
-        const R = Number(e13.R);
-        const atEqual = e13.atEqual as { target: number; serverWin: boolean; serverResult: number } | undefined;
-        const above = e13.justAbove as { target: number; serverWin: boolean; serverResult: number } | undefined;
-        const shapeOk = isHex(ss, 32) && typeof cs === 'string' && cs.length > 0
-          && Number.isInteger(nonce) && nonce >= 0
-          && Number.isFinite(R) && R >= MIN_RESULT && R <= MAX_MULTIPLIER      // G-RANGE, bounds from config
-          && !!atEqual && !!above
-          && isTargetLegal(atEqual.target) && isTargetLegal(above.target);
-        if (!shapeOk) {
-          bad = true;
-          notes.push('evidence/E13 SCHEMA ERROR — a required field is missing, or a recorded value is outside the physically possible range for this game');
-        } else {
-          const localR = limboResult(ss, cs, nonce);
-          // the file's R (computed by the capture script with our model) AND the casino's own result on
-          // both probes must equal the model — the casino's values are the ones that carry weight
-          const reproduced = localR === R && localR === Number(atEqual.serverResult) && localR === Number(above.serverResult);
-          // the operator's two outcomes, re-derived under OUR rule
-          const equalOk = limboWin(localR, atEqual.target) === atEqual.serverWin && atEqual.serverWin === true;
-          const aboveOk = limboWin(localR, above.target) === above.serverWin && above.serverWin === false;
-          const oneTickApart = hundredths(above.target) - hundredths(atEqual.target) === 1;
-          const discriminates = atEqual.target === localR;
-          if (!(reproduced && equalOk && aboveOk && oneTickApart && discriminates)) bad = true;
-          notes.push(
-            `evidence/E13 REPRODUCED from its own seed triple: our model computes R = ${localR}x for (serverSeed ${ss.slice(0, 8)}…, clientSeed ${cs}, nonce ${nonce}) against the casino's serverResult ${atEqual.serverResult}x and ${above.serverResult}x on the two /verify probes and the file's R ${R}x (${reproduced ? 'match' : 'MISMATCH'}); `
-            + `target == R (${atEqual.target}x) the operator settled as ${atEqual.serverWin ? 'WIN' : 'loss'} and our rule agrees (${equalOk ? 'ok' : 'DISAGREES'}); `
-            + `target == R + 0.01 (${above.target}x, exactly one 2-dp tick higher: ${oneTickApart}) the operator settled as ${above.serverWin ? 'win' : 'LOSS'} and our rule agrees (${aboveOk ? 'ok' : 'DISAGREES'}); `
-            + `the probe discriminates >= from > (${discriminates}), which is the whole point of it; sha256 ${sha256File(e13Path).slice(0, 16)}… recorded, not pinned — reproduction is the guard here, not a hash. `
-            + `This checks that E13 agrees with the model and with itself; it cannot show the file came from the casino (no commitment ties its seed). The shipped evidence for the >= rule is the on-target rounds of the settled dataset (Step 6)`,
-          );
-        }
-      }
+    // (2) The runner build of each run: the dataset header must name the build the capture log records
+    //     (src/config.ts RUNNER_BUILDS). The runner source of each build is shipped and checked in (2b).
+    {
+      const captures = ((meta as unknown as { captures?: { capture: number; runner?: string }[] }).captures ?? []);
+      const ok = RUNNER_BUILDS.filter((r) => captures.find((x) => x.capture === r.capture)?.runner === r.build).length;
+      if (ok !== RUNNER_BUILDS.length || captures.length !== RUNNER_BUILDS.length) bad = true;
+      notes.push(`RUNNER BUILDS: ${ok}/${RUNNER_BUILDS.length} runs carry the runner build recorded for them in src/config.ts (${[...new Set(RUNNER_BUILDS.map((r) => r.build.split(' ').pop()))].join(', ')})`);
     }
 
-    // (3) E15 — the exposure ceiling. Reconciled against the constants Step 17 scores, so a change
-    //     to either the evidence or the config surfaces as a disagreement rather than as silence.
-    const e15Path = path.join(ctx.evidenceDir, 'E15-limbo-max-exposure.json');
-    if (!fs.existsSync(e15Path)) {
-      bad = true;
-      notes.push('evidence/E15-limbo-max-exposure.json ABSENT — the exposure ceiling in src/config.ts would then be an unwitnessed constant, and Step 17 would be scoring our own arithmetic against itself');
-    } else {
-      let e15: Record<string, unknown> | null = null;
-      try { e15 = JSON.parse(fs.readFileSync(e15Path, 'utf8')) as Record<string, unknown>; } catch (e) {
-        bad = true;
-        notes.push(`evidence/E15 PARSE ERROR (${(e instanceof Error ? e.message : String(e)).slice(0, 100)})`);
+    // (2b) The capture chain: the runner source, the converter source, the reply record of LIQD's replies held to the
+    //      dataset, and the identifier scan (tests/steps/capture-chain.ts).
+    {
+      const c = captureChain(ctx);
+      if (!c.ok) bad = true;
+      notes.push(`CAPTURE CHAIN: ${c.note}`);
+    }
+
+    // (3) The production evidence files. E02 (the verifier probes at the result cap) is PINNED here and
+    //     REPRODUCED from src/ in Step 25. E03 (one verifier reply on target 100000) and the game page labels
+    //     are read by Steps 17 and 15; they must be present and parse, or those steps would be citing nothing.
+    {
+      const pins: [string, string][] = [
+        [`${CAP_PROBE_DIR}/${CAP_PROBE_RECORDS}`, CAP_PROBE_RECORDS_SHA256],
+      ];
+      const parts: string[] = [];
+      for (const [rel, pin] of pins) {
+        const fp = path.join(ctx.repoRoot, rel);
+        if (!fs.existsSync(fp)) { bad = true; parts.push(`${rel} ABSENT`); continue; }
+        const h = sha256File(fp);
+        if (h !== pin) bad = true;
+        parts.push(`${rel} sha256 ${h.slice(0, 16)}… ${h === pin ? 'matches' : '!='} its pin`);
       }
-      if (e15) {
-        const refusals = (e15.refusals ?? []) as { target?: number; requestedStake?: number; maxAllowedBetUsdc?: number; impliedExposureCeiling?: number; errorCode?: number }[];
-        const ceiling = Number(e15.observedCeilingUsdc);
-        const exposureRefusal = refusals.find((r) => r.errorCode === 3138);
-        const stakeRefusal = refusals.find((r) => r.errorCode === 3113);
-        const ceilingOk = Number.isFinite(ceiling) && ceiling === MAX_EXPOSURE_USDC;
-        const impliedOk = !!exposureRefusal
-          && Number.isFinite(Number(exposureRefusal.maxAllowedBetUsdc))
-          && Number(exposureRefusal.maxAllowedBetUsdc) > 0
-          && Number(exposureRefusal.target) === MAX_MULTIPLIER
-          && hundredths(Number(exposureRefusal.maxAllowedBetUsdc)) * hundredths(Number(exposureRefusal.target)) / 1e4 === MAX_EXPOSURE_USDC;
-        const belowMinStake = !!exposureRefusal && Number(exposureRefusal.maxAllowedBetUsdc) < MIN_BET_USDC;
-        if (!(ceilingOk && impliedOk && belowMinStake && !!stakeRefusal)) bad = true;
-        notes.push(
-          `evidence/E15 reconciles with src/config.ts: recorded ceiling $${ceiling} == MAX_EXPOSURE_USDC $${MAX_EXPOSURE_USDC} (${ceilingOk ? 'ok' : 'DISAGREES'}); `
-          + `the 3138 refusal at ${exposureRefusal?.target}x states maxAllowedBetUsdc $${exposureRefusal?.maxAllowedBetUsdc}, and that stake x that target re-derives the ceiling exactly (${impliedOk ? 'ok' : 'DISAGREES'}) — `
-          + `it is also BELOW the $${MIN_BET_USDC} minimum stake (${belowMinStake}), which is what made ${MAX_MULTIPLIER}x unplayable on 2026-09-11 rather than merely expensive; E15 then holds ${stakeRefusal ? 'a second refusal, errorCode 3113' : 'NO 3113 refusal'} — E15 records $${MIN_BET_USDC} as the stake on both, and that the second request was the $0.05 retry follows from the capture script, not from the record; `
-          + `sha256 ${sha256File(e15Path).slice(0, 16)}… recorded, not pinned`,
-        );
+      for (const rel of ['evidence/E03-prod-verifier-target-100000.json', 'evidence/rtp-page-labels-2026-10-01.json']) {
+        const fp = path.join(ctx.repoRoot, rel);
+        let state = 'ABSENT';
+        if (fs.existsSync(fp)) { try { JSON.parse(fs.readFileSync(fp, 'utf8')); state = `present, parses, sha256 ${sha256File(fp).slice(0, 16)}… (recorded, not pinned: a transcription the auditor wrote; Steps 17 and 15 read its content)`; } catch { state = 'PARSE ERROR'; } }
+        if (!state.startsWith('present')) bad = true;
+        parts.push(`${rel} ${state}`);
       }
+      notes.push(`EVIDENCE FILES: ${parts.join('; ')}`);
     }
 
     // (4) The simulation artifacts — PINNED, and ENFORCED here.
@@ -233,8 +184,7 @@ export function run(ctx: VerifyContext): StepResult[] {
       notes.push(
         `outputs/simulation-results.json sha256 ${simHash.slice(0, 16)}… ${simHashOk ? 'matches' : '!='} SIMULATION_SHA256 ${SIMULATION_SHA256.slice(0, 16)}… and outputs/rtp-convergence.html sha256 ${htmlHash.slice(0, 16)}… ${htmlHashOk ? 'matches' : '!='} SIMULATION_HTML_SHA256; `
         + `${depthNote}. `
-        + 'READ THIS FOR EXACTLY WHAT IT IS: the pin establishes that the shipped bytes are the bytes this audit read and that the artifact is present and well formed — it does NOT establish that the statistics inside THIS artifact were measured, because no scored step re-derives them (L9, narrowed: the Pass-1 claims are now re-derived by Step 23 from the separate, replayable outputs/pass1-grid.json; the Pass-2 block of this artifact is re-derived from the dataset by Step 24 and must equal it leaf for leaf at the reproduction bound (1e-14 absolute + 1e-12 relative on floats, exact otherwise); only the legacy Pass-1 half of this artifact stays producer-attested — since 2026-09-26 it is drawn from the recorded SIM_MASTER_SEED and `npm run simulate:check` regenerates the whole artifact byte for byte, but no scored step re-derives its statistics) and a fabricating auditor re-pins in the same edit. That forgery IS executed, in tests/structural-forgeries.json: it leaves every other step PASSing and is caught only by the run-vs-committed-artifact reproduction gate noticing that this very digest moved — a kill by byte identity. '
-        + 'Its generatedAt run-metadata field was removed 2026-09-26 with the producer\'s own JSON.stringify(…, null, 2) call (0 values changed; the pin moved from 9ce82a70… to the value above)',
+        + 'READ THIS FOR EXACTLY WHAT IT IS: the pin establishes that the shipped bytes are the bytes this audit read and that the artifact is present and well formed. It does NOT establish that the legacy Pass-1 statistics inside THIS artifact were measured, because no scored step re-derives them (L9): the Pass-1 claims are carried by outputs/pass1-grid.json, re-derived by Step 23, and the Pass-2 block is re-derived from the dataset by Step 24',
       );
     }
 
@@ -255,7 +205,7 @@ export function run(ctx: VerifyContext): StepResult[] {
       notes.push(`VALUE DOMAINS: ${leaves} numeric leaves across ${Object.keys(DOMAINS).length} pinned JSON artifacts checked against src/domains.ts — ${dn.length} without a domain or outside it${dn.length ? ` (${dn.slice(0, 3).join('; ')})` : ''}`);
     }
 
-    out.push(step(19, 'Artifact Integrity & Evidence Reproduction', bad ? 'FAIL' : 'PASS', notes.join('; ')));
+    out.push(step(19, 'Artifact Integrity', bad ? 'FAIL' : 'PASS', notes.join('; ')));
   }
 
   // ── Step 20: Settlement determinism ─────────────────────────────────────────
@@ -303,31 +253,34 @@ export function run(ctx: VerifyContext): StepResult[] {
       }
     }
     const coverOk = chk === EXPECTED_BETS && wins > 0 && losses > 0
-      && stakesSeen.size >= 2 && phasesSeen.size === 4 && flooredCovered > 0 && boundaryCovered > 0;
+      && stakesSeen.size === new Set(Object.values(EXPECTED_PHASES).map((p) => p.stake)).size && phasesSeen.size === Object.keys(EXPECTED_PHASES).length && flooredCovered > 0 && boundaryCovered > 0;
     out.push(step(20, 'Settlement Determinism', bad === 0 && coverOk ? 'PASS' : 'FAIL',
       `${chk}/${EXPECTED_BETS} bets: outcome AND credited amount are fully determined by (serverSeed, clientSeed, nonce, target, stake) — ${bad} disagreement(s) with the served settlement`
       + (fails.length ? ` (e.g. ${fails.join('; ')})` : '')
-      + `. No served outcome field is read while deriving: the served result, win and resultLabel, and the dataset's multiplier column (filled by the capture script, not served — Step 8), are all recomputed and only then compared, so a settlement chosen after the draw has nowhere to hide; `
-      + `coverage — ${wins} wins / ${losses} losses, ${stakesSeen.size} distinct stakes ($${[...stakesSeen].sort((a, z) => a - z).join(', $')}), ${phasesSeen.size}/4 phases, `
+      + `. No served outcome field is read while deriving: the served result, win, multiplier and resultLabel are all recomputed and only then compared, so a settlement chosen after the draw has nowhere to hide; `
+      + `coverage — ${wins} wins / ${losses} losses, ${stakesSeen.size} distinct stakes (${[...stakesSeen].sort((a, z) => a - z).join(', ')} ${meta.currency}), ${phasesSeen.size}/${Object.keys(EXPECTED_PHASES).length} planned phases, `
       + `${flooredCovered} rounds at the R = ${MIN_RESULT} floor and ${boundaryCovered} landing exactly on the target (the two cases a naive model gets wrong) `
       + `(${coverOk ? 'ok' : 'COVERAGE FAIL'})`));
   }
 
   // ── Step 21: Scope & declared limitations ───────────────────────────────────
-  // G-SCOPE. L1–L4 are MEASURED properties of the artifact, re-checked on every run: if one of them
-  // stops being true — a production capture arrives, an operator bet counter appears, a balance ledger
-  // is recorded, a ceiling round is captured — this step FAILS, and the prose has to be updated rather
-  // than silently becoming wrong. (Until 2026-10-02 L2–L4 printed "no longer applies" and PASSED.)
-  // L7 and L8 are recomputed figures, printed; they cannot fail. L5 and L6 are restated, not measured.
+  // G-SCOPE. L1–L5 are MEASURED properties of the artifact, re-checked on every run: if one of them
+  // stops being true — the capture host changes, an operator bet counter appears, a balance ledger
+  // is recorded, a settled round reaches the result cap, a round above the audited range appears — this
+  // step FAILS, and the prose has to be updated. L7 and L8 are recomputed figures, printed. L6 is restated.
   {
     const notes: string[] = [];
     let bad = false;
 
-    // (a) the capture is against QA, not production
+    // (a) the scored capture is against production, and the scope of the targets it played
     const hostOk = meta.platform === ctx.captureHost;
     if (!hostOk) bad = true;
-    notes.push(`L1 capture host: the dataset was captured against ${meta.platform} and this suite declares ${ctx.captureHost} (${hostOk ? 'agree' : 'DISAGREE'}). `
-      + `Production parity is NOT established by anything in this repo: no claim here extends to liqd.com until a production capture is scored`);
+    const topPlayed = Math.max(...bets.map((b) => Number(b.params.target)));
+    const captures = ((meta as unknown as { captures?: { firstRoundAt?: string; lastRoundAt?: string }[] }).captures ?? []);
+    const days = [...new Set(captures.flatMap((c) => [String(c.firstRoundAt).slice(0, 10), String(c.lastRoundAt).slice(0, 10)]))].sort();
+    if (topPlayed !== PROD_TOP_TARGET) bad = true;
+    notes.push(`L1 capture host and scope: the scored dataset was captured against ${meta.platform} and this suite declares ${ctx.captureHost} (${hostOk ? 'agree' : 'DISAGREE'}): production, rounds dated ${days.join(' and ')} (UTC), one account, one currency (${meta.currency}). `
+      + `Production rounds were placed on targets from ${Math.min(...bets.map((b) => Number(b.params.target)))}x to ${topPlayed}x at two stakes; nothing above ${topPlayed}x was played, and whether a higher target is accepted is not established (Step 17)`);
 
     // (b) trailing withholding — no operator bet counter was captured
     const withCounter = seeds.filter((s) => s.operatorBetCount != null).length;
@@ -345,11 +298,10 @@ export function run(ctx: VerifyContext): StepResult[] {
         ? 'stakeWallet and winningAmountWallet are settle-RESPONSE fields, so Steps 9/11/20 establish that the operator\'s reported credit follows the rule — not that the wallet was actually credited that amount'
         : 'A balance ledger is present, so this limitation no longer holds as declared — FAIL until the prose and this step are updated'));
 
-    // (d) the upper clamp is unreached by the capture
+    // (d) the upper clamp is unreached by a settled round
     const atCeiling = bets.filter((b) => Number(b.result) === MAX_MULTIPLIER).length;
     if (atCeiling !== 0) bad = true;
     const maxResult = Math.max(...bets.map((b) => Number(b.result)));
-    // the lower clamp: rounds served at R = 1, and how many of them the clamp actually changed (raw < 1)
     let atFloor = 0, floorClamped = 0;
     for (const b of bets) {
       if (Number(b.result) !== MIN_RESULT) continue;
@@ -357,29 +309,31 @@ export function run(ctx: VerifyContext): StepResult[] {
       const ss = seedMap.get(b.hashedServerSeed);
       if (ss && Math.floor(RESULT_NUMERATOR / (limboDraw(ss, b.clientSeed, b.nonce) + 1)) / 100 < MIN_RESULT) floorClamped++;
     }
-    notes.push(`L4 upper clamp: ${atCeiling} captured rounds reached the ${MAX_MULTIPLIER}x result ceiling (highest result in the capture ${maxResult}x, probability of a ceiling round 99/1e8 per bet). `
+    notes.push(`L4 result cap: ${atCeiling} settled rounds reached the ${MAX_MULTIPLIER}x result cap (highest result in the capture ${maxResult}x, probability of a cap round 99/1e8 per bet). `
       + (atCeiling === 0
-        ? `The clamp is therefore exercised by arithmetic over the draw grid (Step 14) and not witnessed live; at the LOWER clamp ${atFloor} rounds were served at ${MIN_RESULT}x and the clamp changed the value on ${floorClamped} of them`
-        : 'A ceiling round is in the capture, so this limitation no longer holds as declared — FAIL until the prose and this step are updated'));
+        ? `The cap is therefore witnessed by the production VERIFIER only (Step 25, which counts the verifier probes of 9 November 2026) and exercised by arithmetic over the draw grid (Step 14); it is not witnessed by settled money. At the LOWER clamp ${atFloor} rounds were served at ${MIN_RESULT}x and the clamp changed the value on ${floorClamped} of them`
+        : 'A cap round is in the capture, so this limitation no longer holds as declared — FAIL until the prose and this step are updated'));
 
-    // (e) the exposure ceiling is derived from a single refusal
-    notes.push(`L5 exposure ceiling: MAX_EXPOSURE_USDC $${MAX_EXPOSURE_USDC} and MAX_PLAYABLE_TARGET ${MAX_PLAYABLE_TARGET}x are DERIVED from one witnessed refusal in one currency (evidence/E15). `
-      + `They are not established for other currencies, other account tiers or production; every bet in this capture stayed inside them`);
+    // (e) limits: none established
+    const above = bets.filter((b) => hundredths(Number(b.params.target)) > hundredths(PROD_TOP_TARGET)).length;
+    if (above !== 0) bad = true;
+    notes.push(`L5 limits: no bet was refused in the three runs and none was placed above ${PROD_TOP_TARGET}x (${above} rounds above it), so the casino's minimum stake, maximum stake, maximum payout, exposure ceiling and highest accepted target are NOT established by this audit; `
+      + `the stakes played are ${[...new Set(bets.map((b) => Number(b.betAmount)))].sort((a, z) => a - z).join(' and ')} ${meta.currency}`);
 
     // (f) commitment chronology
-    notes.push('L6 commitment chronology: the pre-capture chain link (Step 2) places epoch 0\'s commitment earlier IN THE CHAIN than the first bet, as recorded by the auditor\'s own capture. '
+    notes.push('L6 commitment chronology: the pre-capture chain links (Step 2) place each run\'s first commitment earlier IN THE CHAIN than that run\'s first bet, as recorded by the auditor\'s own capture. '
       + 'A hash chain orders records, it does not date them; there is no independently authenticated timestamp, so the no-post-hoc-choice reading is conditional on that attested chronology');
 
     // (g) RTP evidence provenance — stated here so the number is never quoted as evidence
     const wagered = bets.reduce((s, b) => s + Number(b.betAmount), 0);
     const returned = bets.reduce((s, b) => s + Number(b.winningAmount), 0);
-    notes.push(`L7 live RTP: the ${bets.length}-bet sample returned ${(returned / wagered * 100).toFixed(4)}% ($${wagered.toFixed(2)} wagered, $${returned.toFixed(2)} returned). `
-      + 'That is VARIANCE ILLUSTRATION ONLY and is never cited as RTP evidence: the RTP result in this audit is the closed-form edge identity of Step 16, anchored by the grid tally of Step 15');
+    notes.push(`L7 live RTP: the ${bets.length}-bet sample returned ${(returned / wagered * 100).toFixed(4)}% (${wagered.toFixed(2)} ${meta.currency} wagered, ${returned.toFixed(2)} returned). `
+      + 'That is VARIANCE ILLUSTRATION ONLY and is never cited as RTP evidence: the RTP result in this audit is the closed-form edge identity of Step 16, anchored by the grid tally of Step 15 and the simulation of Step 23');
 
     // (h) capture-side self-check fields are present and ignored
     const selfChecked = bets.filter((b) => b.verified != null).length;
     notes.push(`L8 capture-side fields: localDraw / localResult / localWin / verified are present on ${selfChecked}/${bets.length} bets and are IGNORED by every scored step — each figure above is re-derived from primitives. `
-      + 'They were the capture\'s own inline check, and they are the reason the missing result floor was caught on 2026-09-11 in an earlier capture run that is not shipped (serverSeed 5d8a6efd…, nonce 49) rather than after 6,700 bets');
+      + 'They were written by the converter from this package\'s own src (meta.conversion)');
 
     out.push(step(21, 'Scope & Declared Limitations', bad ? 'FAIL' : 'PASS', notes.join(' | ')));
   }

@@ -3,16 +3,14 @@
  * Run: npm run verify      (scores the frozen capture; writes only under outputs/run/)
  *      npm run report      (the same run with PF_EMIT=1: rewrites the committed artifact)
  *
- * Loads the captured master dataset through the SHA-256-guarded loader, runs every scored step, and
- * writes THIS RUN's results — pass or fail — under `outputs/run/`, leaving every committed artifact
- * byte-identical.
+ * Loads the scored production dataset (liqd.com, 7 and 10 November 2026) through the SHA-256-guarded
+ * loader, runs every scored step, and writes THIS RUN's results — pass or fail — under `outputs/run/`,
+ * leaving every committed artifact byte-identical.
  *
  * ── VERIFICATION DOES NOT WRITE THE EVIDENCE IT SCORES ──────────────────────────────────────────
- * The sibling dice audit shipped a verify script whose last statements overwrote
- * `outputs/verification-results.json` on EVERY run, including a failing one. A reviewer got a FAIL,
- * re-ran, got a PASS, and nothing on disk remembered the disagreement. Repeated testing must not be
- * able to erase an original disagreement, so there are two commands here and only one of them
- * writes a committed artifact:
+ * A verify script that overwrites `outputs/verification-results.json` on every run lets a failing run
+ * be erased by the next passing one. So there are two commands here and only one of them writes a
+ * committed artifact:
  *   • `npm run verify` — reads the committed artifacts, writes ONLY `outputs/run/` (this run's
  *     results plus a field-level diff against the committed copy). Run it twice on unchanged input
  *     and you get the same outcome twice.
@@ -25,31 +23,20 @@
  * 1..EXPECTED_STEPS with no duplicates. A step module that throws takes the process down with a
  * non-zero exit and NO verdict line — a half-run suite cannot report a Full Pass.
  *
- * ── WHAT IS PINNED, AND WHAT IS NOT ─────────────────────────────────────────────────────────────
+ * ── WHAT IS PINNED ──────────────────────────────────────────────────────────────────────────────
  * The dataset is pinned by SHA-256 in `src/config.ts` and the loader refuses to run on a mismatch.
- * The evidence records (E13, E15) are NOT pinned by hash and deliberately so: a hash proves a file
- * has not changed since we pinned it, which is worth little for a file we wrote ourselves. They are
- * REPRODUCED instead — Step 19 recomputes E13's result from its own seed triple and re-derives
- * E15's ceiling from the operator's own stated maximum stake.
- *
- * The 2026-09-26 target-decade supplement (data/liqd-limbo-capture-v2-…json + .journal.ndjson) and the two
- * target-ceiling probe journals (evidence/E20-…/) ARE pinned in src/config.ts: Step 25 recomputes all four
- * digests and scores them; nothing from them reaches Steps 1–24. Since 2026-10-02 so is the cap re-probe
- * journal (evidence/E21-target-cap-probe/, CAP_PROBE_SHA256), the fifth digest Step 25 recomputes.
- *
- * The legacy simulation artifacts ARE pinned, and Step 19 enforces those pins: it recomputes both
- * SHA-256s, fails on an absent, unreadable or degenerate file, binds the recorded sample depths to the
- * SIM_* constants in `src/config.ts`, and checks every numeric leaf against its declared value domain
- * (src/domains.ts). `npm run simulate` remains a SEPARATE PRODUCER; Step 24 re-derives the Pass-2 block
- * of its artifact from the dataset, and only the legacy Pass-1 figures in it stay producer-attested
- * (limitation L9, narrowed). Since 2026-09-26 the Pass-1 claims are carried by a
- * second, replayable experiment — `outputs/pass1-grid.json`, seeded from a recorded master seed and
- * storing counts rather than verdicts — which Step 23 re-derives from its rows on every run.
+ * The production verifier probe records (evidence/E02), the simulation
+ * artifacts and the Pass-1 grid are pinned in `src/config.ts` and enforced by Steps 19, 23 and 25; the
+ * capture chain under `capture/` (runner source, converter source, reply record) is pinned there too and
+ * enforced by Step 19, with LIQD's Date headers read by Step 2; the
+ * RTP-CLAIM table is pinned in `src/rtp-settings.ts`. `npm run simulate` is a SEPARATE PRODUCER; Step 24
+ * re-derives the Pass-2 block of its artifact from the dataset, Step 23 re-derives the Pass-1 claims from
+ * `outputs/pass1-grid.json`, and only the legacy Pass-1 figures in the simulation artifact stay
+ * producer-attested (limitation L9).
  *
  * ── PROFILE LABELS ─────────────────────────────────────────────────────────────────────────────
- * Each emitted step carries the proposed Framework 1.0 Limbo profile checks it implements
- * (src/profile-map.ts). Labels are attached to the emitted record only; they cannot change what a
- * step asserts. The reproduction diff below compares every leaf, labels included.
+ * Each emitted step carries the Framework Limbo profile checks it implements (src/profile-map.ts).
+ * Labels are attached to the emitted record only; they cannot change what a step asserts.
  */
 
 import * as fs from 'fs';
@@ -57,11 +44,9 @@ import * as path from 'path';
 import { createHash } from 'node:crypto';
 
 import { loadDataset } from '../src/loader';
-import { DATASET_SHA256, DATA_PATH, EXPECTED_BETS, EXPECTED_SEEDS, EXPECTED_EPOCH_SIZE, SIMULATION_SHA256, SIMULATION_HTML_SHA256, PASS1_GRID_SHA256,
-  SUPPLEMENT_DATA_PATH, SUPPLEMENT_DATASET_SHA256, SUPPLEMENT_JOURNAL_PATH, SUPPLEMENT_JOURNAL_SHA256,
-  CEILING_PROBE_DIR, CEILING_PROBE_1_JOURNAL, CEILING_PROBE_1_SHA256, CEILING_PROBE_2_JOURNAL, CEILING_PROBE_2_SHA256,
-  CAP_PROBE_DIR, CAP_PROBE_JOURNAL, CAP_PROBE_SHA256,
-  MIN_MULTIPLIER, LIVE_TARGET_CEILING } from '../src/config';
+import { DATASET_SHA256, DATA_PATH, EXPECTED_BETS, EXPECTED_SEEDS, CAPTURE_PLAN, SIMULATION_SHA256, SIMULATION_HTML_SHA256, PASS1_GRID_SHA256,
+  CAP_PROBE_DIR, CAP_PROBE_RECORDS, CAP_PROBE_RECORDS_SHA256,
+  MIN_MULTIPLIER, PROD_TOP_TARGET } from '../src/config';
 import type { Bet, Seed } from '../src/types';
 import type { VerifyContext, InfoItem, StepResult } from './steps/context';
 
@@ -77,7 +62,7 @@ import * as statistical     from './steps/statistical';
 import * as liveFit         from './steps/live-fit';
 import * as pass1           from './steps/pass1';
 import * as pass2           from './steps/pass2';
-import * as supplement      from './steps/supplement';
+import * as verifier        from './steps/verifier';
 import { labelFor, profileCoverageBlock } from '../src/profile-map';
 import { runRtpClaimGate, RTP_CLAIM_STEP, RTP_CLAIM_TABLE_SHA256 } from '../src/rtp-settings';
 import { rtpClaimVerdict, RTP_FIGURE_OVERSTATED } from '../src/rtp-claim';
@@ -86,8 +71,8 @@ import { fieldDiff, beyondTolerance, maxima, DIFF_ATOL, DIFF_RTOL } from '../src
 /** G-EXEC: the number of scored steps this suite is defined to run. Never `results.length`. */
 const EXPECTED_STEPS = 25;
 
-/** G-SCOPE: the host this capture was taken against. Production parity is NOT established. */
-const CAPTURE_HOST = 'qa.liqd.com';
+/** G-SCOPE: the host the scored capture was taken against — liqd.com, production (7 and 10 November 2026). */
+const CAPTURE_HOST = 'liqd.com';
 
 const REPO_ROOT    = path.join(__dirname, '..');
 const DATASET_PATH = path.join(REPO_ROOT, DATA_PATH);
@@ -146,16 +131,13 @@ if (!fs.existsSync(OUTPUTS_DIR)) fs.mkdirSync(OUTPUTS_DIR, { recursive: true });
 
 // Population figures printed against the CODE constants, not against the file's own header — the
 // banner is the first place a coherent shrink would otherwise look convincing (G-BIND).
-console.log(`  Dataset: ${bets.length}/${EXPECTED_BETS} bets | Seeds: ${seeds.length}/${EXPECTED_SEEDS} | epoch size ${EXPECTED_EPOCH_SIZE} | SHA-256 pin verified`);
-console.log(`  Phases  A:${bets.filter((b) => b.phase === 'A').length} B:${bets.filter((b) => b.phase === 'B').length} C:${bets.filter((b) => b.phase === 'C').length} D:${bets.filter((b) => b.phase === 'D').length}`);
-console.log(`  Capture host: ${ds.meta.platform} (declared scope ${CAPTURE_HOST} — production parity NOT established)\n`);
+console.log(`  Dataset: ${bets.length}/${EXPECTED_BETS} bets | Seeds: ${seeds.length}/${EXPECTED_SEEDS} | epochs ${CAPTURE_PLAN.map((b) => `${b.epochs} x ${b.size}`).join(' + ')} | SHA-256 pin verified`);
+console.log(`  Phases  ${[...new Set(bets.map((b) => b.phase))].sort().map((p) => `${p}:${bets.filter((b) => b.phase === p).length}`).join(' ')}`);
+console.log(`  Capture host: ${ds.meta.platform} (declared scope ${CAPTURE_HOST}, production)\n`);
 
 const ctx: VerifyContext = {
   bets, seeds, seedMap, seedByHash, byHash,
   phaseA: bets.filter((b) => b.phase === 'A'),
-  phaseB: bets.filter((b) => b.phase === 'B'),
-  phaseC: bets.filter((b) => b.phase === 'C'),
-  phaseD: bets.filter((b) => b.phase === 'D'),
   repoRoot: REPO_ROOT,
   outputsDir: OUTPUTS_DIR,
   evidenceDir: EVIDENCE_DIR,
@@ -175,13 +157,13 @@ const results: StepResult[] = [
   ...payouts.run(ctx),           // Steps  8–11  payout integrity
   ...dataset.run(ctx),           // Steps 12–13  population identity, phase plan
   ...antiCirc.run(ctx),          // Steps 14–15  falsifiability, pricing vs physics
-  ...edge.run(ctx),              // Steps 16–17  effective edge, client-code maximum unplayable on 2026-09-11
-  ...phaseD.run(ctx),            // Step  18     custom client-seed control
+  ...edge.run(ctx),              // Steps 16–17  effective edge, target bounds as evidenced on production
+  ...phaseD.run(ctx),            // Step  18     client-seed control and Phase D (player-set seeds)
   ...standardization.run(ctx),   // Steps 19–21  artifacts, settlement chain, declared scope
   ...liveFit.run(ctx),           // Step  22     live-sample fit (policy INFORMATIONAL: a miss returns INFO, never a FLAG)
   ...pass1.run(ctx),             // Step  23     Pass 1 on a pinned master seed, re-derived
   ...pass2.run(ctx),             // Step  24     Pass 2 cherry-pick screen, 10,000 nonces/seed, deterministic
-  ...supplement.run(ctx),        // Step  25     target-decade SUPPLEMENT (its own pinned dataset) + live target ceiling (E20)
+  ...verifier.run(ctx),          // Step  25     production verifier: parity on every settled round, and the result cap
 ];
 
 // ── Informational items (not scored) ──────────────────────────────────────────
@@ -207,7 +189,7 @@ if (!countOk || !numbersOk) {
 // The per-setting exact RTP table held to the published claim (src/rtp-settings.ts). The package switch
 // RTP_CLAIM_RULE_ENFORCED (src/rtp-claim-switch.ts) is TRUE in this package: a miss (gate status OVERSTATED)
 // marks the step carrying LIMBO-19 (Step 16) OVERSTATED — not a draw FAIL, not counted in hardFail — and the
-// verdict is RTP FIGURE OVERSTATED, exit 5 (decision D3, 2026-10-14). (Were it false, the outcome would be
+// verdict is RTP FIGURE OVERSTATED, exit 5 (rule 1.2.0). (Were it false, the outcome would be
 // printed only and no step would move.) A committed table that no longer equals this run (or its pin) is a
 // reproduction failure either way (gate status FAIL → step FAIL, exit 1).
 const rtpClaim = runRtpClaimGate();
@@ -284,22 +266,11 @@ const verificationBody = {
     simulation: { file: 'outputs/simulation-results.json', expected: SIMULATION_SHA256, actual: sha256Of('outputs/simulation-results.json'), match: sha256Of('outputs/simulation-results.json') === SIMULATION_SHA256 },
     simulationChart: { file: 'outputs/rtp-convergence.html', expected: SIMULATION_HTML_SHA256, actual: sha256Of('outputs/rtp-convergence.html'), match: sha256Of('outputs/rtp-convergence.html') === SIMULATION_HTML_SHA256 },
     pass1Grid: { file: 'outputs/pass1-grid.json', expected: PASS1_GRID_SHA256, actual: sha256Of('outputs/pass1-grid.json'), match: sha256Of('outputs/pass1-grid.json') === PASS1_GRID_SHA256 },
-    // The 2026-09-26 target-decade SUPPLEMENT and the target-ceiling probe journals (E20) are PINNED
-    // in src/config.ts and enforced by Step 25, which scores them and nothing else.
-    supplementDataset: { file: SUPPLEMENT_DATA_PATH, expected: SUPPLEMENT_DATASET_SHA256, actual: sha256Of(SUPPLEMENT_DATA_PATH), match: sha256Of(SUPPLEMENT_DATA_PATH) === SUPPLEMENT_DATASET_SHA256 },
-    supplementJournal: { file: SUPPLEMENT_JOURNAL_PATH, expected: SUPPLEMENT_JOURNAL_SHA256, actual: sha256Of(SUPPLEMENT_JOURNAL_PATH), match: sha256Of(SUPPLEMENT_JOURNAL_PATH) === SUPPLEMENT_JOURNAL_SHA256 },
-    ceilingProbe1: { file: `${CEILING_PROBE_DIR}/${CEILING_PROBE_1_JOURNAL}`, expected: CEILING_PROBE_1_SHA256, actual: sha256Of(`${CEILING_PROBE_DIR}/${CEILING_PROBE_1_JOURNAL}`), match: sha256Of(`${CEILING_PROBE_DIR}/${CEILING_PROBE_1_JOURNAL}`) === CEILING_PROBE_1_SHA256 },
-    ceilingProbe2: { file: `${CEILING_PROBE_DIR}/${CEILING_PROBE_2_JOURNAL}`, expected: CEILING_PROBE_2_SHA256, actual: sha256Of(`${CEILING_PROBE_DIR}/${CEILING_PROBE_2_JOURNAL}`), match: sha256Of(`${CEILING_PROBE_DIR}/${CEILING_PROBE_2_JOURNAL}`) === CEILING_PROBE_2_SHA256 },
-    // The cap re-probe journal (E21), pinned in src/config.ts on 2026-10-02 and enforced by Step 25 (null while unpinned).
-    capProbe: CAP_PROBE_JOURNAL === null || CAP_PROBE_SHA256 === null ? null
-      : { file: `${CAP_PROBE_DIR}/${CAP_PROBE_JOURNAL}`, expected: CAP_PROBE_SHA256, actual: sha256Of(`${CAP_PROBE_DIR}/${CAP_PROBE_JOURNAL}`), match: sha256Of(`${CAP_PROBE_DIR}/${CAP_PROBE_JOURNAL}`) === CAP_PROBE_SHA256 },
+    // The production verifier probe records (E02), PINNED in src/config.ts and
+    // enforced by Steps 19 and 25.
+    capProbeRecords: { file: `${CAP_PROBE_DIR}/${CAP_PROBE_RECORDS}`, expected: CAP_PROBE_RECORDS_SHA256, actual: sha256Of(`${CAP_PROBE_DIR}/${CAP_PROBE_RECORDS}`), match: sha256Of(`${CAP_PROBE_DIR}/${CAP_PROBE_RECORDS}`) === CAP_PROBE_RECORDS_SHA256 },
     // The RTP-CLAIM per-setting table (pinned in src/rtp-settings.ts, held to this run by the gate above).
     rtpClaimTable: { file: 'outputs/rtp-claim-table.json', expected: RTP_CLAIM_TABLE_SHA256, actual: sha256Of('outputs/rtp-claim-table.json'), match: sha256Of('outputs/rtp-claim-table.json') === RTP_CLAIM_TABLE_SHA256 },
-    // The evidence records are REPRODUCED rather than pinned — see Step 19 and the header.
-    evidence: {
-      'evidence/E13-limbo-boundary-probes.json': 'reproduced under the model in Step 19 (not hash-pinned)',
-      'evidence/E15-limbo-max-exposure.json': 'reconciled against src/config.ts in Step 19 (not hash-pinned)',
-    },
   },
   // Each scored step carries the ProvablyFair.org Limbo profile checks it implements (src/profile-map.ts).
   // The label is attached to the emitted record only: it cannot change what any step asserts.
@@ -313,7 +284,7 @@ const verificationBody = {
     outcome: rtpClaim.result.outcome,
     bandPp: rtpClaim.result.bandPp,
     settingsScored: rtpClaim.result.settings,
-    scoredRange: `${MIN_MULTIPLIER}x to ${LIVE_TARGET_CEILING}x, every 2-dp target`,
+    scoredRange: `${MIN_MULTIPLIER}x to ${PROD_TOP_TARGET}x, every 2-dp target`,
     trueMin: { setting: rtpClaim.result.trueMin.setting, rtpPct: rtpClaim.result.trueMin.rtpPct },
     trueMax: { setting: rtpClaim.result.trueMax.setting, rtpPct: rtpClaim.result.trueMax.rtpPct },
     houseSideBeyondBand: rtpClaim.result.houseSideFailures,
@@ -321,7 +292,7 @@ const verificationBody = {
   },
   profileCoverage: profileCoverageBlock(),
   info: infoItems,
-  // The one summary shape of every LIQD package (scripts/release-bar.mjs, review of 2026-09-28 F20):
+  // The one summary shape of every LIQD package (scripts/release-bar.mjs):
   // captureFlags counts the capture-origin FLAGs; an INFO step is not a flag and is not counted.
   summary: { passed, flags, operatorFlags, captureFlags, hardFail, verdict },
 };

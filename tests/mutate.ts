@@ -104,7 +104,7 @@ const REPO = path.join(__dirname, '..');
 //                                     runner. Every entry here edits a file that is NOT hash-pinned
 //                                     (src/, tests/steps/, evidence/), so the two runners agree.
 //   tests/structural-forgeries.json — counterexamples that CANNOT be a static find/replace: anything
-//                                     touching `data/limbo-master-6700bets.json` has to recompute
+//                                     touching `data/limbo-prod-full-5838bets.json` has to recompute
 //                                     and re-pin its SHA-256, a deletion has no `replace`, and the
 //                                     pin-guard entry must deliberately NOT re-pin. Each is a
 //                                     committed script under `tests/forgeries/`. `npm run mutate` is
@@ -127,25 +127,29 @@ const registry: Mutation[] = [
  * claim this whole battery exists to stop taking on trust.
  */
 const MANIFEST = [
-  'data/limbo-master-6700bets.json',
-  'evidence/E13-limbo-boundary-probes.json',
-  'evidence/E15-limbo-max-exposure.json',
+  'data/limbo-prod-full-5838bets.json',
+  'evidence/E02-prod-verifier-result-cap-2026-11-09/probes-limbo.jsonl',
+  'evidence/E03-prod-verifier-target-100000.json',
+  'evidence/rtp-page-labels-2026-10-01.json',
   'outputs/verification-results.json',
   'outputs/simulation-results.json',
   'outputs/rtp-convergence.html',
   'outputs/pass1-grid.json',
-  // Added 2026-09-26: Step 25's pinned supplement and the E20 target-ceiling probe journals.
-  'data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.json',
-  'data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.journal.ndjson',
-  'evidence/E20-target-ceiling-probe-2026-09-26/liqd-limbo-capture-v2-probe-2026-09-26T17-43-21-558Z.journal.ndjson',
-  'evidence/E20-target-ceiling-probe-2026-09-26/liqd-limbo-capture-v2-probe-2026-09-26T17-47-53-359Z.journal.ndjson',
-  // Added 2026-10-02: Step 25's pinned cap re-probe journal (E21).
-  'evidence/E21-target-cap-probe/liqd-limbo-cap-probe-2026-10-02T18-22-46-633Z.journal.ndjson',
+  'outputs/rtp-claim-table.json',
   'src/config.ts',
   'src/rng.ts',
-  'src/bias.ts',   // added 2026-10-20: the draw-bias bound moved here from src/rng.ts
+  'src/bias.ts',
   'tests/verify.ts',
   'tests/steps/context.ts',
+  'capture/replies/liqd-limbo-prod-replies-capture-1.jsonl',
+  'capture/replies/liqd-limbo-prod-replies-capture-2.jsonl',
+  'capture/replies/liqd-limbo-prod-replies-capture-3.jsonl',
+  'capture/runner/limbo-prod-capture-runner-build-6fd6576d4561.js',
+  'capture/runner/limbo-prod-capture-runner-build-7e33ea9cd02d.js',
+  'capture/converter/inputs.limbo.json',
+  'capture/captures/liqd-limbo-prod-capture-2026-11-07T16-28-43-825Z.ndjson',
+  'capture/captures/liqd-limbo-prod-capture-2026-11-10T04-11-27-073Z.ndjson',
+  'capture/captures/liqd-limbo-prod-capture-2026-11-10T10-47-42-943Z.ndjson',
 ];
 const hashFile = (abs: string) =>
   (fs.existsSync(abs) ? createHash('sha256').update(fs.readFileSync(abs)).digest('hex') : 'ABSENT');
@@ -166,30 +170,32 @@ fs.symlinkSync(path.join(REPO, 'node_modules'), path.join(sandbox, 'node_modules
  */
 const MUTABLE = [
   'src/config.ts',
-  // Added 2026-10-14 (C3 regen entries): the rule table, its pin, and every record a PF_EMIT run writes.
+  // the rule table, its pin, and every record a PF_EMIT run writes (the regen entries)
   'src/rtp-settings.ts',
   'outputs/rtp-claim-table.json',
   'src/rng.ts',
-  'src/bias.ts',   // added 2026-10-20: mutation target since the bound moved out of src/rng.ts
+  'src/bias.ts',
   'tests/steps/context.ts',
-  'data/limbo-master-6700bets.json',
-  'evidence/E13-limbo-boundary-probes.json',
-  'evidence/E15-limbo-max-exposure.json',
+  // the scored production dataset, which every dataset forgery edits and re-pins
+  'data/limbo-prod-full-5838bets.json',
+  // the production evidence files, which mutations edit in place
+  'evidence/E02-prod-verifier-result-cap-2026-11-09/probes-limbo.jsonl',
+  'evidence/E03-prod-verifier-target-100000.json',
+  'evidence/rtp-page-labels-2026-10-01.json',
   'outputs/simulation-results.json',
   'outputs/rtp-convergence.html',
   'outputs/verification-results.json',
-  // Added 2026-09-26: Step 23's artifact. Without it here a Pass-1-grid forgery left its edit in the
-  // sandbox and every later entry was scored against the forged grid (measured: the declared
-  // survivor was then "caught" by Step 23).
+  // Step 23's artifact. Without it here a Pass-1-grid forgery would leave its edit in the sandbox and
+  // every later entry would be scored against the forged grid.
   'outputs/pass1-grid.json',
-  // Added 2026-09-26: Step 25's inputs. The supplement forgeries edit these and re-pin in src/config.ts.
-  'data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.json',
-  'data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.journal.ndjson',
-  'evidence/E20-target-ceiling-probe-2026-09-26/liqd-limbo-capture-v2-probe-2026-09-26T17-43-21-558Z.journal.ndjson',
-  'evidence/E20-target-ceiling-probe-2026-09-26/liqd-limbo-capture-v2-probe-2026-09-26T17-47-53-359Z.journal.ndjson',
-  // Added 2026-10-02: the pinned cap re-probe journal (E21), which tests/forgeries/cap-probe-forgeries.mjs
-  // deletes or edits. The restore writes it back, so the next entry sees the pinned bytes.
-  'evidence/E21-target-cap-probe/liqd-limbo-cap-probe-2026-10-02T18-22-46-633Z.journal.ndjson',
+  // the capture chain (Steps 2 and 19), which the capture-chain forgeries edit and re-pin
+  'capture/replies/liqd-limbo-prod-replies-capture-1.jsonl',
+  'capture/replies/liqd-limbo-prod-replies-capture-3.jsonl',
+  'capture/runner/limbo-prod-capture-runner-build-7e33ea9cd02d.js',
+  'capture/converter/inputs.limbo.json',
+  'capture/captures/liqd-limbo-prod-capture-2026-11-07T16-28-43-825Z.ndjson',
+  'capture/captures/liqd-limbo-prod-capture-2026-11-10T04-11-27-073Z.ndjson',
+  'capture/captures/liqd-limbo-prod-capture-2026-11-10T10-47-42-943Z.ndjson',
 ];
 
 /**
@@ -206,7 +212,7 @@ function repin(): void {
   const cfgPath = path.join(sandbox, 'src/config.ts');
   let cfg = fs.readFileSync(cfgPath, 'utf8');
   const pins: [RegExp, string][] = [
-    [/(export const DATASET_SHA256 = ')[0-9a-f]{64}(')/, 'data/limbo-master-6700bets.json'],
+    [/(export const DATASET_SHA256 = ')[0-9a-f]{64}(')/, 'data/limbo-prod-full-5838bets.json'],
     [/(export const SIMULATION_SHA256 = ')[0-9a-f]{64}(')/, 'outputs/simulation-results.json'],
     [/(export const SIMULATION_HTML_SHA256 = ')[0-9a-f]{64}(')/, 'outputs/rtp-convergence.html'],
     [/(export const PASS1_GRID_SHA256 = ')[0-9a-f]{64}(')/, 'outputs/pass1-grid.json'],
@@ -255,11 +261,9 @@ console.log(`  sandbox: ${sandbox}`);
 /**
  * Per-step statuses as printed by verify (`[PASS] Step N`, `[FLAG] Step N`, …).
  *
- * THE BASELINE IS NOT NECESSARILY A FULL PASS. From 2026-10-01 until the cap re-probe (evidence/E21) was
- * pinned on 2026-10-02 the verdict of record was a Conditional Pass and verify exited 2 — Step 25 FLAGged
- * (origin operator, profile LIMBO-14, the target cap not evidenced by a saved server reply); before that
- * Step 16 (LIMBO-19) and, earlier on 2026-10-02, Steps 16, 17 and 25. With E21 pinned the baseline is a
- * Full Pass, exit 0. Every judgement below is made RELATIVE TO THE BASELINE either way: a mutation is killed only
+ * THE BASELINE IS NOT NECESSARILY A FULL PASS: a package whose verdict of record is a Conditional Pass exits 2
+ * with a step at FLAG. On this package the baseline is a Full Pass, exit 0.
+ * Every judgement below is made RELATIVE TO THE BASELINE either way: a mutation is killed only
  * when the run differs from it (exit code or a step status) AND the named step's status differs from
  * its baseline status — a step that already FLAGs at baseline counts only when it moves (e.g. to
  * FAIL). A survivor must reproduce the baseline exactly (same exit code, same status on every step).

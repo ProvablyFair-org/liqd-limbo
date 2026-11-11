@@ -305,14 +305,6 @@
       "wins": 114,
       "prefixRounds": 20000,
       "prefixWins": 0
-    },
-    {
-      "target": 100000,
-      "ci": 10000000,
-      "rounds": 1000000,
-      "wins": 8,
-      "prefixRounds": 20000,
-      "prefixWins": 0
     }
   ]
 }

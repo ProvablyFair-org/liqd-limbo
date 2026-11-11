@@ -1,0 +1,38 @@
+{
+  "exhibit": "E03",
+  "what": "One logged-out request to the production verifier with target 100000, and its reply as noted at the time",
+  "date": "2026-11-03",
+  "host": "liqd.com",
+  "request": {
+    "method": "POST",
+    "path": "/api/v1/originals/limbo/verify",
+    "body": {
+      "serverSeed": "f5d6f115cb9d5e1ab13c05c69d83ba93",
+      "clientSeed": "audit20234ea74710",
+      "nonce": 45,
+      "params": {
+        "target": 100000
+      }
+    }
+  },
+  "reply": {
+    "httpStatus": 400,
+    "note": "validation: target",
+    "bodyRetained": false
+  },
+  "record": {
+    "file": "limbo.out.json (private workshop liqd-prod-2026-11-03), entry 17 of 20",
+    "sha256": "236aa16ae2aabd85641231d615a9628144dfde8326b3ef7d6116e82be3cd61fa",
+    "entryAsStored": [
+      400,
+      "validation: target"
+    ]
+  },
+  "context": "The request was one of 20 sent that day from a logged-out liqd.com tab to check that the production verifier answers; the other 19 used targets between 1.04 and 1,000 and were answered HTTP 200 (FINDINGS.md of that workshop, section 3: 19 of 20). The seed pair is an input the auditor chose and is not a round of the production capture.",
+  "reading": "A verifier reply to one request. It is not a refused bet: no bet above 10,000x was attempted on production, and whether the place-bet endpoint accepts a target above 10,000x is not established.",
+  "notChecked": [
+    "any other target above 10,000x on the verifier",
+    "the place-bet endpoint above 10,000x",
+    "the game page's target input"
+  ]
+}

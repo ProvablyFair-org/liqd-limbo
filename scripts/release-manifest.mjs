@@ -33,24 +33,25 @@ const CHECK = process.argv.includes('--check');
 /**
  * The facts no file in this package can supply. `signature` stays null until the release is
  * signed. `auditIdStatus` records that ProvablyFair.org, which assigns the audit ID, has confirmed
- * it. `v1.0.1` is an errata release on `v1.0.0`, the first public release (ProvablyFair-org/liqd-limbo, one commit); `v1.0.1` supersedes
- * `v1.0.0`. `signature` is the fingerprint of the SSH key that signs the release commit and tag.
+ * it.
+ * `signature` is the fingerprint of the SSH key that signs
+ * the release commit and tag.
  */
 const DECLARED = {
   auditId: 'PF-2026-LQ05',
   auditIdStatus: 'confirmed by ProvablyFair.org',
   game: 'limbo',
   casino: 'liqd',
-  release: 'v1.0.1',
+  release: 'v1.1.0',
   framework: '1.1',
-  environmentStage: 'pre-production',
-  environmentQualifier: 'provisional',
-  supersedes: 'v1.0.0',
+  environmentStage: 'production',
+  environmentQualifier: 'none',
+  supersedes: null,
   signature: 'SHA256:gEujiJm2pRyq7lQsfYQfQ1r97H/J7GdaKHbOW8GtikY',
 };
 
-/** The dataset the audit scores. */
-const DATASET = 'data/limbo-master-6700bets.json';
+/** The dataset the audit scores: the production capture of 7 and 10 November 2026 (liqd.com). */
+const DATASET = 'data/limbo-prod-full-5838bets.json';
 
 /** Every file whose bytes the release is a claim about. Order is the manifest's order. */
 const ARTIFACTS = [
@@ -59,9 +60,28 @@ const ARTIFACTS = [
   'outputs/simulation-results.json',
   'outputs/verification-results.json',
   'outputs/rtp-claim-table.json',   // RTP-CLAIM per-setting table (src/rtp-settings.ts pins it)
-  'data/limbo-master-6700bets.json',
-  'data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.json',
-  'data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.journal.ndjson',
+  'data/limbo-prod-full-5838bets.json',
+  // the production evidence records
+  'evidence/E02-prod-verifier-result-cap-2026-11-09/probes-limbo.jsonl',
+  'evidence/E03-prod-verifier-target-100000.json',
+  'evidence/rtp-page-labels-2026-10-01.json',
+  'evidence/rtp-page-limbo-2026-11-10.json',
+  // the capture chain: the runner source of both builds, the converter, and the reply record
+  'capture/runner/limbo-prod-capture-runner-build-6fd6576d4561.js',
+  'capture/runner/limbo-prod-capture-runner-build-7e33ea9cd02d.js',
+  'capture/converter/full-limbo.mjs',
+  'capture/converter/adapters/limbo.mjs',
+  'capture/converter/lib/events.mjs',
+  'capture/converter/inputs.limbo.json',
+  'capture/build-reply-record.mjs',
+  'capture/redact-export.mjs',
+  'capture/runners/_shared/check-core.mjs',
+  'capture/captures/liqd-limbo-prod-capture-2026-11-07T16-28-43-825Z.ndjson',
+  'capture/captures/liqd-limbo-prod-capture-2026-11-10T04-11-27-073Z.ndjson',
+  'capture/captures/liqd-limbo-prod-capture-2026-11-10T10-47-42-943Z.ndjson',
+  'capture/replies/liqd-limbo-prod-replies-capture-1.jsonl',
+  'capture/replies/liqd-limbo-prod-replies-capture-2.jsonl',
+  'capture/replies/liqd-limbo-prod-replies-capture-3.jsonl',
 ];
 
 /** Documents that publish the audit ID. If any disagrees, the release is incoherent. Since 2026-10-04 the
@@ -69,18 +89,14 @@ const ARTIFACTS = [
  * fails the check if either is absent. */
 const AUDIT_ID_DOCS = ['README.md', 'MANIFEST.md'];
 
-/**
- * Every other capture whose rounds are scored: the supplement of 2026-09-26 (Step 25). The capture window spans all
- * scored captures, not only DATASET (2026-10-15: it read 11 September only, while the 300 scored supplement rounds
- * were placed on 26 September).
- */
-const SCORED_SUPPLEMENTS = ['data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.json'];
+/** Every other capture file whose rounds are scored. None: the scored population is the one production dataset. */
+const OTHER_SCORED_CAPTURES = [];
 /**
  * Capture window and host, read from the headers of every scored capture: `from` the earliest `startedAt`,
  * `to` the latest `finishedAt`. The host must be the same in every header.
  */
 const captureOf = (dataset) => {
-  const metas = [dataset, ...SCORED_SUPPLEMENTS.map(readJson)].map((d) => d?.meta ?? {});
+  const metas = [dataset, ...OTHER_SCORED_CAPTURES.map(readJson)].map((d) => d?.meta ?? {});
   const at = (k) => metas.map((m) => m[k]).filter((v) => typeof v === 'string' && !Number.isNaN(Date.parse(v)));
   const starts = at('startedAt'); const ends = at('finishedAt');
   const hosts = [...new Set(metas.map((m) => m.platform ?? null))];

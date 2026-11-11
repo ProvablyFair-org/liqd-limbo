@@ -57,8 +57,8 @@ function acceptanceProbe(range, rounds = 4000) {
 "src/config.js": function(module, exports, require, __filename, __dirname) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LIVE_TARGET_CEILING = exports.PHASE_A_DECADE_FLOOR = exports.SUPPLEMENT_DECLARED_RESUMES = exports.SUPPLEMENT_DECADES = exports.SUPPLEMENT_STAKE = exports.SUPPLEMENT_PHASE = exports.SUPPLEMENT_EXPECTED_SEEDS = exports.SUPPLEMENT_EXPECTED_BETS = exports.SUPPLEMENT_JOURNAL_SHA256 = exports.SUPPLEMENT_JOURNAL_PATH = exports.SUPPLEMENT_DATASET_SHA256 = exports.SUPPLEMENT_DATA_PATH = exports.PHASE_C_MIN_WINS = exports.PLANNED_TARGET_DECADES = exports.UI_MAX_TARGET = exports.MAX_PLAYABLE_TARGET = exports.MAX_EXPOSURE_USDC = exports.MIN_BET_USDC = exports.EXPECTED_PHASES = exports.DECLARED_CAPTURE_GAPS = exports.EXPECTED_EPOCH_SIZE = exports.EXPECTED_SEEDS = exports.EXPECTED_BETS = exports.DATASET_SHA256 = exports.DATA_PATH = exports.PASS1_GRID_SHA256 = exports.PASS1_SIGMAS = exports.PASS1_ALPHA = exports.PASS1_EPOCH = exports.PASS1_BINS = exports.PASS1_PREFIX_ROUNDS = exports.PASS1_PREFIX_DRAWS = exports.PASS1_MIN_TARGETS = exports.PASS1_TARGETS = exports.PASS1_ROUNDS_PER_TARGET = exports.PASS1_UNIFORMITY_DRAWS = exports.PASS1_MASTER_SEED = exports.SIM_MASTER_SEED = exports.SIM_EDGE_BETS = exports.SIM_SERIAL_DRAWS = exports.SIM_UNIFORMITY_DRAWS = exports.RESULT_NUMERATOR = exports.MIN_RESULT = exports.MAX_MULTIPLIER = exports.MIN_MULTIPLIER = exports.MULTIPLIER_SCALE = exports.MULTIPLIER_DECIMALS = exports.HOUSE_EDGE = exports.CURSOR = exports.RANGE = void 0;
-exports.MAX_WIN_CHANCE_PERCENT = exports.PASS2_BINS = exports.PASS2_SCREEN_ALPHA = exports.PASS2_Z_CRIT = exports.PASS2_WINDOW = exports.PASS2_NONCES = exports.SIMULATION_HTML_SHA256 = exports.SIMULATION_SHA256 = exports.CAP_PROBE_SHA256 = exports.CAP_PROBE_JOURNAL = exports.CAP_PROBE_DIR = exports.CAP_PROBE_TARGETS = exports.CEILING_PROBE_2_SHA256 = exports.CEILING_PROBE_2_JOURNAL = exports.CEILING_PROBE_1_SHA256 = exports.CEILING_PROBE_1_JOURNAL = exports.CEILING_PROBE_DIR = exports.CEILING_PROBE_ACCEPTED_AT_CEILING = exports.CEILING_PROBE_REFUSED_TARGET = exports.LIVE_TARGET_CEILING_WITNESSED = void 0;
+exports.PLANNED_TARGET_DECADES = exports.PROD_TOP_TARGET = exports.PHASE_D_SEEDS = exports.PHASE_C_MIN_WINS = exports.PHASE_C_TARGET = exports.TOPUP_ROUNDS_AT_TOP = exports.TOPUP_ROUNDS_BELOW = exports.TOPUP_HIGH = exports.TOPUP_LOW = exports.PROD_LADDER_TOP = exports.PHASE_D_ROUNDS_PER_TARGET = exports.PROD_ROUNDS_PER_TARGET = exports.PROD_TARGET_LADDER = exports.EXPECTED_PHASE_IDS = exports.EXPECTED_PHASES = exports.DECLARED_CAPTURE_GAPS = exports.MAX_EPOCH_SIZE = exports.EXPECTED_SEEDS = exports.EXPECTED_BETS = exports.EXPECTED_CAPTURES = exports.epochSize = exports.EPOCH_PLAN = exports.CAPTURE_PLAN = exports.DATASET_SHA256 = exports.DATA_PATH = exports.PASS1_GRID_SHA256 = exports.PASS1_SIGMAS = exports.PASS1_ALPHA = exports.PASS1_EPOCH = exports.PASS1_BINS = exports.PASS1_PREFIX_ROUNDS = exports.PASS1_PREFIX_DRAWS = exports.PASS1_MIN_TARGETS = exports.PASS1_TARGETS = exports.PASS1_ROUNDS_PER_TARGET = exports.PASS1_UNIFORMITY_DRAWS = exports.PASS1_MASTER_SEED = exports.SIM_MASTER_SEED = exports.SIM_EDGE_BETS = exports.SIM_SERIAL_DRAWS = exports.SIM_UNIFORMITY_DRAWS = exports.RESULT_NUMERATOR = exports.MIN_RESULT = exports.MAX_MULTIPLIER = exports.MIN_MULTIPLIER = exports.MULTIPLIER_SCALE = exports.MULTIPLIER_DECIMALS = exports.HOUSE_EDGE = exports.CURSOR = exports.RANGE = void 0;
+exports.MAX_WIN_CHANCE_PERCENT = exports.PASS2_BINS = exports.PASS2_SCREEN_ALPHA = exports.PASS2_Z_CRIT = exports.PASS2_SCREEN_WINDOW = exports.PASS2_NONCES = exports.SIMULATION_HTML_SHA256 = exports.SIMULATION_SHA256 = exports.CAP_PROBE_DISCRIMINATING_DRAWS = exports.CAP_PROBE_DISCRIMINATING = exports.CAP_PROBE_EXPECTED = exports.CAP_PROBE_RECORDS_SHA256 = exports.CAP_PROBE_RECORDS = exports.CAP_PROBE_DIR = exports.IDENTIFIER_SCAN_DIRS = exports.REPLY_RECORD_FILES = exports.REPLY_RECORD_BUILDER = exports.CONVERTER_FILES = exports.CONVERTER_ENTRY = exports.EXPORT_FILES = exports.RUNNER_VERSION_TAG = exports.CAPTURE_RUNNER_FILES = exports.RUNNER_BUILDS = exports.PHASE_A_DECADE_FLOOR = void 0;
 exports.targetToHundredths = targetToHundredths;
 exports.isTargetLegal = isTargetLegal;
 exports.winChance = winChance;
@@ -68,7 +68,6 @@ exports.limboWin = limboWin;
 exports.theoreticalRTP = theoreticalRTP;
 exports.effectiveEdge = effectiveEdge;
 exports.round8 = round8;
-exports.nominalPayout = nominalPayout;
 exports.RANGE = 100000000;
 exports.CURSOR = 0;
 exports.HOUSE_EDGE = 0.01;
@@ -85,7 +84,7 @@ exports.SIM_MASTER_SEED = 'pf.org/liqd-limbo/simulate/2026-09-26';
 exports.PASS1_MASTER_SEED = 'pf.org/liqd-limbo/pass1/2026-09-26';
 exports.PASS1_UNIFORMITY_DRAWS = 2000000;
 exports.PASS1_ROUNDS_PER_TARGET = 1000000;
-exports.PASS1_TARGETS = [1.01, 1.5, 2, 5, 10, 50, 100, 1000, 10000, 100000];
+exports.PASS1_TARGETS = [1.01, 1.5, 2, 5, 10, 50, 100, 1000, 10000];
 exports.PASS1_MIN_TARGETS = 9;
 exports.PASS1_PREFIX_DRAWS = 50000;
 exports.PASS1_PREFIX_ROUNDS = 20000;
@@ -93,53 +92,87 @@ exports.PASS1_BINS = 100;
 exports.PASS1_EPOCH = 50;
 exports.PASS1_ALPHA = 0.01;
 exports.PASS1_SIGMAS = 5;
-exports.PASS1_GRID_SHA256 = '9999f98ba17fe534b5350274da8e423aa6c1c096f4e136d40daec60a0cbdcae7';
-exports.DATA_PATH = 'data/limbo-master-6700bets.json';
-exports.DATASET_SHA256 = '8e3ce5b5e1494d1fcc3a783965d3ba7b6a7099f120a64d61e21a577098c07334';
-exports.EXPECTED_BETS = 6700;
-exports.EXPECTED_SEEDS = 134;
-exports.EXPECTED_EPOCH_SIZE = 50;
+exports.PASS1_GRID_SHA256 = 'd4284dc5260c43180c2ec7e2fa3d31c23331f0660b581a1fc968f14a4d205caf';
+exports.DATA_PATH = 'data/limbo-prod-full-5838bets.json';
+exports.DATASET_SHA256 = '65c7a472b503bbcd9db9f26caee28d51d6536427f286fb9d3d9ec038ab17e101';
+exports.CAPTURE_PLAN = [
+    { capture: 1, phase: 'A', phaseId: 'A', epochs: 25, size: 200, stake: 0.10, seedTag: 'audit' },
+    { capture: 2, phase: 'D', phaseId: 'D', epochs: 5, size: 100, stake: 0.10, seedTag: 'player' },
+    { capture: 2, phase: 'A', phaseId: 'A+', epochs: 1, size: 100, stake: 0.10, seedTag: 'audit' },
+    { capture: 3, phase: 'C', phaseId: 'C', epochs: 2, size: 119, stake: 10.00, seedTag: 'audit' },
+];
+exports.EPOCH_PLAN = exports.CAPTURE_PLAN.flatMap((b) => Array.from({ length: b.epochs }, () => b));
+const epochSize = (epoch) => exports.EPOCH_PLAN[epoch]?.size ?? NaN;
+exports.epochSize = epochSize;
+exports.EXPECTED_CAPTURES = 3;
+exports.EXPECTED_BETS = 5838;
+exports.EXPECTED_SEEDS = 33;
+exports.MAX_EPOCH_SIZE = 200;
 exports.DECLARED_CAPTURE_GAPS = [];
 exports.EXPECTED_PHASES = {
-    A: { bets: 5000, stake: 0.10 },
-    B: { bets: 1000, stake: 0.10, targets: [100, 1000, 100000, 500000] },
-    C: { bets: 200, stake: 10 },
+    A: { bets: 5100, stake: 0.10 },
+    C: { bets: 238, stake: 10.00 },
     D: { bets: 500, stake: 0.10 },
 };
-exports.MIN_BET_USDC = 0.1;
-exports.MAX_EXPOSURE_USDC = 50000;
-exports.MAX_PLAYABLE_TARGET = 500000;
-exports.UI_MAX_TARGET = 10000;
-exports.PLANNED_TARGET_DECADES = { 0: 50, 1: 50, 2: 250, 3: 250, 5: 500 };
+exports.EXPECTED_PHASE_IDS = { 'A': 5000, 'A+': 100, 'C': 238, 'D': 500 };
+exports.PROD_TARGET_LADDER = [
+    1.01, 1.11, 1.22, 1.34, 1.47, 1.61, 1.77, 1.95, 2.14, 2.35, 2.58, 2.83, 3.11, 3.42, 3.75, 4.12, 4.53, 4.97, 5.46, 6,
+    6.59, 7.24, 7.95, 8.73, 9.59, 10.53, 11.57, 12.71, 13.95, 15.33, 16.83, 18.49, 20.31, 22.3, 24.5, 26.9, 29.55, 32.45,
+    35.64, 39.15, 43, 47.23, 51.87, 56.97, 62.57, 68.72, 75.48, 82.9, 91.05, 100,
+];
+exports.PROD_ROUNDS_PER_TARGET = 100;
+exports.PHASE_D_ROUNDS_PER_TARGET = 10;
+exports.PROD_LADDER_TOP = 100;
+exports.TOPUP_LOW = 1000;
+exports.TOPUP_HIGH = 10000;
+exports.TOPUP_ROUNDS_BELOW = 50;
+exports.TOPUP_ROUNDS_AT_TOP = 50;
+exports.PHASE_C_TARGET = 2;
 exports.PHASE_C_MIN_WINS = 100;
-exports.SUPPLEMENT_DATA_PATH = 'data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.json';
-exports.SUPPLEMENT_DATASET_SHA256 = 'a2dee374cfd48c62736cf5958fd67f42b1cb7c622ab0883c3f84278d8429ab1e';
-exports.SUPPLEMENT_JOURNAL_PATH = 'data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.journal.ndjson';
-exports.SUPPLEMENT_JOURNAL_SHA256 = 'bcacab9c674df62a3b2219cba008542f2e798e9c81559c6321489e1a43949c32';
-exports.SUPPLEMENT_EXPECTED_BETS = 300;
-exports.SUPPLEMENT_EXPECTED_SEEDS = 6;
-exports.SUPPLEMENT_PHASE = 'A2';
-exports.SUPPLEMENT_STAKE = 0.1;
-exports.SUPPLEMENT_DECADES = { 2: 100, 3: 100, 4: 100 };
-exports.SUPPLEMENT_DECLARED_RESUMES = 1;
+exports.PHASE_D_SEEDS = 5;
+exports.PROD_TOP_TARGET = 10000;
+exports.PLANNED_TARGET_DECADES = { 0: 2500, 1: 2400, 2: 100, 3: 50, 4: 50 };
 exports.PHASE_A_DECADE_FLOOR = 50;
-exports.LIVE_TARGET_CEILING = 10000;
-exports.LIVE_TARGET_CEILING_WITNESSED = '2026-09-26';
-exports.CEILING_PROBE_REFUSED_TARGET = 93830.94;
-exports.CEILING_PROBE_ACCEPTED_AT_CEILING = 2;
-exports.CEILING_PROBE_DIR = 'evidence/E20-target-ceiling-probe-2026-09-26';
-exports.CEILING_PROBE_1_JOURNAL = 'liqd-limbo-capture-v2-probe-2026-09-26T17-43-21-558Z.journal.ndjson';
-exports.CEILING_PROBE_1_SHA256 = 'c2401ee1fe468557585a053377b92e88d0ed7f45ef321a7cec86966abbedd836';
-exports.CEILING_PROBE_2_JOURNAL = 'liqd-limbo-capture-v2-probe-2026-09-26T17-47-53-359Z.journal.ndjson';
-exports.CEILING_PROBE_2_SHA256 = '58822ffa99740859c22bf7bae95e6504f1ee4dbaf8bf2f007c4bd5f8e26c53bc';
-exports.CAP_PROBE_TARGETS = [100101.12, 497487.44, 500000, 990000.01];
-exports.CAP_PROBE_DIR = 'evidence/E21-target-cap-probe';
-exports.CAP_PROBE_JOURNAL = 'liqd-limbo-cap-probe-2026-10-02T18-22-46-633Z.journal.ndjson';
-exports.CAP_PROBE_SHA256 = '14f9880eff8294a5a7d8b0ce3fe715093eda5061899713ff87d3c9c098719809';
-exports.SIMULATION_SHA256 = '2d609344650eac723c262449fb8929b05c68b75f149ceee708b89ad4ade670cc';
+exports.RUNNER_BUILDS = [
+    { capture: 1, build: 'limbo-prod-capture-runner 2026-11-03 build 6fd6576d4561' },
+    { capture: 2, build: 'limbo-prod-capture-runner 2026-11-03 build 7e33ea9cd02d' },
+    { capture: 3, build: 'limbo-prod-capture-runner 2026-11-03 build 7e33ea9cd02d' },
+];
+exports.CAPTURE_RUNNER_FILES = [
+    { build: '6fd6576d4561', file: 'capture/runner/limbo-prod-capture-runner-build-6fd6576d4561.js', sha256: 'c1d18dbbceff2698367c45adf5b893c4124e8ebe3902af6b7cc09f6fd112e725', codeSha256: 'a780478f9274bf79d7b2de4fe83604c4debd5baf59674359551ef2e2e03afaf6' },
+    { build: '7e33ea9cd02d', file: 'capture/runner/limbo-prod-capture-runner-build-7e33ea9cd02d.js', sha256: 'b1c0ef28b0eda03a4f23c513a090d1a2cee7d3b514c71751cc4ed0d36a5827ad', codeSha256: '7aca96cc43830a63edf05f46f95ad9d909fe99f2163b3f89cb959b0aebc85e64' },
+];
+exports.RUNNER_VERSION_TAG = 'limbo-prod-capture-runner 2026-11-03';
+exports.EXPORT_FILES = [
+    { capture: 1, file: 'capture/captures/liqd-limbo-prod-capture-2026-11-07T16-28-43-825Z.ndjson', sha256: '88490b8e821085d8c1b28cc9b47de1dc4c0984251c77de41df39b81fb69611c5', originalSha256: '4e29b73dd91c585a9fb60e680038880169b2dc2504bbbaa451fb300a77000754' },
+    { capture: 2, file: 'capture/captures/liqd-limbo-prod-capture-2026-11-10T04-11-27-073Z.ndjson', sha256: 'af84273906c85b57f778df01fb9d986dc875a2768346b89d5ace20f961daa833', originalSha256: '9fe56a69dad19e938f23cd0e4875c5478dcbd43d9a8051d4fe7c9735c8eb6393' },
+    { capture: 3, file: 'capture/captures/liqd-limbo-prod-capture-2026-11-10T10-47-42-943Z.ndjson', sha256: '1dfd38dee0f4a1f68f3626f1fbd04189d7a59fae73779517dbda0a3c38bda3f2', originalSha256: 'cd5d8acd26234e7d15f4a8d80dbb35d6c6b2d5b7c6b121bc6d7c33defa339080' },
+];
+exports.CONVERTER_ENTRY = 'capture/converter/full-limbo.mjs';
+exports.CONVERTER_FILES = [
+    { file: 'capture/converter/full-limbo.mjs', sha256: '695f481c3fb98ee69a313972ddfc9a0ec569f92625c6e68d7b3f7ada2279fc2c' },
+    { file: 'capture/converter/adapters/limbo.mjs', sha256: '619ac8258ec79633284723e8d6ae6fa4fed4bed41c9420117110c6e2081d3454' },
+    { file: 'capture/converter/lib/events.mjs', sha256: '90ee59ce5c05dbaf657cf11cfd99313cf0cd383fd2f0a17adb98db7fd7187293' },
+    { file: 'capture/converter/inputs.limbo.json', sha256: '7056d47e54487c8a51c956c5cbd851b1f912935f900768689a79a11c1d874e7e' },
+    { file: 'capture/runners/_shared/check-core.mjs', sha256: '7753627f08b9461f3121db81be1064403f3b33fa7785a36bb895d99c43c43e18' },
+];
+exports.REPLY_RECORD_BUILDER = 'capture/build-reply-record.mjs';
+exports.REPLY_RECORD_FILES = [
+    { capture: 1, file: 'capture/replies/liqd-limbo-prod-replies-capture-1.jsonl', sha256: 'aa0c912ad3d385e47f043ff7a21221a0c958f80f27353d9279785a6499c3e3ee' },
+    { capture: 2, file: 'capture/replies/liqd-limbo-prod-replies-capture-2.jsonl', sha256: '892371efb84a8627c23277df5ca25a226a1e307866f9f6f00346db51bf36efd9' },
+    { capture: 3, file: 'capture/replies/liqd-limbo-prod-replies-capture-3.jsonl', sha256: '2316072267717c53601fc2ad8a2ab7b0f527daab97b2ab25c1de977602a20c0d' },
+];
+exports.IDENTIFIER_SCAN_DIRS = ['capture', 'data', 'evidence'];
+exports.CAP_PROBE_DIR = 'evidence/E02-prod-verifier-result-cap-2026-11-09';
+exports.CAP_PROBE_RECORDS = 'probes-limbo.jsonl';
+exports.CAP_PROBE_RECORDS_SHA256 = '4c5769e29a680be30998e4fd2748a2b9f58285e3542d265ec94971fbf18077c3';
+exports.CAP_PROBE_EXPECTED = 7;
+exports.CAP_PROBE_DISCRIMINATING = 4;
+exports.CAP_PROBE_DISCRIMINATING_DRAWS = 3;
+exports.SIMULATION_SHA256 = 'b4e529119b24e1845d01a00e97d2cf7d4d895f0ef6cb1a34566928d591552c36';
 exports.SIMULATION_HTML_SHA256 = 'efd121156f8255f391eb9c1b3c6f9f06c008d35807cef9a69b1e82be33fd0d69';
 exports.PASS2_NONCES = 10000;
-exports.PASS2_WINDOW = 50;
+exports.PASS2_SCREEN_WINDOW = 50;
 exports.PASS2_Z_CRIT = -3.0902323061678132;
 exports.PASS2_SCREEN_ALPHA = 0.05;
 exports.PASS2_BINS = 20;
@@ -178,9 +211,6 @@ function effectiveEdge(target) {
 }
 function round8(x) {
     return Math.round(x * 1e8) / 1e8;
-}
-function nominalPayout(stake, target) {
-    return stake * target;
 }
 
 },
@@ -300,25 +330,28 @@ exports.DOMAINS = {
         'pass1.effectiveEdge[].tolSE': real(0, Infinity), 'pass1.effectiveEdge[].n': eq(config_1.SIM_EDGE_BETS),
         'pass1.effectiveEdge[].se': real(0, config_1.MAX_MULTIPLIER),
         'pass2.seedsTested': int(0, config_1.EXPECTED_SEEDS), 'pass2.noncesPerSeed': eq(config_1.PASS2_NONCES),
-        'pass2.noncesTotal': int(0, config_1.EXPECTED_SEEDS * config_1.PASS2_NONCES), 'pass2.windowSize': eq(config_1.PASS2_WINDOW),
-        'pass2.windows': eq(config_1.PASS2_NONCES / config_1.PASS2_WINDOW),
+        'pass2.noncesTotal': int(0, config_1.EXPECTED_SEEDS * config_1.PASS2_NONCES), 'pass2.noncesRanked': int(0, config_1.EXPECTED_SEEDS * config_1.PASS2_NONCES),
+        'pass2.windowsTotal': int(0, config_1.EXPECTED_SEEDS * config_1.PASS2_NONCES / config_1.PASS2_SCREEN_WINDOW),
+        'pass2.windowSizes[].size': int(config_1.PASS2_SCREEN_WINDOW, config_1.MAX_EPOCH_SIZE), 'pass2.windowSizes[].seeds': int(1, config_1.EXPECTED_SEEDS),
+        'pass2.windowSizes[].windows': int(config_1.PASS2_NONCES / config_1.MAX_EPOCH_SIZE, config_1.PASS2_NONCES / config_1.PASS2_SCREEN_WINDOW),
         'pass2.servedReturn.replayMismatches': int(0, config_1.EXPECTED_BETS), 'pass2.servedReturn.rankSumZ': finite,
         'pass2.servedReturn.oneSidedP': prob, 'pass2.servedReturn.zCritical': eq(config_1.PASS2_Z_CRIT),
         'pass2.servedReturn.capturedBelowMedian': int(0, config_1.EXPECTED_SEEDS), 'pass2.servedReturn.capturedAboveMedian': int(0, config_1.EXPECTED_SEEDS),
         'pass2.servedReturn.capturedReturn': real(0, config_1.EXPECTED_BETS * config_1.MAX_MULTIPLIER),
         'pass2.servedReturn.capturedExpected': real(0, config_1.EXPECTED_BETS * config_1.MAX_MULTIPLIER),
         'pass2.servedReturn.powerFraction': real(0, Infinity),
-        'pass2.earlyLateScreen.bins': eq(config_1.PASS2_BINS), 'pass2.earlyLateScreen.drawsPerWindow': eq(config_1.PASS2_WINDOW),
-        'pass2.earlyLateScreen.nullAttainableValues': int(1, config_1.PASS2_WINDOW * config_1.PASS2_WINDOW),
-        'pass2.earlyLateScreen.criticalQ': int(config_1.PASS2_WINDOW, config_1.PASS2_WINDOW * config_1.PASS2_WINDOW),
+        'pass2.earlyLateScreen.bins': eq(config_1.PASS2_BINS), 'pass2.earlyLateScreen.drawsPerWindow': eq(config_1.PASS2_SCREEN_WINDOW),
+        'pass2.earlyLateScreen.nullAttainableValues': int(1, config_1.PASS2_SCREEN_WINDOW * config_1.PASS2_SCREEN_WINDOW),
+        'pass2.earlyLateScreen.criticalQ': int(config_1.PASS2_SCREEN_WINDOW, config_1.PASS2_SCREEN_WINDOW * config_1.PASS2_SCREEN_WINDOW),
         'pass2.earlyLateScreen.criticalChi2': real(0, Infinity), 'pass2.earlyLateScreen.size': prob,
         'pass2.earlyLateScreen.p0': real(0, 0.25), 'pass2.earlyLateScreen.flags': int(0, config_1.EXPECTED_SEEDS),
         'pass2.earlyLateScreen.expected': real(0, config_1.EXPECTED_SEEDS), 'pass2.earlyLateScreen.binomialP': prob,
         'pass2.earlyLateScreen.flaggedEpochs[]': int(0, config_1.EXPECTED_SEEDS - 1),
         'pass2.pooledRealDrawUniformity.n': int(0, config_1.EXPECTED_BETS), 'pass2.pooledRealDrawUniformity.chi2': real(0, Infinity),
         'pass2.pooledRealDrawUniformity.df': int(1, config_1.RANGE), 'pass2.pooledRealDrawUniformity.pValue': prob,
-        'pass2.perSeed[].epoch': int(0, config_1.EXPECTED_SEEDS - 1), 'pass2.perSeed[].capturedRank': real(1, config_1.PASS2_NONCES / config_1.PASS2_WINDOW),
-        'pass2.perSeed[].earlyQ': int(config_1.PASS2_WINDOW, config_1.PASS2_WINDOW * config_1.PASS2_WINDOW), 'pass2.perSeed[].lateQ': int(config_1.PASS2_WINDOW, config_1.PASS2_WINDOW * config_1.PASS2_WINDOW),
+        'pass2.perSeed[].epoch': int(0, config_1.EXPECTED_SEEDS - 1), 'pass2.perSeed[].capturedRank': real(1, config_1.PASS2_NONCES / config_1.PASS2_SCREEN_WINDOW),
+        'pass2.perSeed[].windowSize': int(config_1.PASS2_SCREEN_WINDOW, config_1.MAX_EPOCH_SIZE), 'pass2.perSeed[].windows': int(config_1.PASS2_NONCES / config_1.MAX_EPOCH_SIZE, config_1.PASS2_NONCES / config_1.PASS2_SCREEN_WINDOW),
+        'pass2.perSeed[].earlyQ': int(config_1.PASS2_SCREEN_WINDOW, config_1.PASS2_SCREEN_WINDOW * config_1.PASS2_SCREEN_WINDOW), 'pass2.perSeed[].lateQ': int(config_1.PASS2_SCREEN_WINDOW, config_1.PASS2_SCREEN_WINDOW * config_1.PASS2_SCREEN_WINDOW),
     },
     'outputs/pass1-grid.json': {
         ...MODEL,
@@ -595,11 +628,11 @@ function pass2Screen(seeds, bets) {
     const byEpoch = new Map();
     for (const b of bets)
         (byEpoch.get(b.epoch) ?? byEpoch.set(b.epoch, []).get(b.epoch)).push(b);
-    const WINDOWS = config_1.PASS2_NONCES / config_1.PASS2_WINDOW;
-    let epochs = 0, noncesTotal = 0, replayMismatches = 0, rankSum = 0, rankVar = 0, below = 0, above = 0;
+    let epochs = 0, noncesTotal = 0, noncesRanked = 0, windowsTotal = 0, replayMismatches = 0, rankSum = 0, rankVar = 0, below = 0, above = 0;
+    const windowSizes = new Map();
     let capturedReturn = 0, capturedExpected = 0;
     const perSeed = [];
-    const nul = exactQNull(config_1.PASS2_WINDOW, config_1.PASS2_BINS);
+    const nul = exactQNull(config_1.PASS2_SCREEN_WINDOW, config_1.PASS2_BINS);
     const alphaNum = BigInt(Math.round(config_1.PASS2_SCREEN_ALPHA * 1e6)), alphaDen = 1000000n;
     let tail = 0n;
     const tailGE = new Map();
@@ -618,14 +651,18 @@ function pass2Screen(seeds, bets) {
         if (!s.serverSeed)
             continue;
         const group = (byEpoch.get(s.epoch) ?? []).slice().sort((x, y) => x.nonce - y.nonce);
-        if (group.length !== config_1.PASS2_WINDOW)
+        const W = (0, config_1.epochSize)(s.epoch);
+        if (!Number.isInteger(W) || group.length !== W || W < config_1.PASS2_SCREEN_WINDOW)
             continue;
+        const WINDOWS = Math.floor(config_1.PASS2_NONCES / W);
         epochs++;
+        windowsTotal += WINDOWS;
+        windowSizes.set(W, (windowSizes.get(W) ?? 0) + 1);
         const served = group.map((b) => (0, config_1.targetToHundredths)(Number(b.params.target)));
         const targets = group.map((b) => Number(b.params.target));
         const cr = served.map((ci) => Math.floor(config_1.RESULT_NUMERATOR / ci));
         let mu = 0, v = 0;
-        for (let j = 0; j < config_1.PASS2_WINDOW; j++) {
+        for (let j = 0; j < W; j++) {
             const p = cr[j] / config_1.RANGE, T = served[j] / 100;
             mu += T * p;
             v += T * T * p * (1 - p);
@@ -634,17 +671,19 @@ function pass2Screen(seeds, bets) {
         const early = [], late = [];
         for (let w = 0; w < WINDOWS; w++) {
             let ret = 0;
-            for (let j = 0; j < config_1.PASS2_WINDOW; j++) {
-                const n = w * config_1.PASS2_WINDOW + j;
+            for (let j = 0; j < W; j++) {
+                const n = w * W + j;
                 const k = (0, rng_1.generateProvablyFairNumber)(s.serverSeed, s.clientSeed, n, config_1.CURSOR, config_1.RANGE);
                 noncesTotal++;
+                noncesRanked++;
                 const R = (0, config_1.resultMultiplier)(k);
                 if (w === 0) {
-                    early.push(k);
+                    if (j < config_1.PASS2_SCREEN_WINDOW)
+                        early.push(k);
                     if (R !== Number(group[j].result) || group[j].nonce !== n)
                         replayMismatches++;
                 }
-                if (w === 1)
+                if (w === 1 && j < config_1.PASS2_SCREEN_WINDOW)
                     late.push(k);
                 if ((0, config_1.limboWin)(R, targets[j]))
                     ret += served[j] / 100;
@@ -654,6 +693,10 @@ function pass2Screen(seeds, bets) {
                 capturedReturn += ret;
                 capturedExpected += mu;
             }
+        }
+        for (let n = WINDOWS * W; n < config_1.PASS2_NONCES; n++) {
+            (0, rng_1.generateProvablyFairNumber)(s.serverSeed, s.clientSeed, n, config_1.CURSOR, config_1.RANGE);
+            noncesTotal++;
         }
         const x0 = S[0];
         const rank0 = S.filter((y) => y < x0).length + (S.filter((y) => y === x0).length + 1) / 2;
@@ -669,11 +712,11 @@ function pass2Screen(seeds, bets) {
         const flag = earlyQ >= criticalQ && lateQ < criticalQ;
         if (flag)
             flaggedEpochs.push(s.epoch);
-        perSeed.push({ epoch: s.epoch, capturedRank: rank0, earlyQ, lateQ, flag });
+        perSeed.push({ epoch: s.epoch, windowSize: W, windows: WINDOWS, capturedRank: rank0, earlyQ, lateQ, flag });
     }
     const Z = rankSum / Math.sqrt(rankVar);
     const oneSidedP = normalCdf(Z);
-    const powerFraction = (-config_1.PASS2_Z_CRIT) * Math.sqrt(rankVar) / (0.45 * WINDOWS * epochs);
+    const powerFraction = (-config_1.PASS2_Z_CRIT) * Math.sqrt(rankVar) / (0.45 * windowsTotal);
     const seedOf = new Map(seeds.map((s) => [s.hashedServerSeed, s]));
     const hist = new Array(100).fill(0);
     let pooledN = 0;
@@ -692,8 +735,9 @@ function pass2Screen(seeds, bets) {
         seedsTested: epochs,
         noncesPerSeed: config_1.PASS2_NONCES,
         noncesTotal,
-        windowSize: config_1.PASS2_WINDOW,
-        windows: WINDOWS,
+        noncesRanked,
+        windowsTotal,
+        windowSizes: [...windowSizes.entries()].sort((x, y) => x[0] - y[0]).map(([size, n]) => ({ size, seeds: n, windows: Math.floor(config_1.PASS2_NONCES / size) })),
         servedReturn: {
             replayMismatches,
             rankSumZ: +Z.toFixed(4),
@@ -708,10 +752,10 @@ function pass2Screen(seeds, bets) {
         },
         earlyLateScreen: {
             bins: config_1.PASS2_BINS,
-            drawsPerWindow: config_1.PASS2_WINDOW,
+            drawsPerWindow: config_1.PASS2_SCREEN_WINDOW,
             nullAttainableValues: nul.q.length,
             criticalQ,
-            criticalChi2: +(0.4 * criticalQ - 50).toFixed(1),
+            criticalChi2: +(config_1.PASS2_BINS / config_1.PASS2_SCREEN_WINDOW * criticalQ - config_1.PASS2_SCREEN_WINDOW).toFixed(1),
             size: +size.toFixed(6),
             p0: +p0.toFixed(6),
             flags,
@@ -733,19 +777,21 @@ exports.PACKAGE_CHECKS = exports.NOT_APPLICABLE = exports.STEP_CLAIMS = exports.
 exports.profileCoverageBlock = profileCoverageBlock;
 exports.labelFor = labelFor;
 exports.PROFILE_GAME = 'limbo';
-exports.PROFILE_VERSION = '1.0.2';
+exports.PROFILE_VERSION = '1.0.4';
 exports.STEP_CLAIMS = {
     1: { claims: [{ id: 'LIMBO-01', coverage: 'full',
                 note: 'SHA-256(utf8(serverSeed)) == hashedServerSeed on every revealed seed; the count checked is bound to '
                     + 'EXPECTED_SEEDS in src/config.ts, not to the dataset' }] },
     2: { claims: [{ id: 'LIMBO-02', coverage: 'full',
-                note: 'next-hash chain recomputed from the raw fields on all 133 transitions plus the meta.preCapture link' }] },
+                note: 'next-hash chain recomputed from the raw fields on all 30 transitions inside the three runs, plus each run\'s own '
+                    + 'pre-capture link (meta.captures[].preCapture); the three runs are separate sessions and no link is asserted between them' }] },
     3: { claims: [{ id: 'LIMBO-03', coverage: 'full' }] },
     4: { claims: [{ id: 'LIMBO-04', coverage: 'full',
-                note: 'nonces exactly 0..49 per epoch against EXPECTED_EPOCH_SIZE, no reuse, none out of range; an operator-side or '
-                    + 'undeclared gap is a HARD FAIL; a gap the capture log attributes to a retry (DECLARED_CAPTURE_GAPS) whose '
-                    + 'revealed seed reconstructs every recorded bet is returned as FLAG origin = capture, verdict-neutral (verify.ts). '
-                    + 'The branch does not fire on this gap-free capture; it is shown reachable by tests/forgeries/declared-capture-gap.mjs' }] },
+                note: 'nonces exactly 0..size-1 per epoch against the epoch\'s planned size in src/config.ts EPOCH_PLAN (200, 100 or 119), '
+                    + 'no reuse, none out of range; an operator-side or undeclared gap is a HARD FAIL; a gap the capture log attributes to a '
+                    + 'retry (DECLARED_CAPTURE_GAPS) whose revealed seed reconstructs every recorded bet is returned as FLAG origin = capture, '
+                    + 'verdict-neutral (verify.ts). The branch does not fire on this gap-free capture; it is shown reachable by '
+                    + 'tests/forgeries/declared-capture-gap.mjs' }] },
     5: { claims: [
             { id: 'LIMBO-07', coverage: 'full',
                 note: 'R recomputed from the revealed seeds equals the served result with strict === on all EXPECTED_BETS bets; '
@@ -754,196 +800,182 @@ exports.STEP_CLAIMS = {
                 note: 'range half: every served and recomputed result lies in [MIN_RESULT 1, MAX_MULTIPLIER 1e6] on the 2-dp '
                     + 'lattice; the win-rule half is Step 6' },
             { id: 'LIMBO-17', coverage: 'full',
-                note: 'floor half: 147 rounds served at R = 1, 78 of them with the raw formula below 1 (the clamp fired); the '
-                    + 'tie half is Step 6 + E13 (Step 19); the 1e6 cap is declared UNWITNESSED (L4, Step 21) and exercised by '
-                    + 'grid arithmetic in Step 14' },
+                note: 'floor half: 116 production rounds served at R = 1, 66 of them with the raw formula below 1 (the clamp fired); the '
+                    + 'tie half is Step 6; the cap half is Step 25 (production verifier probes; no settled round at the cap, L4)' },
             { id: 'LIMBO-08', coverage: 'full',
                 note: 'draw-bias bound computed from the same maxFair rule the draw applies and ASSERTED: maxFair = '
                     + '4,200,000,000 = 42 x 1e8, a whole number of ranges, per-value bias exactly 0 (<= 2^-32); rejected tail '
-                    + '94,967,296 of 2^32 chunk values (2.2111%) printed; rejection census over the capture: 126 rounds had '
-                    + 'their first chunk rejected and all reproduce, so the operator applies the guard (formerly L11 prose)' },
+                    + '94,967,296 of 2^32 chunk values (2.2111%) printed; rejection census over the production capture: 135 rounds had '
+                    + 'their first chunk rejected and all reproduce, so the operator applies the guard' },
         ] },
     6: { claims: [
             { id: 'LIMBO-10', coverage: 'full',
                 note: 'win == (recomputed R >= target) reproduces the served win flag on every bet; no served result or win '
                     + 'field is read while deriving it' },
             { id: 'LIMBO-17', coverage: 'full',
-                note: 'tie half: 20 captured rounds land exactly on the target (18.24 expected from the bets placed) and all 20 '
-                    + 'settle as wins (>=), a rule a strict > model would flip on 20 bets; floor half: all 147 recomputed floor '
-                    + 'rounds settle as losses and MIN_RESULT < MIN_MULTIPLIER is asserted' },
+                note: 'tie half: 2 production rounds land exactly on the target (6.78 expected from the bets placed) and both '
+                    + 'settle as wins (>=), a rule a strict > model would flip on 2 bets; 12 rounds land one tick below their target and '
+                    + 'all settle as losses; floor half: all 116 recomputed floor rounds settle as losses and '
+                    + 'MIN_RESULT < MIN_MULTIPLIER is asserted' },
         ] },
     7: { claims: [{ id: 'LIMBO-07', coverage: 'full',
                 note: 'determinism half: the full derivation run twice and in reverse order agrees with itself' }] },
     8: { claims: [{ id: 'LIMBO-13', coverage: 'full',
-                note: 'on every win the dataset\'s multiplier column equals the target, bit-exact; the capture script fills that '
-                    + 'column itself when the casino\'s response has no wager-level multiplier, and none of the 303 raw responses kept '
-                    + 'has one, so this checks the file, not the casino (the payout is Step 9); the edge sits in the result numerator '
-                    + 'N = 9.9e9 (client-bundle constants, confirmed by four operator Verify vectors, tests/limbo/rngTests.ts); '
+                note: 'on every win the multiplier the casino served in its production place-bet reply (outcome.multiplier, the '
+                    + 'dataset\'s multiplier column) equals the target, bit-exact (the payout is Step 9); the edge sits in the result numerator '
+                    + 'N = 9.9e9, which every settled production result confirms (Step 5); '
                     + 'the dataset carries no operator win-chance or edge field, so the derivation can read none' }] },
     9: { claims: [{ id: 'LIMBO-11', coverage: 'full',
                 note: 'winning credit x 1e8 == hundredths(stake) x hundredths(target) x 1e4, exact integer identity; loss half is Step 10' }] },
     10: { claims: [{ id: 'LIMBO-11', coverage: 'full', note: 'loss half: winningAmount == 0 and multiplier == 0 on every loss' }] },
     11: { claims: [{ id: 'LIMBO-14', coverage: 'full',
-                note: 'every target a legal 2-dp value <= MAX_PLAYABLE_TARGET, every stake >= the $0.10 minimum, exposure <= the '
-                    + '$50,000 ceiling compared in integer hundredths; the client-code-maximum half is Step 17, the live-ceiling '
-                    + 'half is Step 25 and the UI cap is recorded in Step 16' }] },
+                note: 'every target a 2-dp value in [1.01, 10,000], every stake the planned stake of its phase; the largest exposure the '
+                    + 'casino accepted is measured and printed as a measured maximum; maximum payout and exposure limit are declared '
+                    + 'undeclared (no bet was refused); the target-bound half is Step 17' }] },
     12: { claims: [
-            { id: 'LIMBO-05', coverage: 'full', note: 'bets, seeds, epochs x epoch size bound to src/config.ts EXPECTED_*; header reconciled, never the denominator' },
+            { id: 'LIMBO-05', coverage: 'full', note: 'bets, seeds, runs and each epoch\'s size bound to src/config.ts (EXPECTED_*, CAPTURE_PLAN); header and record tags reconciled, never the denominator' },
             { id: 'LIMBO-26', coverage: 'full', note: 'dataset SHA-256 equals DATASET_SHA256; the loader aborts before any step on a mismatch' },
         ] },
     13: { claims: [
-            { id: 'LIMBO-05', coverage: 'full', note: 'per-phase counts and stakes asserted against EXPECTED_PHASES both ways' },
+            { id: 'LIMBO-05', coverage: 'full', note: 'per-phase and per-plan-entry counts and stakes asserted against EXPECTED_PHASES / EXPECTED_PHASE_IDS both ways; the 50-target '
+                    + 'ladder asserted against PROD_TARGET_LADDER (Phase A each target exactly 100 times, Phase D exactly 10) and reconciled with meta.ladder; '
+                    + 'the top-up asserted as 50 rounds in [1000, 10000) and 50 at exactly 10,000x' },
             { id: 'LIMBO-12', coverage: 'full',
-                note: 'Phase C: 200/200 bets at $10 on target 2x recomputed from primitives in this step and settled by the '
-                    + 'base-stake rule (result, win flag, credit = stake x target in integer hundredths); 104 elevated-stake wins '
-                    + 'against the PHASE_C_MIN_WINS = 100 floor; the price has no stake input' },
+                note: 'Phase C: 238 production rounds at 10.00 USDT (100 times the base stake) on the fixed target 2.00x; every one '
+                    + 'recomputes from its revealed seed and settles by the base-stake rule (win == R >= target, credit == stake x target, '
+                    + 'multiplier == target); 114 wins went through the payout path (floor 100). 2.00x is not on the 0.10 ladder, so the '
+                    + 'comparison is rule against rule, not round against round' },
             { id: 'LIMBO-15', coverage: 'full',
-                note: 'audited-dataset half: per-decade coverage asserted against PLANNED_TARGET_DECADES (10^0 5,245, 10^1 455, '
-                    + '10^2 250, 10^3 250, 10^5 500), minimum legal target 1.01x played, 6,200 bets at or below the 10,000x UI cap '
-                    + 'and 500 above it (server-accepted on 2026-09-11); decade 10^4 is unplayed IN THIS DATASET. The Phase A floor '
-                    + 'of 50 per declared decade up to the declared ceiling (10,000x, live 2026-09-26) is Step 25: Phase A covers '
-                    + '10^0 and 10^1 here, the 2026-09-26 supplement covers 10^2, 10^3 and 10^4 at 100 each' },
+                note: 'Phase A coverage asserted against PLANNED_TARGET_DECADES with the 50-per-decade floor: 10^0 2,500, 10^1 2,400, '
+                    + '10^2 100, 10^3 50, 10^4 50 (all at exactly 10,000x, the one target of that decade inside the audited range); minimum '
+                    + 'target 1.01x played; highest target 10,000x, 0 rounds above it; 102 distinct targets. Disclosed: none of the 100 '
+                    + 'rounds at 1,000x and above won, so no production win was paid above 100x' },
         ] },
     14: { claims: [{ id: 'LIMBO-18', coverage: 'full',
-                note: 'negative control (rejects 2.48x, NaN, Infinity) + boundary anchor over all captured targets from the grid alone' }] },
+                note: 'negative control (rejects a result one 2-dp tick away, NaN, Infinity) + boundary anchor over all captured targets from the grid alone' }] },
     15: { claims: [
             { id: 'LIMBO-18', coverage: 'full',
-                note: 'winning draws on the 1e8 grid == floor(N/ci) for every captured target, plus four literal full-grid tallies' },
+                note: 'winning draws on the 1e8 grid == floor(N/ci) for every captured target, plus four literal full-grid tallies (1.01x, 2x, 100x, 10,000x)' },
             { id: 'LIMBO-13', coverage: 'full',
-                note: 'the win chance given by LIQD\'s pricing formula (read from its client code) equals the probability the '
-                    + 'result formula delivers, integer identity; LIQD\'s page states two of these figures (49.5% at 2x, 0.0099% at '
-                    + '10,000x) and both match' },
+                note: 'the win chance of the formula equals the probability the result formula delivers, integer identity; the '
+                    + 'production game page states two of these figures (49.5% at 2x, 0.0099% at 10,000x) and both match' },
         ] },
     16: { claims: [{ id: 'LIMBO-19', coverage: 'full',
-                note: 'the edge is derived in exact integers at all 99,999,900 legal targets and min/max/where/count off 1.00% are '
-                    + 'printed; LIMBO-19 follows the RTP-CLAIM band (decided 2026-10-02): a target more than the 0.1 pp band from the '
-                    + 'claim is a FLAG (origin operator, magnitude stated), inside the band the curve is printed, not flagged. Judged on '
-                    + 'the current build\'s range, 1.01x to the 10,000x live ceiling of 2026-09-26 (the range the RTP-CLAIM rule is '
-                    + 'scored on): 0 of 999,900 targets beyond the band, so PASS; inside it 999,618 are off 1.00%, by at most 0.009982 pp '
-                    + '(1.009982% at 9,989.91x). The first target beyond the band is 100,101.12x. Disclosed beside it, not scored: the '
-                    + '2026-09-11 range (<= 500,000x), worst 1.497487% at 497,487.44x, where the RTP-CLAIM rule would fail on '
-                    + '23,885,381 of 49,999,900 targets; the whole declared grid, up to 1.989999%' }] },
+                note: 'the edge is derived in exact integers at every 2-dp target of the audited range, 1.01x to 10,000x (the lowest and '
+                    + 'highest target settled on production; the range the RTP-CLAIM rule is scored on), and min/max/where/count off 1.00% '
+                    + 'are printed: 0 of 999,900 targets beyond the 0.1 pp band, so PASS; inside it 999,618 are off 1.00%, always on the '
+                    + 'house side, by at most 0.009982 pp (1.009982% at 9,989.91x). A target more than the band from the claim would be a '
+                    + 'FLAG (origin operator). The floor edge >= 1.00% is also asserted at all 99,999,900 2-dp values up to the result cap, '
+                    + 'printed as arithmetic about the formula: whether a target above 10,000x can be played is not established' }] },
     17: { claims: [{ id: 'LIMBO-14', coverage: 'full',
-                note: 'client-code-maximum half: re-derives the 2026-09-11 evidence that the 1,000,000x maximum target in LIQD\'s '
-                    + 'client code (read 2026-09-07, not retained) was unplayable at the $0.10 minimum (E15) and prints it as a NOTE, '
-                    + 'not a FLAG: the player-facing text held (evidence/rtp-page-labels-2026-10-01.json) shows 10,000x as its top '
-                    + 'example and nothing in the package shows players are told 1,000,000x. The step FAILs if the 2026-09-11 '
-                    + 'evidence stops reproducing' }] },
+                note: 'target-bound half, stated from production only: every target played lies in [1.01, 10,000]; 50 rounds were '
+                    + 'accepted and settled at exactly 10,000x and none was placed above it; whether a higher target is accepted is NOT '
+                    + 'established (no refused bet is held; the one record is a production verifier reply, HTTP 400 on target 100000, '
+                    + 'evidence/E03, read by the step); the game page\'s own text uses 10,000x as its top example; the result cap is '
+                    + '1,000,000x (Step 25); maximum payout and exposure are undeclared' }] },
     18: { claims: [{ id: 'LIMBO-06', coverage: 'full',
-                note: 'Phase D 500/500 recompute under 10 auditor seeds; model-rate gate over all 6,700 bets (wrong seed and '
-                    + 'EMPTY-SEED control each leave 0 draws unchanged against floor(E + 5 sqrt(E)) = 0, E = n/1e8); Phase A-C '
-                    + 'seeds are the rig\'s randomBytes(6) CSPRNG, read from the shipped capture script and matched on all 6,200 '
-                    + 'bets; Phase D seeds are predictable by construction and the 10 exposed epochs (124-133) are enumerated' }] },
+                note: 'every one of the 5,838 rounds settled under a client seed the auditor submitted and recomputes; Phase D: 500 '
+                    + 'rounds in 5 epochs under 5 distinct player-set seeds (\'pfaudit-prod-limbo-d<k>-\' + 12 hex), each round under its '
+                    + 'epoch\'s seed, none outside Phase D; the Phase D seeds are not predictable (6 CSPRNG bytes each), which the step '
+                    + 'prints; model-rate gate over all 5,838 (wrong seed and EMPTY-SEED control each leave 0 draws unchanged against '
+                    + 'floor(E + 5 sqrt(E)) = 0, E = n/1e8); the generators of both seed shapes as the runs\' headers describe them '
+                    + '(crypto.getRandomValues); every epoch\'s commitment published before the rotation that submitted its seed' }] },
     19: { claims: [
             { id: 'LIMBO-26', coverage: 'full', note: 'dataset pin restated in the artifact of record' },
             { id: 'LIMBO-27', coverage: 'full',
-                note: 'every artifact of record pinned in src/config.ts and recorded in artifactHashes, un-ignored by name in '
-                    + '.gitignore, free of run metadata (simulation-results.json generatedAt removed with the producer\'s own '
-                    + 'serialiser, 0 values changed, re-pinned), never written by verify (outputs/run/ only); 966 numeric leaves '
-                    + 'across the two pinned JSON artifacts carry a declared value domain (src/domains.ts); Pass-1 grid half is Step 23' },
+                note: 'every artifact of record pinned in src/config.ts and recorded in artifactHashes (the dataset, '
+                    + 'the verifier probe records, the simulation artifacts), un-ignored by name in .gitignore, free of run '
+                    + 'metadata, never written by verify (outputs/run/ only); every numeric leaf of the two pinned JSON artifacts carries a '
+                    + 'declared value domain (src/domains.ts); Pass-1 grid half is Step 23' },
         ] },
-    20: { claims: [{ id: 'LIMBO-11', coverage: 'full',
-                note: 'outcome and credit fully determined by (seeds, nonce, target, stake), no served outcome field read' }] },
+    20: { claims: [
+            { id: 'LIMBO-11', coverage: 'full',
+                note: 'outcome and credit fully determined by (seeds, nonce, target, stake), no served outcome field read' },
+            { id: 'LIMBO-12', coverage: 'full',
+                note: 'both stakes (0.10 and 10.00 USDT) go through the same determined-settlement chain; the Phase C counts are Step 13' },
+        ] },
     22: { claims: [{ id: 'LIMBO-22', coverage: 'full',
                 note: 'recomputed draws in capture order: 100-bin chi-squared and KS against U(0,1) (the fit of P(R >= x), R being '
                     + 'monotone in k), point mass at R = 1 counted separately as a binomial z, lag-1 z and runs test; thresholds '
-                    + 'fixed in code on 2026-09-26; informational (policy INFORMATIONAL, 2026-09-29): a deviation is INFO — reported, never '
+                    + 'fixed in code on 2026-09-26; informational (policy INFORMATIONAL): a deviation is INFO — reported, never '
                     + 'counted, verdict unchanged — shown able to fire by the sorted-draws mutation' }] },
     23: { claims: [
             { id: 'LIMBO-20', coverage: 'full',
                 note: '2,000,000 uniformity draws (100-bin chi-squared) + lag-1 and runs from stored integer sums, family-wise '
-                    + 'alpha 0.01; RTP convergence at 10 targets (1.01x..100,000x, decades 10^0..10^5) x 1,000,000 rounds against '
-                    + 'the EXACT win probability floor(N/ci)/1e8; every statistic re-derived here from the artifact\'s integer rows; '
-                    + 'the experiment is seeded from a recorded master seed, its prefixes replayed on every run, and all 12,000,000 '
+                    + 'alpha 0.01; RTP convergence at 9 targets (1.01x..10,000x, decades 10^0..10^4) x 1,000,000 rounds against '
+                    + 'the EXACT win probability floor(N/ci)/1e8, band 5 sd + 1 count; every statistic re-derived here from the artifact\'s integer rows; '
+                    + 'the experiment is seeded from a recorded master seed, its prefixes replayed on every run, and all 11,000,000 '
                     + 'draws replayed byte for byte by npm run pass1:check (test:full)' },
             { id: 'LIMBO-27', coverage: 'full', note: 'pass1-grid.json pinned (PASS1_GRID_SHA256) and rejected if it carries run metadata' },
         ] },
     24: { claims: [{ id: 'LIMBO-21', coverage: 'full',
-                note: 'every revealed seed (134) x 10,000 nonces re-derived in verify from the dataset (src/pass2.ts, deterministic, '
-                    + 'no random number); early window = the captured nonces 0-49, reference = the other 199 windows of 50; statistic = the '
-                    + 'unit-stake return of the targets the casino served in that epoch, standardised by the exact per-target mean and '
-                    + 'variance (floor(N/ci)/RANGE); exact permutation null for the captured window\'s rank; one-sided rule fixed in code on 2026-09-26, after the capture, '
-                    + 'Z < -3.090 (alpha 0.001); direction split and detection power printed; window 0 replays every captured result. '
-                    + 'The original early/late chi-squared screen is recounted against its EXACT multinomial null (p0 computed, not the '
-                    + 'assumed 0.0475) and its binomial rule is scored too; the committed pass2 block must equal the re-derivation' }] },
+                note: 'every revealed production seed (33) x 10,000 nonces re-derived in verify from the dataset (src/pass2.ts, deterministic, '
+                    + 'no random number); early window = the captured nonces of the epoch, reference = the other full windows of the same '
+                    + 'size (49 of 200, 99 of 100 or 83 of 119); statistic = the unit-stake return of the targets the casino served in that '
+                    + 'epoch, standardised by the exact per-target mean and variance (floor(N/ci)/RANGE); exact permutation null for the '
+                    + 'captured window\'s rank; one-sided rule fixed in code on 2026-09-26, before any production capture (the window '
+                    + 'follows each epoch\'s planned size, set on 2026-11-10, after the captures), Z < -3.090 (alpha 0.001); direction '
+                    + 'split and detection power printed; window 0 replays every captured result. The early/late chi-squared screen '
+                    + '(first 50 captured nonces vs the first 50 after the epoch) is counted against its EXACT multinomial null (p0 '
+                    + 'computed, not assumed) and its binomial rule is scored too; the committed pass2 block must equal the re-derivation' }] },
     25: { claims: [
-            { id: 'LIMBO-15', coverage: 'full',
-                note: 'Phase A >= PHASE_A_DECADE_FLOOR (50) asserted in every decade from 10^0 up to the declared ceiling '
-                    + 'LIVE_TARGET_CEILING 10,000x (decade 10^4): 10^0 4,574 and 10^1 426 from the audited Phase A, 10^2 100, 10^3 '
-                    + '100 and 10^4 100 (all at exactly 10,000x, the one legal point of that decade under the ceiling) from the '
-                    + '2026-09-26 supplement (SUPPLEMENT_DECADES, bound in src/config.ts); minimum legal target 1.01x played in '
-                    + 'Phase A; every supplement round recomputed from its revealed seed (result, win, credit), 6/6 commitments, '
-                    + '5/5 chain links and the pre-capture anchor; the supplement is pinned and scored by this step only' },
-            { id: 'LIMBO-14', coverage: 'full',
-                note: 'live-ceiling half, worded with dates: on 2026-09-11 '
-                    + 'the server accepted and settled targets up to 500,000x (250 at 100,000x, 250 at 500,000x); the 2026-09-26 '
-                    + 'probe above 10,000x (93,830.94x, itself inside the RTP-CLAIM band at 98.991642%) has an intent, no '
-                    + 'settlement and consumed no nonce, and its reply was not saved (evidence/E20); the first target outside the band '
-                    + 'is 100,101.12x. Until 2026-10-02 this was the audit\'s one operator FLAG. It cleared on a saved server reply: '
-                    + 'the cap re-probe (capture/PROBE-2026-10-02.md, capture/capture-limbo-v2.mjs --cap-probe), run on qa.liqd.com on '
-                    + '2026-10-02 and pinned in src/config.ts as evidence/E21, settled a $0.10 control at 10,000x that recomputes and '
-                    + 'saw 100,101.12x, 497,487.44x, 500,000x and 990,000.01x each refused (HTTP 400, errorCode 3001, "Too big: '
-                    + 'expected number to be <=10000"), no nonce consumed. 100,000x was not re-probed. Every supplement '
-                    + 'target is a legal 2-dp value at or below LIVE_TARGET_CEILING 10,000x' },
+            { id: 'LIMBO-17', coverage: 'full',
+                note: 'cap half, by operator-verifier probes: six logged-out production verifier requests of 9 November 2026 on five unsettled '
+                    + 'draws of revealed seeds (evidence/E02, pinned) are recomputed from src/; on the four requests (three distinct draws) whose raw value is above '
+                    + '1,000,000 the verifier reports 1,000,000, on the one at exactly 1,000,000 it reports 1,000,000, and on the control '
+                    + 'just under it reports the uncapped value. No settled round is at the cap (L4). Tie and floor: the verifier says WIN '
+                    + 'on the 2 tie rounds and LOSS on the 116 floor rounds. The same step holds the verifier\'s result, win flag and '
+                    + 'multiplier equal to the settled round and to this package\'s recomputation on 5,838 of 5,838 rounds' },
         ] },
-    21: { claims: [], reason: 're-checks L1-L4 against the dataset on every run and fails if one stops being true; '
-            + 'recomputes the figures quoted for L7 and L8; L5 and L6 are restated, not measured; the register itself is '
+    21: { claims: [], reason: 're-checks L1-L5 against the dataset on every run and fails if one stops being true (L1: the capture host is liqd.com); '
+            + 'recomputes the figures quoted for L7 and L8; L6 is restated, not measured; the register itself is '
             + 'LIMBO-30, a package check' },
 };
 exports.NOT_APPLICABLE = [
     { id: 'LIMBO-16',
         reason: 'applies={path: money.balanceField, notNull: true} is false — money.balanceField is null: the capture '
             + 'carries no running wallet-balance ledger (L3). The stakeWallet / winningAmountWallet settle-response fields '
-            + 'are reconciled against the game ledger in Step 11, which the profile does not count as a balance ledger' },
+            + 'are reconciled against the game fields in Step 11, which the profile does not count as a balance ledger' },
     { id: 'LIMBO-31',
         reason: 'applies={path: gameModel.scalingEdge.presentAtCapture, eq: true} is false — no stake- or exposure-'
-            + 'dependent edge: the client-bundle constants carry one HOUSE_EDGE = 0.01 (src/config.ts), and the edge '
-            + 'dispersion Step 16 measures is a function of the target, not of the stake' },
+            + 'dependent edge was seen: 238 rounds at 10.00 USDT settle by the rule of the 0.10 rounds (Step 13), the win chance '
+            + 'has no stake input, and the edge dispersion Step 16 measures is a function of the target, not of the stake. The '
+            + 'casino\'s configuration is not held by this audit, so this rests on the settled rounds at two stakes' },
 ];
 exports.PACKAGE_CHECKS = [
     { id: 'LIMBO-09', artifact: 'docs/ALGORITHM.md + tests/limbo/RngSpecTests.ts + tests/limbo/rngTests.ts + tests/limbo/resultFloorTests.ts', coverage: 'partial',
-        note: 'src/rng.ts is rebuilt from the written spec docs/ALGORITHM.md by an implementer who never opened LIQD\'s code '
-            + '(20 Oct 2026), and RngSpecTests.ts runs the spec\'s vectors against it; as a second check, not the source, '
-            + 'four operator Verify-calculator vectors and a 2026-09-11 session round that is not in the shipped dataset '
-            + '(serverSeed 5d8a6efd…, nonce 49, the result-floor witness) reproduce; src/config.ts '
-            + 'names the client-bundle functions it ports (ci, cr, LIMBO_* exports) but not line numbers — the bundle is '
-            + 'minified and not retained in the package' },
-    { id: 'LIMBO-23', artifact: 'MANIFEST.md#verification-results', coverage: 'full',
+        note: 'src/rng.ts is built from the written specification docs/ALGORITHM.md, and RngSpecTests.ts runs the spec\'s '
+            + 'vectors against it; every vector is a settled production round of the dataset or a production verifier reply '
+            + '(evidence/E02), including first-chunk-rejected rounds, result-floor rounds and the result-cap probes. PARTIAL: the '
+            + 'package ports no operator source file, so there is no operator source line to cite; the anchor is the casino\'s own '
+            + 'verifier and settled rounds' },
+    { id: 'LIMBO-23', artifact: 'exploit-testing.md', coverage: 'full',
         note: 'the standardized framework matrix S5-1..S5-8 (seed substitution, client-seed manipulation, stake-conditional '
             + 'outcome, cherry-picking, rotation race, multiplier tampering, nonce manipulation, modulo bias), each row one '
-            + 'verdict tied to a step or disclosed as not tested; the limbo-specific target hunt and input-contract probes '
-            + 'are carried as supplementary rows S5-L1 / S5-L2' },
+            + 'verdict tied to a step or disclosed as not tested' },
     { id: 'LIMBO-24', artifact: 'none', coverage: 'none',
-        note: 'LIQD publishes a Verify calculator (E12, E13), so the check applies; no ProvablyFair.org site verifier '
-            + 'for limbo exists to hash-match against computeResult' },
+        note: 'LIQD publishes a verifier (POST /api/v1/originals/limbo/verify), so the check applies; Step 25 holds this package to '
+            + 'that verifier on every settled round. The ProvablyFair.org verifier at provablyfair.org/verify-bets/liqd covers limbo '
+            + '(README and MANIFEST "Verify a bet" name it first); this package does not record a hash of that verifier\'s code '
+            + 'against computeResult, which is what the check asks for' },
     { id: 'LIMBO-25', artifact: 'MANIFEST.md#verify-a-bet', coverage: 'full',
         note: 'MANIFEST "Verify a bet" states, in order and in the declaration\'s field names: where the seed is revealed, the fields to '
             + 'paste (hashedServerSeed, serverSeed, clientSeed, nonce, params.target, betAmount), the commitment encoding '
-            + 'SHA-256(utf8(serverSeed)), the draw and result formula, the >= win rule, and the credit; worked real rounds in '
+            + 'SHA-256(utf8(serverSeed)), the draw and result formula, the >= win rule, and the credit; worked production rounds in '
             + 'the same section' },
     { id: 'LIMBO-28', artifact: 'package.json + .nvmrc + verify.js/test.js + src/simulate.ts', coverage: 'full',
         note: 'npm test reproduces the verdict with the runtime pinned and the audit ID assigned; test:full writes every '
             + 'regeneration to outputs/run/ and requires each to equal the committed artifact: the Pass-1 grid (pass1:check), '
-            + 'the Pass-2 block (pass2:check) and, since 2026-09-26, the whole legacy outputs/simulation-results.json and '
-            + 'rtp-convergence.html (simulate:check) — its Pass-1 seeds are now sha256(SIM_MASTER_SEED|stream|n) from the '
-            + 'recorded seed in src/config.ts (was crypto.randomBytes), the artifact records pass1.masterSeed and Step 19 binds '
-            + 'it to the constant; the regeneration is compared byte for byte (stricter than field by field) with the runtime '
-            + 'written to outputs/run/simulation-diff.json. Regenerating from the recorded seed moved every legacy Pass-1 '
-            + 'figure (MANIFEST L9 note); verify\'s own reproduction diff is outputs/run/diff.json' },
+            + 'the Pass-2 block (pass2:check) and the whole outputs/simulation-results.json and rtp-convergence.html '
+            + '(simulate:check, byte for byte, seeds from the recorded SIM_MASTER_SEED); verify\'s own reproduction diff is '
+            + 'outputs/run/diff.json' },
     { id: 'LIMBO-29', artifact: 'tests/mutations.json + tests/structural-forgeries.json + tests/mutation-survivors.json', coverage: 'full',
-        note: '115 entries — 73 single-file mutations, 41 structural forgeries, 1 declared survivor tied to register row '
-            + 'L12 — run by tests/mutate.ts in a disposable copy (npm run mutate, 2026-10-03): 114 killed, 1 survivor as '
-            + 'declared, 0 other than as declared; every scored step 1-25 has at least one entry that must move THAT step '
-            + 'off its baseline status; 2 entries are killed by mocha and 4 are marker kills (the dataset pin aborting the loader, and '
-            + 'three caught only by the run-vs-committed-artifact reproduction gate on byte identity); forgeries that re-pin '
-            + 'the hash they invalidate are included. Added 2026-10-02: the Step 16 band arm, the Step 19 casino-result arm '
-            + '(E13), the Step 21 L2/L3 arms and the Step 25 cap re-probe pin arm. That count is the run of 2026-10-03 on the '
-            + 'release tree, E21 pinned (baseline a Full Pass); the two cap re-probe entries were rewritten for the pinned '
-            + 'journal on 2026-10-02 (deleted, and edited without re-pinning). The '
-            + 'judge of the cap re-probe is also unit-tested in tests/limbo/capProbeTests.ts on journals the real capture engine writes' },
-    { id: 'LIMBO-30', artifact: 'MANIFEST.md#limitations-and-trust + MANIFEST.md#evidence', coverage: 'full',
-        note: 'MANIFEST carries the limitations register L1-L18 with magnitudes and the Load-Bearing Premises table; '
-            + 'MANIFEST Evidence numbers exhibits from E01' },
+        note: '100 entries: 64 single-file mutations, 36 structural forgeries and other non-step kills, 0 declared survivors, '
+            + 'run by tests/mutate.ts in a disposable copy (npm run mutate); the result of the run of record is in '
+            + 'exploit-testing.md. Dataset forgeries re-pin the production dataset as a forger would; the runner restores it between entries' },
+    { id: 'LIMBO-30', artifact: 'MANIFEST.md#limitations-and-trust + evidence.md', coverage: 'full',
+        note: 'MANIFEST carries the limitations register with magnitudes and the Load-Bearing Premises table; '
+            + 'evidence.md numbers exhibits from E01' },
 ];
 function profileCoverageBlock() {
     return { game: exports.PROFILE_GAME, profileVersion: exports.PROFILE_VERSION, notApplicable: exports.NOT_APPLICABLE, packageChecks: exports.PACKAGE_CHECKS };
@@ -1638,21 +1670,21 @@ const config_1 = require("./config");
 exports.RTP_CLAIM = {
     kind: 'flat',
     rtp: '0.99',
-    source: 'LIQD Limbo: the game page liqd.com/originals/limbo shows "Released: September 2026 | Edge: 1.00%" and RTP 99% (read 2026-10-01, evidence/rtp-page-labels-2026-10-01.json). Same figure as HOUSE_EDGE = 0.01 in the operator client-bundle constants and meta.houseEdge 0.01 in the dataset header (src/config.ts:92; declaration gameModel.edge.claimSource)',
+    source: 'LIQD Limbo: the game page liqd.com/originals/limbo shows "Released: September 2026 | Edge: 1.00%" and RTP 99% (read logged out 2026-10-01, evidence/rtp-page-labels-2026-10-01.json). Same figure as meta.houseEdge 0.01 in the dataset header (declaration gameModel.edge.claimSource).',
 };
 exports.RTP_CLAIM_STEP = 16;
 exports.RETAIN_ROWS = 1000;
 exports.RTP_CLAIM_TABLE = path.join(__dirname, '..', 'outputs', 'rtp-claim-table.json');
-exports.RTP_CLAIM_TABLE_SHA256 = 'cdfbf600e0713b822acf00b420c10d12b7af7fca73cce96c395099f49634ba34';
-const ceilCi = (0, config_1.targetToHundredths)(config_1.LIVE_TARGET_CEILING);
-const ceilText = `${config_1.LIVE_TARGET_CEILING.toLocaleString('en-US')}.00×`;
-const NOT_SCORED = 'above live ceiling — information only, not scored';
+exports.RTP_CLAIM_TABLE_SHA256 = '92670c4605ba60045ba5348c4022e5241199857f9d3346aa9c2ec3888ebf42a0';
+const ceilCi = (0, config_1.targetToHundredths)(config_1.PROD_TOP_TARGET);
+const ceilText = `${config_1.PROD_TOP_TARGET.toLocaleString('en-US')}.00×`;
+const NOT_SCORED = 'above the highest target settled on production — information only, not scored';
 const SCORED_BUCKETS = [
     [101, 199, '1.01× – 1.99×'], [200, 999, '2.00× – 9.99×'], [1000, 9999, '10.00× – 99.99×'],
-    [10000, 99999, '100.00× – 999.99×'], [100000, ceilCi, `1,000.00× – ${ceilText} (≤ live ceiling)`],
+    [10000, 99999, '100.00× – 999.99×'], [100000, ceilCi, `1,000.00× – ${ceilText} (≤ highest target settled on production)`],
 ];
 const ABOVE_CEILING_BUCKETS = [
-    [ceilCi + 1, 9999999, `${(config_1.LIVE_TARGET_CEILING + 0.01).toLocaleString('en-US')}× – 99,999.99× (${NOT_SCORED})`],
+    [ceilCi + 1, 9999999, `${(config_1.PROD_TOP_TARGET + 0.01).toLocaleString('en-US')}× – 99,999.99× (${NOT_SCORED})`],
     [10000000, 100000000, `100,000.00× – 1,000,000.00× (${NOT_SCORED})`],
 ];
 function computeRtpClaimParts() {
@@ -1661,7 +1693,7 @@ function computeRtpClaimParts() {
         throw new Error('RESULT_NUMERATOR / RANGE·SCALE not exact integers');
     const lo = (0, config_1.targetToHundredths)(config_1.MIN_MULTIPLIER), hi = (0, config_1.targetToHundredths)(config_1.MAX_MULTIPLIER);
     if (!(lo < ceilCi && ceilCi < hi))
-        throw new Error(`live ceiling ${config_1.LIVE_TARGET_CEILING}× is not inside the legal range`);
+        throw new Error(`top target ${config_1.PROD_TOP_TARGET}× is not inside the grid`);
     const fill = (acc, buckets) => {
         for (const [b0, b1, name] of buckets) {
             for (let ci = Math.max(b0, lo); ci <= Math.min(b1, hi); ci++) {
@@ -1675,7 +1707,7 @@ function computeRtpClaimParts() {
     fill(aboveAcc, ABOVE_CEILING_BUCKETS);
     const scored = scoredAcc.result(), aboveCeiling = aboveAcc.result();
     if (scored.settings !== ceilCi - lo + 1)
-        throw new Error(`scored buckets cover ${scored.settings} of ${ceilCi - lo + 1} playable targets`);
+        throw new Error(`scored buckets cover ${scored.settings} of ${ceilCi - lo + 1} audited targets`);
     if (aboveCeiling.settings !== hi - ceilCi)
         throw new Error(`above-ceiling buckets cover ${aboveCeiling.settings} of ${hi - ceilCi} targets`);
     return { scored, aboveCeiling };
@@ -1686,16 +1718,16 @@ function computeRtpClaim(parts = computeRtpClaimParts()) {
 function rtpClaimTableText(r) {
     return (0, rtp_claim_1.rtpClaimTable)(r, {
         package: 'liqd/limbo', game: 'limbo',
-        settingSpace: `scored: every 2-dp target a player can play, 1.01× … ${ceilText} (${r.settings.toLocaleString('en-US')} settings; the live target ceiling witnessed ${config_1.LIVE_TARGET_CEILING_WITNESSED}, evidence/E20-target-ceiling-probe-2026-09-26, Step 25). `
-            + `Not scored: the ${((0, config_1.targetToHundredths)(config_1.MAX_MULTIPLIER) - ceilCi).toLocaleString('en-US')} targets ${(config_1.LIVE_TARGET_CEILING + 0.01).toLocaleString('en-US')}× … 1,000,000× that are legal in the operator client constants and lie above the live ceiling (${config_1.CEILING_PROBE_REFUSED_TARGET.toLocaleString('en-US')}×, not settled on ${config_1.LIVE_TARGET_CEILING_WITNESSED}; ${config_1.CAP_PROBE_TARGETS.map((t) => `${t.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}×`).join(', ')}, refused on 2026-10-02 with "Too big: expected number to be <=10000", evidence/E21-target-cap-probe, Step 25; 100,000×, settled on 2026-09-11, not re-probed) — carried as buckets marked "information only, not scored". `
+        settingSpace: `scored: every 2-dp target of the audited range, 1.01× … ${ceilText} (${r.settings.toLocaleString('en-US')} settings; both ends settled on production, Step 13). `
+            + `Not scored: the ${((0, config_1.targetToHundredths)(config_1.MAX_MULTIPLIER) - ceilCi).toLocaleString('en-US')} 2-dp values ${(config_1.PROD_TOP_TARGET + 0.01).toLocaleString('en-US')}× … 1,000,000× between the highest target settled on production and the result cap; whether production accepts a bet on any of them is not established (Step 17); `
             + `rows = scored extremes + scored house-side rows up to ${exports.RETAIN_ROWS}`,
-        rtpMethod: 'exact rational: floor(9.9e9/ci)·ci / 1e10, ci = target in hundredths (the operator win-chance pricing × target)',
+        rtpMethod: 'exact rational: floor(9.9e9/ci)·ci / 1e10, ci = target in hundredths (win chance × target)',
     });
 }
 function aboveCeilingLine(a) {
-    return `rtp-claim:   not scored (information only): ${a.settings.toLocaleString('en-US')} legal targets above the ${ceilText} live ceiling `
-        + `(E20, ${config_1.LIVE_TARGET_CEILING_WITNESSED}: one request above it, ${config_1.CEILING_PROBE_REFUSED_TARGET.toLocaleString('en-US')}×, not settled) — true min ${a.trueMin.rtpPct}% (${a.trueMin.setting}), `
-        + `${a.houseSideFailures.toLocaleString('en-US')} below the band; see the table buckets; the 2026-09-11 range (≤ 500,000×) is in Step 16`;
+    return `rtp-claim:   not scored (information only): ${a.settings.toLocaleString('en-US')} 2-dp values above ${ceilText}, the highest target settled on production `
+        + `(whether a bet on any of them is accepted is not established) — true min ${a.trueMin.rtpPct}% (${a.trueMin.setting}), `
+        + `${a.houseSideFailures.toLocaleString('en-US')} below the band; see the table buckets`;
 }
 function runRtpClaimGate() {
     const parts = computeRtpClaimParts();
@@ -1940,8 +1972,8 @@ function run(ctx) {
     const s14 = (0, context_1.step)(14, 'Anti-Circularity (Negative Control + Grid Boundary Anchor)', negControlRejects && boundaryFails === 0 && boundaryChecked === distinctTargets.length && clampsOk ? 'PASS' : 'FAIL', `negative control on epoch ${probe.epoch} nonce ${probe.nonce}: the predicate Step 5 uses ACCEPTS the recomputed ${trueResult}x and REJECTS ${perturbed}x (one 2-dp tick away), NaN and Infinity (${negControlRejects ? 'falsifiable' : 'VACUOUS — this suite could not fail'}); `
         + `boundary anchor over ${boundaryChecked}/${distinctTargets.length} distinct captured targets: for each, k = floor(${config_1.RESULT_NUMERATOR}/ci(m)) - 1 WINS and k = floor(${config_1.RESULT_NUMERATOR}/ci(m)) LOSES under the real formula and rule — ${boundaryFails} violations`
         + (firstBoundaryFail ? ` (e.g. ${firstBoundaryFail})` : '')
-        + `; grid extremes exercised directly because the capture cannot witness them: k=0 -> ${topOfGrid}x (upper clamp), k=98 -> ${(0, config_1.resultMultiplier)(98)}x, k=99 -> ${(0, config_1.resultMultiplier)(99)}x (first draw below the clamp), k=${config_1.RANGE - 1} -> ${bottomOfGrid}x (lower clamp) — ${clampsOk ? 'all as published' : 'CLAMP BEHAVIOUR WRONG'}; `
-        + `every quantity in this step is derived from the draw grid and the operator's published constants; no operator payout, odds or win-chance field is read`);
+        + `; grid extremes exercised directly on the draw grid: k=0 -> ${topOfGrid}x (upper clamp), k=98 -> ${(0, config_1.resultMultiplier)(98)}x, k=99 -> ${(0, config_1.resultMultiplier)(99)}x (first draw below the clamp), k=${config_1.RANGE - 1} -> ${bottomOfGrid}x (lower clamp) — ${clampsOk ? 'all as published' : 'CLAMP BEHAVIOUR WRONG'}; `
+        + `every quantity in this step is derived from the draw grid and the constants of src/config.ts; no served payout, odds or win-chance field is read`);
     let identityChecked = 0;
     let identityFails = 0;
     let firstIdentityFail = '';
@@ -1955,20 +1987,407 @@ function run(ctx) {
         }
         identityChecked++;
     }
-    const anchorTargets = [1.01, 2.00, 100.00, 500000];
+    const anchorTargets = [config_1.MIN_MULTIPLIER, config_1.PHASE_C_TARGET, config_1.PROD_LADDER_TOP, config_1.PROD_TOP_TARGET];
     const anchors = anchorTargets.map((m) => {
         const tallied = tallyWinningDraws(m);
         const closedForm = Math.floor(config_1.RESULT_NUMERATOR / (0, config_1.targetToHundredths)(m));
         return { m, tallied, closedForm, agree: tallied === closedForm };
     });
     const anchorsOk = anchors.every((a) => a.agree);
-    const s15 = (0, context_1.step)(15, 'Win-Chance vs Result-Distribution Identity', identityFails === 0 && anchorsOk && identityChecked === distinctTargets.length && distinctTargets.length > 0 ? 'PASS' : 'FAIL', `${identityChecked} distinct captured targets: the number of winning draws on the ${config_1.RANGE}-point grid is exactly floor(${config_1.RESULT_NUMERATOR}/ci(m)) == winChance(m) x ${config_1.RANGE}, asserted as an INTEGER equality with no tolerance — ${identityFails} violations`
+    const pageOk = (0, config_1.winChance)(2) * 100 === 49.5 && Math.round((0, config_1.winChance)(10000) * 1e8) === 9900;
+    const s15 = (0, context_1.step)(15, 'Win-Chance vs Result-Distribution Identity', identityFails === 0 && anchorsOk && pageOk && identityChecked === distinctTargets.length && distinctTargets.length > 0 ? 'PASS' : 'FAIL', `${identityChecked} distinct captured targets: the number of winning draws on the ${config_1.RANGE}-point grid is exactly floor(${config_1.RESULT_NUMERATOR}/ci(m)) == winChance(m) x ${config_1.RANGE}, asserted as an INTEGER equality with no tolerance — ${identityFails} violations`
         + (firstIdentityFail ? ` (e.g. ${firstIdentityFail})` : '')
-        + `; so the win chance given by LIQD's pricing formula (read from its client code) equals the probability the result formula delivers — LIQD's page states two of these figures, 49.5% at 2x and 0.0099% at 10,000x (evidence/rtp-page-labels-2026-10-01.json), and both match. `
+        + `; so the win chance of the formula equals the probability the result formula delivers. LIQD's game page states two of these figures, 49.5% at 2x and 0.0099% at 10,000x (liqd.com/originals/limbo, read logged out 2026-10-01, evidence/rtp-page-labels-2026-10-01.json), and both match (${pageOk}). `
         + `Literal tally anchor, ${anchorTargets.length} full ${config_1.RANGE}-draw sweeps of the real formula and rule: `
         + `${anchors.map((a) => `${a.m}x tallied ${a.tallied} vs closed form ${a.closedForm} (${a.agree ? 'agree' : 'DISAGREE'})`).join('; ')}; `
-        + `MODEL IDENTITY, stated plainly: it holds by algebra for every legal target, so no dataset can falsify it — it enforces our model and is anchored by the tally, while the tie to the operator is Step 5's reproduction of all ${bets.length} settled results`);
+        + `MODEL IDENTITY, stated plainly: it holds by algebra for every target on the grid, so no dataset can falsify it — it enforces our model and is anchored by the tally, while the tie to the operator is Step 5's reproduction of all ${bets.length} settled results`);
     return [s14, s15];
+}
+
+},
+"tests/steps/capture-chain.js": function(module, exports, require, __filename, __dirname) {
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.loadReplyRecord = loadReplyRecord;
+exports.captureChain = captureChain;
+exports.identifierScan = identifierScan;
+exports.dateOrder = dateOrder;
+const fs = __importStar(require("fs"));
+const os = __importStar(require("os"));
+const path = __importStar(require("path"));
+const node_crypto_1 = require("node:crypto");
+const node_child_process_1 = require("node:child_process");
+const context_1 = require("./context");
+const config_1 = require("../../src/config");
+const sha = (b) => (0, node_crypto_1.createHash)('sha256').update(b).digest('hex');
+const cache = new Map();
+function loadReplyRecord(repoRoot) {
+    const hit = cache.get(repoRoot);
+    if (hit)
+        return hit;
+    const files = config_1.REPLY_RECORD_FILES.map((f) => {
+        const fp = path.join(repoRoot, f.file);
+        if (!fs.existsSync(fp))
+            return { capture: f.capture, rel: f.file, present: false, pinOk: false, parseOk: false, header: null, rows: [] };
+        const raw = fs.readFileSync(fp);
+        let rows = [];
+        let parseOk = true;
+        try {
+            rows = raw.toString('utf8').split('\n').filter((l) => l !== '').map((l) => JSON.parse(l));
+        }
+        catch {
+            parseOk = false;
+        }
+        const header = rows[0]?.t === 'source' ? rows[0] : null;
+        return { capture: f.capture, rel: f.file, present: true, pinOk: sha(raw) === f.sha256, parseOk, header, rows: header ? rows.slice(1) : rows };
+    });
+    cache.set(repoRoot, files);
+    return files;
+}
+const parse = (s) => { try {
+    return s === undefined ? null : JSON.parse(s);
+}
+catch {
+    return null;
+} };
+function captureChain(ctx) {
+    const parts = [];
+    let ok = true;
+    const meta = ctx.meta;
+    const caps = meta.captures ?? [];
+    {
+        const code = (s) => s.split('\n').filter((l) => !/^\s*\/\//.test(l)).join('\n');
+        let pinned = 0, idOk = 0, used = 0, gen = 0;
+        const generatorA = ctx.meta.clientSeedGenerator?.A ?? '\u0000';
+        for (const r of config_1.CAPTURE_RUNNER_FILES) {
+            const fp = path.join(ctx.repoRoot, r.file);
+            if (!fs.existsSync(fp))
+                continue;
+            const buf = fs.readFileSync(fp);
+            const src = buf.toString('utf8');
+            if (sha(buf) === r.sha256)
+                pinned++;
+            const stamped = `'${config_1.RUNNER_VERSION_TAG} build ${r.build}'`;
+            if (src.split(stamped).length === 2 && sha(code(src)) === r.codeSha256)
+                idOk++;
+            if (config_1.RUNNER_BUILDS.some((b) => b.build === `${config_1.RUNNER_VERSION_TAG} build ${r.build}`))
+                used++;
+            if (src.includes(generatorA) && src.includes(`const newSeed = () => 'audit' + hex(root.crypto.getRandomValues(new Uint8Array(6)));`))
+                gen++;
+        }
+        const n = config_1.CAPTURE_RUNNER_FILES.length;
+        const buildsInRuns = new Set(config_1.RUNNER_BUILDS.map((b) => b.build));
+        const allShipped = [...buildsInRuns].every((b) => config_1.CAPTURE_RUNNER_FILES.some((r) => b === `${config_1.RUNNER_VERSION_TAG} build ${r.build}`));
+        if (pinned !== n || idOk !== n || used !== n || gen !== n || !allShipped)
+            ok = false;
+        parts.push(`RUNNER SOURCE: ${n} builds shipped (${config_1.CAPTURE_RUNNER_FILES.map((r) => r.file).join(', ')}): ${pinned}/${n} match their pins; on ${idOk}/${n} the version string names the build once and the code `
+            + `(the source with every full-line // comment removed) has the SHA-256 the auditor computed from the original build file the same way, after replacing a person's name in two plan-note strings of 7e33ea9cd02d `
+            + `(the build id itself is a digest of the original source, which is not shipped, so it is not recomputed here); ${used}/${n} are the build a run names, and every run's build is shipped (${allShipped}); `
+            + `${gen}/${n} draw the per-epoch client seed as 'audit' + 6 bytes of crypto.getRandomValues and carry the generator text the dataset header names`);
+    }
+    {
+        let pinned = 0;
+        for (const c of config_1.CONVERTER_FILES) {
+            const fp = path.join(ctx.repoRoot, c.file);
+            if (fs.existsSync(fp) && sha(fs.readFileSync(fp)) === c.sha256)
+                pinned++;
+        }
+        const inputsRel = config_1.CONVERTER_FILES.find((c) => c.file.endsWith('inputs.limbo.json'))?.file ?? '';
+        const inputs = fs.existsSync(path.join(ctx.repoRoot, inputsRel)) ? (parse(fs.readFileSync(path.join(ctx.repoRoot, inputsRel), 'utf8')) ?? []) : [];
+        const named = inputs.filter((j, i) => caps[i] && caps[i].sha256 === j.sha256 && j.capture.split('/').pop() === caps[i].file).length;
+        const convOk = String(meta.conversion?.converter ?? '').startsWith('convert/full-limbo.mjs + convert/adapters/limbo.mjs');
+        let expPinned = 0, expNamed = 0, bodies = 0, bodiesOk = 0, uaLeft = 0;
+        for (const e of config_1.EXPORT_FILES) {
+            const fp = path.join(ctx.repoRoot, e.file);
+            if (!fs.existsSync(fp))
+                continue;
+            const buf = fs.readFileSync(fp);
+            const h = sha(buf);
+            if (h === e.sha256)
+                expPinned++;
+            const c = caps.find((x) => x.capture === e.capture);
+            if (c && c.sha256 === h && c.file === path.basename(e.file))
+                expNamed++;
+            for (const line of buf.toString('utf8').split('\n')) {
+                if (line === '')
+                    continue;
+                let ev;
+                try {
+                    ev = JSON.parse(line);
+                }
+                catch {
+                    bodies++;
+                    continue;
+                }
+                const check = (body, n, d) => { bodies++; if (Buffer.byteLength(body, 'utf8') === n && sha(body) === d)
+                    bodiesOk++; };
+                if (ev.t === 'pre' || ev.t === 'rotate')
+                    check(JSON.stringify(ev.raw), ev.http?.bodyBytes, ev.http?.bodySha256);
+                else if (ev.t === 'bet')
+                    check(JSON.stringify(ev.rec?.raw), ev.rec?.http?.bodyBytes, ev.rec?.http?.bodySha256);
+                else if (ev.t === 'verify' && typeof ev.body === 'string')
+                    check(ev.body, ev.bodyBytes, ev.bodySha256);
+                else if (ev.t === 'meta' && ev.meta && 'userAgent' in ev.meta)
+                    uaLeft++;
+            }
+        }
+        const expectedBodies = config_1.EXPECTED_CAPTURES + (config_1.EXPECTED_SEEDS + config_1.EXPECTED_CAPTURES) + 2 * config_1.EXPECTED_BETS;
+        const expOk = expPinned === config_1.EXPORT_FILES.length && expNamed === config_1.EXPECTED_CAPTURES && bodies === expectedBodies && bodiesOk === expectedBodies && uaLeft === 0;
+        if (!expOk)
+            ok = false;
+        parts.push(`EXPORTS (${config_1.EXPORT_FILES.map((e) => e.file).join(', ')}): ${expPinned}/${config_1.EXPORT_FILES.length} match their pins and ${expNamed}/${config_1.EXPECTED_CAPTURES} are the files the dataset header names by file name and SHA-256; `
+            + `${bodiesOk}/${bodies} reply bodies (expected ${expectedBodies}: seed pairs, rotations, place-bet and verifier replies) have the byte length and SHA-256 the runner recorded for the bytes as received; `
+            + `user-agent fields left: ${uaLeft} (the first line of each export is the edited copy of the runner's meta line, capture/redact-export.mjs)`);
+        const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'limbo-convert-'));
+        let rerun = 'NOT RUN', rerunOk = false;
+        try {
+            let out = '', code = 0;
+            try {
+                out = (0, node_child_process_1.execFileSync)(process.execPath, [config_1.CONVERTER_ENTRY, '--out', tmp], { cwd: ctx.repoRoot, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 16 * 1024 * 1024 });
+            }
+            catch (e) {
+                code = e.status ?? 1;
+                out = String(e.stdout ?? '');
+            }
+            const produced = path.join(tmp, path.basename(config_1.DATA_PATH));
+            const exists = fs.existsSync(produced);
+            const same = exists && Buffer.compare(fs.readFileSync(produced), fs.readFileSync(path.join(ctx.repoRoot, config_1.DATA_PATH))) === 0;
+            rerunOk = code === 0 && same;
+            const verdict = /SELF-CHECK (PASS|FAIL[^\n]*)/.exec(out)?.[0] ?? 'no self-check line';
+            rerun = `node ${config_1.CONVERTER_ENTRY} exited ${code}, ${verdict}; its output ${exists ? (same ? 'IS byte for byte' : 'DIFFERS FROM') : 'was not written, so it is not'} ${config_1.DATA_PATH}`;
+        }
+        finally {
+            fs.rmSync(tmp, { recursive: true, force: true });
+        }
+        if (!rerunOk || pinned !== config_1.CONVERTER_FILES.length || named !== config_1.EXPECTED_CAPTURES || inputs.length !== config_1.EXPECTED_CAPTURES || !convOk)
+            ok = false;
+        parts.push(`CONVERTER: ${pinned}/${config_1.CONVERTER_FILES.length} files match their pins; its input list names ${named}/${config_1.EXPECTED_CAPTURES} exports by the file name and SHA-256 the dataset header records; `
+            + `the dataset header names this converter (${convOk}); RERUN on the shipped exports: ${rerun}`);
+    }
+    {
+        const rec = loadReplyRecord(ctx.repoRoot);
+        let filesOk = 0, headersOk = 0, withBody = 0, intact = 0, betRows = 0, betOrder = 0, betAt = 0, verRows = 0, verOk = 0, verDate = 0, digestOnly = 0;
+        let seedOpen = 0, seedReveal = 0, preOk = 0;
+        const counts = {};
+        for (const f of rec) {
+            if (f.present && f.pinOk && f.parseOk)
+                filesOk++;
+            const c = caps.find((x) => x.capture === f.capture);
+            const h = f.header;
+            if (c && h && h.capture === f.capture && h.file === c.file && h.sha256 === c.sha256 && h.lines === c.lines && h.runner === c.runner)
+                headersOk++;
+            for (const r of f.rows) {
+                counts[r.t] = (counts[r.t] ?? 0) + 1;
+                if (typeof r.body === 'string') {
+                    withBody++;
+                    if (Buffer.byteLength(r.body, 'utf8') === r.bodyBytes && sha(r.body) === r.bodySha256)
+                        intact++;
+                }
+                else if (r.t === 'bet' && Number.isInteger(r.bodyBytes) && /^[0-9a-f]{64}$/.test(String(r.bodySha256)))
+                    digestOnly++;
+            }
+            const dsBets = ctx.bets.filter((b) => b.capture === f.capture);
+            const rb = f.rows.filter((r) => r.t === 'bet'), rv = f.rows.filter((r) => r.t === 'verify');
+            betRows += rb.length;
+            verRows += rv.length;
+            dsBets.forEach((b, i) => {
+                if (rb[i]?.betId === b.id && rb[i]?.status === 200)
+                    betOrder++;
+                if (rb[i]?.at === b.at)
+                    betAt++;
+                const v = b.verifier;
+                const rows = rv.filter((r) => r.betId === b.id);
+                if (rows.length !== 1 || !v)
+                    return;
+                const r = rows[0];
+                const q = parse(r.request?.body);
+                const o = parse(r.body);
+                if (q && o && r.status === 200 && r.request?.method === 'POST'
+                    && q.serverSeed === v.request?.serverSeed && q.clientSeed === v.request?.clientSeed && q.nonce === v.request?.nonce && q.params?.target === v.request?.target
+                    && o.seeds?.clientSeed === v.echo?.clientSeed && o.seeds?.nonce === v.echo?.nonce && o.derivationParams?.target === v.echo?.target
+                    && (0, context_1.servedResultMatches)(Number(o.outcome?.result), Number(v.result)) && o.outcome?.win === v.win && o.outcome?.multiplier === v.multiplier)
+                    verOk++;
+                if (r.date === v.date)
+                    verDate++;
+            });
+            const rot = f.rows.filter((r) => r.t === 'rotate').map((r) => ({ r, b: parse(r.body) }));
+            for (const s of ctx.seeds.filter((x) => x.capture === f.capture)) {
+                if (rot.some(({ r, b }) => b && b.activeServerSeedHash === s.hashedServerSeed && b.nextServerSeedHash === s.nextHashedServerSeed && b.clientSeed === s.clientSeed && r.submitted === s.clientSeed))
+                    seedOpen++;
+                if (s.serverSeed && rot.some(({ b }) => b && b.revealedServerSeed === s.serverSeed))
+                    seedReveal++;
+            }
+            const pre = f.rows.find((r) => r.t === 'pre');
+            const pb = parse(pre?.body);
+            const pc = c?.preCapture;
+            if (pb && pc && pb.activeServerSeedHash === pc.hashedServerSeed && pb.nextServerSeedHash === pc.nextHashedServerSeed
+                && rot.some(({ r, b }) => String(r.closes) === 'pre' && b?.revealedServerSeed === pc.revealedServerSeed))
+                preOk++;
+        }
+        const nf = config_1.REPLY_RECORD_FILES.length;
+        const builder = fs.existsSync(path.join(ctx.repoRoot, config_1.REPLY_RECORD_BUILDER));
+        let rebuilt = 0, rebuildCode = -1;
+        const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'limbo-replies-'));
+        try {
+            try {
+                (0, node_child_process_1.execFileSync)(process.execPath, [config_1.REPLY_RECORD_BUILDER, path.dirname(config_1.EXPORT_FILES[0].file), tmp], { cwd: ctx.repoRoot, stdio: ['ignore', 'pipe', 'pipe'] });
+                rebuildCode = 0;
+            }
+            catch (e) {
+                rebuildCode = e.status ?? 1;
+            }
+            for (const f of config_1.REPLY_RECORD_FILES) {
+                const a = path.join(tmp, path.basename(f.file)), b = path.join(ctx.repoRoot, f.file);
+                if (fs.existsSync(a) && fs.existsSync(b) && Buffer.compare(fs.readFileSync(a), fs.readFileSync(b)) === 0)
+                    rebuilt++;
+            }
+        }
+        finally {
+            fs.rmSync(tmp, { recursive: true, force: true });
+        }
+        const good = filesOk === nf && headersOk === nf && intact === withBody && withBody > 0 && betRows === config_1.EXPECTED_BETS && betOrder === config_1.EXPECTED_BETS && betAt === config_1.EXPECTED_BETS
+            && digestOnly === config_1.EXPECTED_BETS && verRows === config_1.EXPECTED_BETS && verOk === config_1.EXPECTED_BETS && verDate === config_1.EXPECTED_BETS
+            && seedOpen === config_1.EXPECTED_SEEDS && seedReveal === config_1.EXPECTED_SEEDS && preOk === config_1.EXPECTED_CAPTURES && builder && rebuildCode === 0 && rebuilt === nf;
+        if (!good)
+            ok = false;
+        parts.push(`REPLY RECORD (${config_1.REPLY_RECORD_FILES.map((f) => f.file).join(', ')}; built from the exports by ${config_1.REPLY_RECORD_BUILDER}${builder ? '' : ' ABSENT'}): ${filesOk}/${nf} files match their pins and parse; `
+            + `RERUN on the shipped exports: the builder exited ${rebuildCode} and reproduced ${rebuilt}/${nf} files byte for byte; `
+            + `${headersOk}/${nf} name the export the dataset header records (file, SHA-256, line count, runner build); replies by kind ${Object.entries(counts).map(([k, v]) => `${k} ${v}`).join(', ')}; `
+            + `${intact}/${withBody} replies kept with their body have the byte length and SHA-256 the runner recorded for the bytes as received; ${digestOnly}/${config_1.EXPECTED_BETS} place-bet replies carry the recorded byte length and SHA-256, their bodies re-hashed in the exports above; `
+            + `place-bet replies equal the dataset's rounds in order on ${betOrder}/${config_1.EXPECTED_BETS} (bet id, HTTP 200) and in time on ${betAt}/${config_1.EXPECTED_BETS}; `
+            + `verifier replies: ${verRows} rows, the request and LIQD's reply equal the dataset's verifier field on ${verOk}/${config_1.EXPECTED_BETS} and the Date header on ${verDate}/${config_1.EXPECTED_BETS}; `
+            + `seed records: ${seedOpen}/${config_1.EXPECTED_SEEDS} commitments, next commitments and client seeds are those of a rotation reply whose request submitted that client seed, ${seedReveal}/${config_1.EXPECTED_SEEDS} revealed seeds are in a rotation reply; `
+            + `pre-capture anchors ${preOk}/${config_1.EXPECTED_CAPTURES} are the run's first seed-pair reply and the rotation reply that revealed it`);
+    }
+    {
+        const scan = identifierScan(ctx.repoRoot);
+        if (scan.hits.length)
+            ok = false;
+        parts.push(`IDENTIFIER SCAN over every file under ${config_1.IDENTIFIER_SCAN_DIRS.join('/, ')}/ (${scan.files} files): ${scan.hits.length} hits `
+            + `(JSON keys naming a user, account, e-mail, cookie, authorization, token, session, user agent or Cloudflare ray id; values shaped as an e-mail, a JWT, an IPv4 address, a 0x wallet address or a Cloudflare ray id)`
+            + (scan.hits.length ? `: ${scan.hits.slice(0, 5).join('; ')}` : ''));
+    }
+    return { ok, note: parts.join('; ') };
+}
+const KEY_RE = /"(user(?:name|Id|_id)?|account(?:Id|_id)?|e-?mail|cookie|set-cookie|authori[sz]ation|token|session(?:Id)?|jwt|userAgent|cf-ray)"\s*:/i;
+const VALUE_RES = [
+    ['e-mail', /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Za-z]{2,}/],
+    ['JWT', /eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/],
+    ['IPv4', /(?<![\d.])(?:\d{1,3}\.){3}\d{1,3}(?![\d.])/],
+    ['0x address', /0x[0-9a-fA-F]{40}/],
+    ['Cloudflare ray id', /\b[0-9a-f]{16}-[A-Z]{3}\b/],
+];
+function identifierScan(repoRoot) {
+    const hits = [];
+    let files = 0;
+    const walk = (rel) => {
+        const abs = path.join(repoRoot, rel);
+        if (!fs.existsSync(abs))
+            return;
+        for (const d of fs.readdirSync(abs, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+            const r = path.posix.join(rel, d.name);
+            if (d.isDirectory()) {
+                walk(r);
+                continue;
+            }
+            files++;
+            const text = fs.readFileSync(path.join(repoRoot, r), 'utf8');
+            const isData = /\.(json|jsonl|ndjson)$/.test(d.name);
+            text.split('\n').forEach((line, i) => {
+                if (isData) {
+                    const k = KEY_RE.exec(line);
+                    if (k)
+                        hits.push(`${r}:${i + 1} key "${k[1]}"`);
+                }
+                for (const [label, re] of VALUE_RES)
+                    if (re.test(line))
+                        hits.push(`${r}:${i + 1} ${label}`);
+            });
+        }
+    };
+    for (const d of config_1.IDENTIFIER_SCAN_DIRS)
+        walk(d);
+    return { files, hits };
+}
+function dateOrder(ctx) {
+    const rec = loadReplyRecord(ctx.repoRoot);
+    let resolved = 0, inOrder = 0, outOfOrder = 0, commitBefore = 0, commitSame = 0, seedBefore = 0, seedSame = 0;
+    const bad = [];
+    for (const f of rec) {
+        const pre = f.rows.find((r) => r.t === 'pre');
+        const rots = f.rows.filter((r) => r.t === 'rotate');
+        const opener = (E) => rots.find((r) => String(r.closes) === (E === 0 ? 'pre' : String(E - 1)));
+        const seeds = ctx.seeds.filter((s) => s.capture === f.capture);
+        for (const s of seeds) {
+            const E = s.captureEpoch;
+            const commitR = E === 0 ? pre : opener(E - 1), seedR = opener(E);
+            const first = f.rows.find((r) => r.t === 'bet' && r.epoch === E);
+            const cb = parse(commitR?.body), sb = parse(seedR?.body);
+            const linked = !!cb && !!sb && !!first && cb.nextServerSeedHash === s.hashedServerSeed && sb.activeServerSeedHash === s.hashedServerSeed
+                && sb.clientSeed === s.clientSeed && seedR?.submitted === s.clientSeed && first.betId === ctx.bets.find((b) => b.epoch === s.epoch && b.nonce === s.nonceStart)?.id;
+            const a = Date.parse(String(commitR?.date)), b = Date.parse(String(seedR?.date)), d = Date.parse(String(first?.date));
+            if (!linked || ![a, b, d].every(Number.isFinite)) {
+                bad.push(`epoch ${s.epoch}: the three replies are not resolved`);
+                continue;
+            }
+            resolved++;
+            if (a <= b && b <= d)
+                inOrder++;
+            else {
+                outOfOrder++;
+                bad.push(`epoch ${s.epoch}: ${commitR?.date} / ${seedR?.date} / ${first?.date}`);
+            }
+            if (a < b)
+                commitBefore++;
+            else if (a === b)
+                commitSame++;
+            if (b < d)
+                seedBefore++;
+            else if (b === d)
+                seedSame++;
+        }
+    }
+    const ok = resolved === config_1.EXPECTED_SEEDS && inOrder === config_1.EXPECTED_SEEDS && outOfOrder === 0;
+    return {
+        ok,
+        note: `LIQD'S CLOCK (the Date header of LIQD's replies in the reply record, one-second resolution): on ${resolved}/${config_1.EXPECTED_SEEDS} epochs the reply that published the commitment, the rotation reply to the request that submitted the client seed and the place-bet reply of the first round are resolved; `
+            + `they come in that order on ${inOrder}/${config_1.EXPECTED_SEEDS} and out of order on ${outOfOrder}; the commitment reply is a second or more earlier than the client-seed reply on ${commitBefore} and in the same second on ${commitSame}; `
+            + `the client-seed reply is a second or more earlier than the first bet's reply on ${seedBefore} and in the same second on ${seedSame}`
+            + (bad.length ? ` — ${bad.slice(0, 5).join('; ')}` : ''),
+    };
 }
 
 },
@@ -1979,6 +2398,7 @@ exports.run = run;
 const context_1 = require("./context");
 const rng_1 = require("../../src/rng");
 const config_1 = require("../../src/config");
+const capture_chain_1 = require("./capture-chain");
 function run(ctx) {
     const { seeds, bets, byHash, seedMap } = ctx;
     let checked = 0;
@@ -1999,39 +2419,46 @@ function run(ctx) {
         + `${shapeFails} records with a malformed commitment (64 hex) or server seed (32 hex); `
         + `${distinctServerSeeds} distinct server seeds across ${seeds.length} epochs (a repeat would replay a whole draw stream)`);
     const byEpoch = [...seeds].sort((a, b) => a.epoch - b.epoch);
-    const expectedTransitions = config_1.EXPECTED_SEEDS - 1;
+    const captureOf = (epoch) => config_1.EPOCH_PLAN[epoch]?.capture;
+    const expectedTransitions = config_1.EXPECTED_SEEDS - config_1.EXPECTED_CAPTURES;
     let promoChecked = 0;
     let promoFails = 0;
     for (let i = 0; i + 1 < byEpoch.length; i++) {
+        if (captureOf(byEpoch[i].epoch) !== captureOf(byEpoch[i + 1].epoch))
+            continue;
         promoChecked++;
         if (byEpoch[i].nextHashedServerSeed !== byEpoch[i + 1].hashedServerSeed)
             promoFails++;
     }
-    const pre = ctx.meta.preCapture;
-    const epoch0 = byEpoch[0];
-    let preOk = true;
-    let preState;
-    if (!pre || !pre.hashedServerSeed || !pre.revealedServerSeed || !pre.nextHashedServerSeed) {
-        preOk = false;
-        preState = 'no meta.preCapture record — epoch 0\'s commitment has NO pre-capture witness, so the chain '
-            + 'begins at the first bet and nothing places epoch 0\'s commitment before it';
+    const captures = (ctx.meta.captures ?? []);
+    let anchorsOk = 0;
+    const anchorNotes = [];
+    for (let c = 1; c <= config_1.EXPECTED_CAPTURES; c++) {
+        const rec = captures.find((x) => x.capture === c);
+        const firstEpoch = config_1.EPOCH_PLAN.findIndex((b) => b.capture === c);
+        const first = byEpoch.find((s) => s.epoch === firstEpoch);
+        const pre = rec?.preCapture;
+        if (!rec || !first || !pre || !pre.hashedServerSeed || !pre.revealedServerSeed || !pre.nextHashedServerSeed) {
+            anchorNotes.push(`run ${c}: NO pre-capture record`);
+            continue;
+        }
+        const commitOk = (0, rng_1.commitHash)(pre.revealedServerSeed) === pre.hashedServerSeed;
+        const linkOk = pre.nextHashedServerSeed === first.hashedServerSeed;
+        const headerOk = rec.firstEpoch === firstEpoch;
+        if (commitOk && linkOk && headerOk)
+            anchorsOk++;
+        anchorNotes.push(`run ${c} (epoch ${firstEpoch}): anchor ${pre.hashedServerSeed.slice(0, 12)}… ${commitOk ? 'reveals a seed hashing to its own commitment' : 'COMMITMENT MISMATCH'}, `
+            + `its nextHashedServerSeed ${linkOk ? 'IS' : 'IS NOT'} that epoch's commitment ${first.hashedServerSeed.slice(0, 12)}…${headerOk ? '' : ' (header firstEpoch DISAGREES with the code plan)'}`);
     }
-    else {
-        const preCommitOk = (0, rng_1.commitHash)(pre.revealedServerSeed) === pre.hashedServerSeed;
-        const preLinkOk = pre.nextHashedServerSeed === epoch0.hashedServerSeed;
-        preOk = preCommitOk && preLinkOk;
-        preState = preOk
-            ? `pre-capture link verified: the pair recorded before the first bet reveals a seed hashing to its own commitment `
-                + `(${pre.hashedServerSeed.slice(0, 12)}…) and its nextHashedServerSeed IS epoch 0's commitment `
-                + `(${epoch0.hashedServerSeed.slice(0, 12)}…) — epoch 0's commitment was already fixed by an EARLIER LINK IN THE CHAIN. `
-                + `A hash chain orders records, it does not date them: that this link predates the first bet is the auditor's capture `
-                + `record, not independently authenticated timing, so the no-post-hoc-choice reading is CONDITIONAL on that attested chronology`
-            : `pre-capture link BROKEN (commitment ${preCommitOk ? 'ok' : 'MISMATCH'}, link to epoch 0 ${preLinkOk ? 'ok' : 'MISMATCH'})`;
-    }
-    const s2 = (0, context_1.step)(2, 'Next-Seed Pre-Commitment Chain', promoFails === 0 && promoChecked === expectedTransitions && preOk ? 'PASS' : 'FAIL', (promoFails === 0
-        ? `${promoChecked}/${expectedTransitions} transitions: nextHashedServerSeed == next epoch's hashedServerSeed (chain INTACT)`
+    const preOk = anchorsOk === config_1.EXPECTED_CAPTURES;
+    const clock = (0, capture_chain_1.dateOrder)(ctx);
+    const s2 = (0, context_1.step)(2, 'Next-Seed Pre-Commitment Chain', promoFails === 0 && promoChecked === expectedTransitions && preOk && clock.ok ? 'PASS' : 'FAIL', (promoFails === 0
+        ? `${promoChecked}/${expectedTransitions} transitions inside the ${config_1.EXPECTED_CAPTURES} runs: nextHashedServerSeed == next epoch's hashedServerSeed (chain INTACT inside each run; the runs are separate sessions and no link is asserted between them)`
         : `${promoChecked - promoFails}/${expectedTransitions} match; ${promoFails} mismatch`)
-        + `; ${preState}`);
+        + `; pre-capture anchors ${anchorsOk}/${config_1.EXPECTED_CAPTURES}: ${anchorNotes.join('; ')}. `
+        + `Each run's first commitment was therefore already fixed by an EARLIER LINK IN THE CHAIN. A hash chain orders records, it does not date them. `
+        + `${clock.note}. The Date header is LIQD's own clock as its replies carry it, recorded by the auditor's runner; it is not an independently authenticated timestamp, `
+        + `so the no-post-hoc-choice reading stays CONDITIONAL on the attested capture chronology (L6)`);
     const betsByEpoch = new Map();
     for (const b of bets) {
         const arr = betsByEpoch.get(b.epoch) ?? [];
@@ -2068,6 +2495,12 @@ function run(ctx) {
         const sorted = [...epochBets].sort((a, b) => a.nonce - b.nonce);
         const nonces = sorted.map((b) => b.nonce);
         const epochNum = sorted[0].epoch;
+        const size = (0, config_1.epochSize)(epochNum);
+        if (!Number.isInteger(size)) {
+            hardFailures.push(`epoch ${epochNum}: not in the capture plan`);
+            epochsChecked++;
+            continue;
+        }
         if (new Set(sorted.map((b) => b.clientSeed)).size !== 1) {
             hardFailures.push(`epoch ${epochNum}: ${new Set(sorted.map((b) => b.clientSeed)).size} distinct client seeds`);
         }
@@ -2075,11 +2508,11 @@ function run(ctx) {
         if (nonceSet.size !== nonces.length) {
             hardFailures.push(`epoch ${epochNum}: nonce reuse — ${nonces.length} bets, ${nonceSet.size} distinct nonces`);
         }
-        const outOfRange = nonces.filter((n) => !Number.isInteger(n) || n < 0 || n >= config_1.EXPECTED_EPOCH_SIZE);
+        const outOfRange = nonces.filter((n) => !Number.isInteger(n) || n < 0 || n >= size);
         if (outOfRange.length)
-            hardFailures.push(`epoch ${epochNum}: ${outOfRange.length} nonce(s) outside [0, ${config_1.EXPECTED_EPOCH_SIZE})`);
+            hardFailures.push(`epoch ${epochNum}: ${outOfRange.length} nonce(s) outside [0, ${size})`);
         const missing = [];
-        for (let n = 0; n < config_1.EXPECTED_EPOCH_SIZE; n++)
+        for (let n = 0; n < size; n++)
             if (!nonceSet.has(n))
                 missing.push(n);
         const seedEntry = ctx.seedByHash.get(hash);
@@ -2094,11 +2527,12 @@ function run(ctx) {
                 leadingOperatorBound++;
             }
             const declaredHere = config_1.DECLARED_CAPTURE_GAPS.filter((g) => g.epoch === epochNum && missing.includes(g.nonce)).length;
-            if (epochBets.length + declaredHere !== config_1.EXPECTED_EPOCH_SIZE) {
-                hardFailures.push(`epoch ${epochNum}: ${epochBets.length} bets + ${declaredHere} declared capture gap(s) != audited epoch size ${config_1.EXPECTED_EPOCH_SIZE} (src/config.ts)`);
+            if (epochBets.length + declaredHere !== size) {
+                hardFailures.push(`epoch ${epochNum}: ${epochBets.length} bets + ${declaredHere} declared capture gap(s) != planned epoch size ${size} (src/config.ts EPOCH_PLAN)`);
             }
-            if (ctx.meta.epochSize !== config_1.EXPECTED_EPOCH_SIZE) {
-                hardFailures.push(`epoch ${epochNum}: dataset header epochSize ${ctx.meta.epochSize} != audited epoch size ${config_1.EXPECTED_EPOCH_SIZE}`);
+            const recorded = seedEntry.plannedBets;
+            if (recorded !== size) {
+                hardFailures.push(`epoch ${epochNum}: the seed record's plannedBets ${recorded} != planned epoch size ${size}`);
             }
             const operatorCount = seedEntry.operatorBetCount;
             if (operatorCount != null) {
@@ -2153,8 +2587,9 @@ function run(ctx) {
     }
     else {
         s4status = 'PASS';
-        s4detail = `${epochsChecked}/${config_1.EXPECTED_SEEDS} epochs: single client seed each, ${config_1.EXPECTED_EPOCH_SIZE} distinct contiguous nonces 0..${config_1.EXPECTED_EPOCH_SIZE - 1} `
-            + `(no interior gaps, no reuse, none out of range), epoch size bound to src/config.ts not to the dataset header (G-BIND); `
+        const sizes = [...new Set(config_1.EPOCH_PLAN.map((b) => b.size))].sort((a, z) => a - z);
+        s4detail = `${epochsChecked}/${config_1.EXPECTED_SEEDS} epochs: single client seed each, distinct contiguous nonces 0..size-1 with size the epoch's planned size `
+            + `(${sizes.map((z) => `${config_1.EPOCH_PLAN.filter((b) => b.size === z).length} epochs of ${z}`).join(', ')}; no interior gaps, no reuse, none out of range), epoch size bound to src/config.ts EPOCH_PLAN, not to the dataset (G-BIND); `
             + `leading bound operator-sourced (nonceStart) on ${leadingOperatorBound}/${epochsChecked}; `
             + `trailing bound operator-witnessed (operatorBetCount) on ${trailingOperatorWitnessed}/${epochsChecked} and auditor-recorded on ${trailingAuditorRecorded}/${epochsChecked} `
             + `— where it is auditor-recorded, trailing withholding is NOT observable client-side (declared limitation, Step 21)`;
@@ -2198,21 +2633,25 @@ function isTwoDecimal(x) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.run = run;
-const rng_1 = require("../../src/rng");
 const context_1 = require("./context");
 const config_1 = require("../../src/config");
+const rng_1 = require("../../src/rng");
 function run(ctx) {
     var _a;
-    const { bets, seeds, meta, datasetSha256, expectedDatasetHash } = ctx;
+    const { bets, seeds, meta, datasetSha256, expectedDatasetHash, seedMap } = ctx;
     const hashOk = datasetSha256 === expectedDatasetHash;
     const betCountOk = bets.length === config_1.EXPECTED_BETS;
     const seedCountOk = seeds.length === config_1.EXPECTED_SEEDS;
+    const planBets = config_1.CAPTURE_PLAN.reduce((n, b) => n + b.epochs * b.size, 0);
+    const planEpochs = config_1.CAPTURE_PLAN.reduce((n, b) => n + b.epochs, 0);
+    const planCaptures = new Set(config_1.CAPTURE_PLAN.map((b) => b.capture)).size;
+    const planOk = planBets === config_1.EXPECTED_BETS && planEpochs === config_1.EXPECTED_SEEDS && planCaptures === config_1.EXPECTED_CAPTURES
+        && Math.max(...config_1.CAPTURE_PLAN.map((b) => b.size)) === config_1.MAX_EPOCH_SIZE && config_1.EPOCH_PLAN.length === config_1.EXPECTED_SEEDS;
     const perEpoch = new Map();
     for (const b of bets)
         perEpoch.set(b.epoch, (perEpoch.get(b.epoch) ?? 0) + 1);
-    const epochsOk = perEpoch.size === config_1.EXPECTED_SEEDS
-        && [...perEpoch.values()].every((n) => n === config_1.EXPECTED_EPOCH_SIZE)
-        && config_1.EXPECTED_SEEDS * config_1.EXPECTED_EPOCH_SIZE === config_1.EXPECTED_BETS;
+    const epochsOk = planOk && perEpoch.size === config_1.EXPECTED_SEEDS
+        && [...perEpoch.entries()].every(([e, n]) => n === (0, config_1.epochSize)(e));
     let epochsWithNonceGap = 0;
     const byEpochNonces = new Map();
     for (const b of bets) {
@@ -2223,29 +2662,51 @@ function run(ctx) {
         }
         s.add(b.nonce);
     }
-    for (const [, ns] of byEpochNonces) {
-        let gap = false;
-        for (let i = 0; i < config_1.EXPECTED_EPOCH_SIZE; i++)
+    for (const [e, ns] of byEpochNonces) {
+        const size = (0, config_1.epochSize)(e);
+        let gap = !Number.isInteger(size);
+        for (let i = 0; i < size; i++)
             if (!ns.has(i))
                 gap = true;
-        if (gap || ns.size !== config_1.EXPECTED_EPOCH_SIZE)
+        if (gap || ns.size !== size)
             epochsWithNonceGap++;
     }
     const seed0Ok = seeds.length > 0 && seeds[0].serverSeed != null;
     const revealed = seeds.filter((s) => s.serverSeed != null).length;
     const allRevealed = revealed === seeds.length;
+    const headerCaptures = (meta.captures ?? []);
+    const capturesOk = headerCaptures.length === config_1.EXPECTED_CAPTURES && headerCaptures.every((c) => {
+        const blocks = config_1.CAPTURE_PLAN.filter((b) => b.capture === c.capture);
+        const first = config_1.EPOCH_PLAN.findIndex((b) => b.capture === c.capture);
+        const n = blocks.reduce((x, b) => x + b.epochs, 0);
+        return blocks.length > 0 && c.epochs === n && c.bets === blocks.reduce((x, b) => x + b.epochs * b.size, 0)
+            && c.firstEpoch === first && c.lastEpoch === first + n - 1 && c.status === 'completed';
+    });
+    const seedTagsOk = seeds.every((s) => {
+        const plan = config_1.EPOCH_PLAN[s.epoch];
+        const t = s;
+        return !!plan && s.phase === plan.phase && t.phaseId === plan.phaseId && t.capture === plan.capture && t.seedTag === plan.seedTag && t.plannedBets === plan.size;
+    });
+    const betTagsOk = bets.every((b) => {
+        const plan = config_1.EPOCH_PLAN[b.epoch];
+        const t = b;
+        return !!plan && b.phase === plan.phase && t.phaseId === plan.phaseId && t.capture === plan.capture;
+    });
     const metaAgrees = meta.plannedTotal === config_1.EXPECTED_BETS
-        && meta.epochSize === config_1.EXPECTED_EPOCH_SIZE
         && meta.progress?.bets === config_1.EXPECTED_BETS
-        && meta.progress?.seeds === config_1.EXPECTED_SEEDS;
+        && meta.progress?.seeds === config_1.EXPECTED_SEEDS
+        && meta.progress?.status === 'completed'
+        && capturesOk && seedTagsOk && betTagsOk;
+    const maxStake = Math.max(...Object.values(config_1.EXPECTED_PHASES).map((p) => p.stake));
+    const maxCredit = maxStake * config_1.PROD_TOP_TARGET;
     let fieldViolations = 0;
     const violationKinds = new Set();
     const noteBad = (kind) => { fieldViolations++; violationKinds.add(kind); };
     for (const b of bets) {
         if (!Number.isInteger(b.epoch) || b.epoch < 0 || b.epoch >= config_1.EXPECTED_SEEDS)
-            noteBad('epoch out of [0,134)');
-        if (!Number.isInteger(b.nonce) || b.nonce < 0 || b.nonce >= config_1.EXPECTED_EPOCH_SIZE)
-            noteBad('nonce out of [0,50)');
+            noteBad(`epoch out of [0,${config_1.EXPECTED_SEEDS})`);
+        if (!Number.isInteger(b.nonce) || b.nonce < 0 || b.nonce >= config_1.MAX_EPOCH_SIZE)
+            noteBad(`nonce out of [0,${config_1.MAX_EPOCH_SIZE})`);
         if (!(0, context_1.isHex)(b.hashedServerSeed, 64))
             noteBad('commitment not 64-hex');
         if (typeof b.clientSeed !== 'string' || b.clientSeed.length === 0)
@@ -2256,15 +2717,13 @@ function run(ctx) {
         if (!Number.isFinite(result) || result < config_1.MIN_RESULT || result > config_1.MAX_MULTIPLIER)
             noteBad('result out of [1,1e6]');
         const stake = Number(b.betAmount);
-        if (!Number.isFinite(stake) || stake <= 0)
-            noteBad('non-positive stake');
+        if (!Number.isFinite(stake) || stake <= 0 || stake > maxStake)
+            noteBad('stake out of (0, largest planned stake]');
         const credit = Number(b.winningAmount);
-        if (!Number.isFinite(credit) || credit < 0 || credit > config_1.MAX_EXPOSURE_USDC)
-            noteBad('credit out of [0,maxExposure]');
+        if (!Number.isFinite(credit) || credit < 0 || credit > maxCredit)
+            noteBad('credit out of [0, largest planned stake x top target]');
         if (typeof b.win !== 'boolean')
             noteBad('win flag not boolean');
-        if ((0, context_1.hundredths)(stake) * (0, context_1.hundredths)(Number(b.params.target)) > config_1.MAX_EXPOSURE_USDC * 1e4)
-            noteBad('exposure over ceiling');
     }
     let seedFieldViolations = 0;
     for (const s of seeds) {
@@ -2280,90 +2739,103 @@ function run(ctx) {
         && fieldViolations === 0 && seedFieldViolations === 0 && distinctIds === config_1.EXPECTED_BETS;
     const s12 = (0, context_1.step)(12, 'Dataset Integrity & Population Identity', hashOk && seed0Ok && allRevealed && countsOk ? 'PASS' : 'FAIL', `SHA-256 pin ${hashOk ? 'match' : 'MISMATCH'} (${datasetSha256.slice(0, 16)}… vs ${expectedDatasetHash.slice(0, 16)}…); `
         + `population bound to src/config.ts, NOT to the dataset header (G-BIND): ${bets.length}/${config_1.EXPECTED_BETS} bets (${betCountOk ? 'ok' : 'WRONG POPULATION'}), `
-        + `${seeds.length}/${config_1.EXPECTED_SEEDS} seeds (${seedCountOk ? 'ok' : 'WRONG POPULATION'}), ${perEpoch.size} epochs x ${config_1.EXPECTED_EPOCH_SIZE} bets each (${epochsOk ? 'ok' : 'EPOCH SIZE/COUNT MISMATCH'}, and ${config_1.EXPECTED_SEEDS} x ${config_1.EXPECTED_EPOCH_SIZE} == ${config_1.EXPECTED_BETS} so the three constants cannot be satisfied by moving bets between epochs), `
-        + `${epochsWithNonceGap} epoch(s) whose nonce window 0..${config_1.EXPECTED_EPOCH_SIZE - 1} does not close; `
+        + `${seeds.length}/${config_1.EXPECTED_SEEDS} seeds (${seedCountOk ? 'ok' : 'WRONG POPULATION'}), ${perEpoch.size} epochs each holding exactly its planned number of bets `
+        + `(${config_1.CAPTURE_PLAN.map((b) => `${b.epochs} x ${b.size} ${b.phaseId}`).join(' + ')} = ${planBets}; ${epochsOk ? 'ok' : 'EPOCH SIZE/COUNT MISMATCH'}; the code plan adds up to the typed pins ${config_1.EXPECTED_BETS} / ${config_1.EXPECTED_SEEDS} / ${config_1.EXPECTED_CAPTURES} runs: ${planOk}), `
+        + `${epochsWithNonceGap} epoch(s) whose nonce window 0..size-1 does not close; `
         + `${distinctIds}/${config_1.EXPECTED_BETS} distinct bet ids; `
-        + `dataset header reconciles with those constants (meta.plannedTotal=${meta.plannedTotal}, meta.epochSize=${meta.epochSize}, meta.progress.bets=${meta.progress?.bets}, meta.progress.seeds=${meta.progress?.seeds}: ${metaAgrees ? 'ok' : 'DISAGREES'}); `
+        + `dataset header and record tags reconcile with those constants (meta.plannedTotal=${meta.plannedTotal}, meta.progress.bets=${meta.progress?.bets}, meta.progress.seeds=${meta.progress?.seeds}, ${headerCaptures.length} runs in meta.captures each completed with its planned epochs and bets: ${capturesOk}; capture / phase / plan-entry / seed-tag / plannedBets on every seed record: ${seedTagsOk}; capture / phase / plan-entry on every bet: ${betTagsOk}); `
         + `seed[0].serverSeed ${seed0Ok ? 'present' : 'NULL'}; ${revealed}/${seeds.length} seeds revealed (100% verifiable ${allRevealed ? 'yes' : 'NO'}); `
         + `G-RANGE field sweep: ${fieldViolations} bet-field and ${seedFieldViolations} seed-field values outside their physically possible bounds`
         + (violationKinds.size ? ` [${[...violationKinds].join(', ')}]` : ''));
     const byPhase = {};
+    const byPhaseId = {};
     const stakesByPhase = {};
+    const idOf = (b) => String(b.phaseId);
     for (const b of bets) {
         byPhase[b.phase] = (byPhase[b.phase] || 0) + 1;
+        byPhaseId[idOf(b)] = (byPhaseId[idOf(b)] || 0) + 1;
         (stakesByPhase[_a = b.phase] || (stakesByPhase[_a] = new Set())).add(Number(b.betAmount));
     }
     const planEntries = Object.entries(config_1.EXPECTED_PHASES);
-    const countsMatch = planEntries.every(([k, p]) => byPhase[k] === p.bets);
-    const noStrayPhase = Object.keys(byPhase).every((k) => k in config_1.EXPECTED_PHASES);
+    const countsMatch = planEntries.every(([k, p]) => byPhase[k] === p.bets)
+        && Object.entries(config_1.EXPECTED_PHASE_IDS).every(([k, n]) => byPhaseId[k] === n);
+    const noStrayPhase = Object.keys(byPhase).every((k) => k in config_1.EXPECTED_PHASES) && Object.keys(byPhaseId).every((k) => k in config_1.EXPECTED_PHASE_IDS);
     const stakesMatch = planEntries.every(([k, p]) => {
-        const s = stakesByPhase[k];
-        return !!s && s.size === 1 && (0, context_1.hundredths)([...s][0]) === (0, context_1.hundredths)(p.stake);
+        const st = stakesByPhase[k];
+        return !!st && st.size === 1 && (0, context_1.hundredths)([...st][0]) === (0, context_1.hundredths)(p.stake);
     });
-    const metaPhasesOk = planEntries.every(([k, p]) => meta.phases?.[k]?.bets === p.bets)
-        && Object.keys(meta.phases ?? {}).every((k) => k in config_1.EXPECTED_PHASES);
-    const planB = config_1.EXPECTED_PHASES.B;
-    const bTargets = new Map();
-    for (const b of bets)
-        if (b.phase === 'B')
-            bTargets.set(Number(b.params.target), (bTargets.get(Number(b.params.target)) ?? 0) + 1);
-    const expectedPerTranche = planB.bets / planB.targets.length;
-    const tranchesOk = planB.targets.every((t) => bTargets.get(t) === expectedPerTranche)
-        && bTargets.size === planB.targets.length;
-    const stakes = [...new Set(bets.map((b) => Number(b.betAmount)))].sort((a, z) => a - z);
-    const phaseCTargets = new Set(bets.filter((b) => b.phase === 'C').map((b) => Number(b.params.target)));
-    const stakeSpreadOk = stakes.length >= 2 && phaseCTargets.size === 1;
-    const dCustom = bets.filter((b) => b.phase === 'D' && /^pfaudit-/.test(b.clientSeed)).length;
-    const dOk = dCustom === config_1.EXPECTED_PHASES.D.bets;
-    let cRecomputed = 0, cWins = 0, cBad = 0;
-    for (const b of bets) {
-        if (b.phase !== 'C')
-            continue;
-        const ss = ctx.seedMap.get(b.hashedServerSeed);
-        if (!ss) {
-            cBad++;
-            continue;
-        }
-        const R = (0, config_1.resultMultiplier)((0, rng_1.limboDraw)(ss, b.clientSeed, b.nonce));
-        const win = (0, config_1.limboWin)(R, Number(b.params.target));
-        const credit = win ? (0, context_1.hundredths)(Number(b.betAmount)) * (0, context_1.hundredths)(Number(b.params.target)) : 0;
-        if (R !== Number(b.result) || win !== !!b.win || Math.round(Number(b.winningAmount) * 1e4) !== credit)
-            cBad++;
+    const metaPhasesOk = planEntries.every(([k, p]) => meta.phases?.[k]?.bets === p.bets && (0, context_1.hundredths)(Number(meta.phases?.[k]?.amount)) === (0, context_1.hundredths)(p.stake))
+        && Object.keys(meta.phases ?? {}).every((k) => k in config_1.EXPECTED_PHASES) && meta.currency === 'USDT';
+    const ladderH = config_1.PROD_TARGET_LADDER.map((t) => (0, context_1.hundredths)(t));
+    const tally = (id) => { const m = new Map(); for (const b of bets)
+        if (idOf(b) === id) {
+            const h = (0, context_1.hundredths)(Number(b.params.target));
+            m.set(h, (m.get(h) ?? 0) + 1);
+        } return m; };
+    const perTargetA = tally('A'), perTargetD = tally('D'), perTargetC = tally('C'), perTargetTop = tally('A+');
+    const exact = (m, n) => m.size === ladderH.length && ladderH.every((h) => m.get(h) === n);
+    const ladderA = exact(perTargetA, config_1.PROD_ROUNDS_PER_TARGET), ladderD = exact(perTargetD, config_1.PHASE_D_ROUNDS_PER_TARGET);
+    const ladderShape = config_1.PROD_TARGET_LADDER.length * config_1.PROD_ROUNDS_PER_TARGET === config_1.EXPECTED_PHASE_IDS['A']
+        && config_1.PROD_TARGET_LADDER.length * config_1.PHASE_D_ROUNDS_PER_TARGET === config_1.EXPECTED_PHASE_IDS['D']
+        && Math.max(...config_1.PROD_TARGET_LADDER) === config_1.PROD_LADDER_TOP && Math.min(...config_1.PROD_TARGET_LADDER) === config_1.MIN_MULTIPLIER;
+    const headerLadder = Array.isArray(meta.ladder) ? (meta.ladder).map(Number) : [];
+    const headerLadderOk = headerLadder.length === config_1.PROD_TARGET_LADDER.length && headerLadder.every((t, i) => (0, context_1.hundredths)(t) === ladderH[i]);
+    let topBelow = 0, topAt = 0, topOther = 0;
+    for (const [h, n] of perTargetTop) {
+        if (h === (0, context_1.hundredths)(config_1.TOPUP_HIGH))
+            topAt += n;
+        else if (h >= (0, context_1.hundredths)(config_1.TOPUP_LOW) && h < (0, context_1.hundredths)(config_1.TOPUP_HIGH))
+            topBelow += n;
+        else
+            topOther += n;
+    }
+    const topupOk = topBelow === config_1.TOPUP_ROUNDS_BELOW && topAt === config_1.TOPUP_ROUNDS_AT_TOP && topOther === 0 && config_1.TOPUP_HIGH === config_1.PROD_TOP_TARGET
+        && config_1.TOPUP_ROUNDS_BELOW + config_1.TOPUP_ROUNDS_AT_TOP === config_1.EXPECTED_PHASE_IDS['A+'];
+    const phaseC = bets.filter((b) => b.phase === 'C');
+    const cTargetOk = perTargetC.size === 1 && perTargetC.get((0, context_1.hundredths)(config_1.PHASE_C_TARGET)) === config_1.EXPECTED_PHASES.C.bets;
+    let cWins = 0, cRuleFails = 0;
+    for (const b of phaseC) {
+        const ss = seedMap.get(b.hashedServerSeed);
+        const stake = Number(b.betAmount), target = Number(b.params.target);
+        const win = !!ss && (0, config_1.limboWin)((0, config_1.resultMultiplier)((0, rng_1.limboDraw)(ss, b.clientSeed, b.nonce)), target);
         if (win)
             cWins++;
-        cRecomputed++;
+        const credit = win ? (0, context_1.hundredths)(stake) * (0, context_1.hundredths)(target) * 1e4 : 0;
+        if (!ss || win !== b.win || Math.round(Number(b.winningAmount) * 1e8) !== credit || Number(b.multiplier) !== (win ? target : 0))
+            cRuleFails++;
     }
-    const phaseCOk = cRecomputed === config_1.EXPECTED_PHASES.C.bets && cBad === 0 && cWins >= config_1.PHASE_C_MIN_WINS;
+    const phaseCOk = cTargetOk && cRuleFails === 0 && cWins >= config_1.PHASE_C_MIN_WINS && config_1.EXPECTED_PHASES.C.stake > config_1.EXPECTED_PHASES.A.stake;
     const decadeCount = new Map();
     for (const b of bets) {
+        if (b.phase !== 'A')
+            continue;
         const d = Math.floor(Math.log10((0, context_1.hundredths)(Number(b.params.target)) / 100));
         decadeCount.set(d, (decadeCount.get(d) ?? 0) + 1);
     }
     const planDecades = Object.entries(config_1.PLANNED_TARGET_DECADES).map(([d, n]) => [Number(d), n]);
-    const decadesOk = planDecades.every(([d, n]) => (decadeCount.get(d) ?? 0) >= n);
-    const highestPlanned = Math.max(...planDecades.map(([d]) => d));
-    const unplannedGaps = [];
-    for (let d = 0; d <= highestPlanned; d++)
-        if (!(d in config_1.PLANNED_TARGET_DECADES) && !(decadeCount.get(d)))
-            unplannedGaps.push(d);
+    const topDecade = Math.floor(Math.log10(config_1.PROD_TOP_TARGET));
+    const decadesOk = planDecades.every(([d, n]) => (decadeCount.get(d) ?? 0) === n && n >= config_1.PHASE_A_DECADE_FLOOR)
+        && [...decadeCount.keys()].every((d) => d in config_1.PLANNED_TARGET_DECADES)
+        && planDecades.length === topDecade + 1;
     const minTargetSeen = Math.min(...bets.map((b) => Number(b.params.target)));
-    const belowUiCap = bets.filter((b) => Number(b.params.target) <= config_1.UI_MAX_TARGET).length;
-    const aboveUiCap = bets.filter((b) => Number(b.params.target) > config_1.UI_MAX_TARGET && Number(b.params.target) <= config_1.MAX_PLAYABLE_TARGET).length;
-    const coverageOk = decadesOk && minTargetSeen === config_1.MIN_MULTIPLIER && belowUiCap > 0 && aboveUiCap > 0;
-    const s13 = (0, context_1.step)(13, 'Phase Plan Conformance', countsMatch && noStrayPhase && stakesMatch && metaPhasesOk && tranchesOk && stakeSpreadOk && dOk
-        && phaseCOk && coverageOk ? 'PASS' : 'FAIL', `phases ${JSON.stringify(byPhase)} match the CODE plan ${JSON.stringify(Object.fromEntries(planEntries.map(([k, p]) => [k, p.bets])))} (${countsMatch}), no undeclared phase present (${noStrayPhase}); `
-        + `each phase ran at its planned stake (${stakesMatch}: ${planEntries.map(([k, p]) => `${k} $${p.stake}`).join(', ')}); `
-        + `the header's per-phase bet counts reconcile (${metaPhasesOk}); its Phase B label reads ${JSON.stringify(String(meta.phases?.B?.target ?? ''))}, a fixed string in the capture script, and the dataset has ${bets.filter((b) => Number(b.params.target) === 1000000).length} bets at ${1000000}x; `
-        + `Phase B tranches ${planB.targets.map((t) => `${t}x:${bTargets.get(t) ?? 0}`).join(', ')} — ${expectedPerTranche} bets each as planned (${tranchesOk}). `
-        + `The top tranche is ${planB.targets[planB.targets.length - 1]}x and NOT the ${1000000}x maximum target in LIQD's client code: that is a FINDING, scored in Step 17, not a choice of coverage; `
-        + `stake independence: stakes ${stakes.map((s) => `$${s}`).join(', ')} with Phase C pinned to a single target ${[...phaseCTargets].join(',')}x (${stakeSpreadOk}); `
-        + `Phase D custom client seeds (pfaudit-) on ${dCustom}/${config_1.EXPECTED_PHASES.D.bets} bets (${dOk}); `
-        + `ELEVATED STAKE: ${cRecomputed}/${config_1.EXPECTED_PHASES.C.bets} Phase C bets recomputed from primitives, ${cBad} settled differently from the base-stake rule (result, win flag or credit = stake x target in integer hundredths), `
-        + `${cWins} elevated-stake WINS through the payout path against a floor of ${config_1.PHASE_C_MIN_WINS} (${phaseCOk}); `
-        + `TARGET COVERAGE by decade against PLANNED_TARGET_DECADES: ${planDecades.map(([d, n]) => `10^${d} ${decadeCount.get(d) ?? 0}/${n}`).join(', ')} (${decadesOk}); `
-        + `minimum legal target ${config_1.MIN_MULTIPLIER}x played (${minTargetSeen === config_1.MIN_MULTIPLIER}); ${belowUiCap} bets at or below the ${config_1.UI_MAX_TARGET}x UI cap and ${aboveUiCap} above it up to ${config_1.MAX_PLAYABLE_TARGET}x (server-accepted on 2026-09-11; on ${config_1.LIVE_TARGET_CEILING_WITNESSED} the live API refused a target above ${config_1.LIVE_TARGET_CEILING}x — Step 25); `
-        + `${[...decadeCount.keys()].length} decades reached, ${new Set(bets.map((b) => Number(b.params.target))).size} distinct targets; `
-        + (unplannedGaps.length ? `decade${unplannedGaps.length > 1 ? 's' : ''} ${unplannedGaps.map((d) => `10^${d} (${10 ** d}x..${10 ** (d + 1) - 0.01}x)`).join(', ')} UNPLAYED in this dataset — outside the 2026-09-11 capture plan, a capture-origin coverage gap disclosed here, not a finding about the operator; Phase A coverage up to the declared ceiling, decade 10^4 included, is Step 25 on the 2026-09-26 supplement` : 'no unplanned decade gap'));
+    const maxTargetSeen = Math.max(...bets.map((b) => Number(b.params.target)));
+    const aboveTop = bets.filter((b) => (0, context_1.hundredths)(Number(b.params.target)) > (0, context_1.hundredths)(config_1.PROD_TOP_TARGET)).length;
+    const coverageOk = decadesOk && minTargetSeen === config_1.MIN_MULTIPLIER && maxTargetSeen === config_1.PROD_TOP_TARGET && aboveTop === 0;
+    const highestWinningTarget = Math.max(...bets.filter((b) => b.win).map((b) => Number(b.params.target)));
+    const winsAtOrAbove1000 = bets.filter((b) => b.win && Number(b.params.target) >= config_1.TOPUP_LOW).length;
+    const s13 = (0, context_1.step)(13, 'Phase Plan Conformance', countsMatch && noStrayPhase && stakesMatch && metaPhasesOk && ladderA && ladderD && ladderShape && headerLadderOk
+        && topupOk && phaseCOk && coverageOk ? 'PASS' : 'FAIL', `phases ${JSON.stringify(byPhase)} and plan entries ${JSON.stringify(byPhaseId)} match the CODE plan ${JSON.stringify(Object.fromEntries(planEntries.map(([k, p]) => [k, p.bets])))} / ${JSON.stringify(config_1.EXPECTED_PHASE_IDS)} (${countsMatch}), no undeclared phase present (${noStrayPhase}); `
+        + `each phase ran at its planned stake (${stakesMatch}: ${planEntries.map(([k, p]) => `${k} ${p.stake.toFixed(2)} ${meta.currency}`).join(', ')}); `
+        + `the header's per-phase bet counts, stakes and currency reconcile (${metaPhasesOk}); `
+        + `TARGET LADDER: Phase A holds ${perTargetA.size} distinct targets against the ${config_1.PROD_TARGET_LADDER.length} of PROD_TARGET_LADDER in src/config.ts, each played exactly ${config_1.PROD_ROUNDS_PER_TARGET} times (${ladderA}); Phase D holds the same ${perTargetD.size}, each exactly ${config_1.PHASE_D_ROUNDS_PER_TARGET} times (${ladderD}); `
+        + `the ladder recorded in the header (meta.ladder) is the same list (${headerLadderOk}); `
+        + `TOP-UP (A+): ${topBelow}/${config_1.TOPUP_ROUNDS_BELOW} rounds on targets in [${config_1.TOPUP_LOW}, ${config_1.TOPUP_HIGH}) (${perTargetTop.size - (topAt > 0 ? 1 : 0)} distinct), ${topAt}/${config_1.TOPUP_ROUNDS_AT_TOP} at exactly ${config_1.TOPUP_HIGH}x, ${topOther} elsewhere (${topupOk}); `
+        + `PHASE C, BET-SIZE INVARIANCE (profile LIMBO-12): ${phaseC.length} rounds at ${config_1.EXPECTED_PHASES.C.stake.toFixed(2)} ${meta.currency} (${config_1.EXPECTED_PHASES.C.stake / config_1.EXPECTED_PHASES.A.stake} times the base stake) on the single target ${config_1.PHASE_C_TARGET.toFixed(2)}x (${cTargetOk}); `
+        + `every one recomputes from its revealed seed and is settled by the base-stake rule (win == R >= target, credit == stake x target exactly, multiplier == target; 0 on a loss): ${cRuleFails} deviations; ${cWins} wins went through the payout path (floor ${config_1.PHASE_C_MIN_WINS}: ${cWins >= config_1.PHASE_C_MIN_WINS}); `
+        + `TARGET COVERAGE by decade, Phase A rounds against PLANNED_TARGET_DECADES (floor ${config_1.PHASE_A_DECADE_FLOOR} per decade): ${planDecades.map(([d, n]) => `10^${d} ${decadeCount.get(d) ?? 0}/${n}`).join(', ')} (${decadesOk}); `
+        + `minimum target ${config_1.MIN_MULTIPLIER}x played (${minTargetSeen === config_1.MIN_MULTIPLIER}); highest target played ${maxTargetSeen}x = PROD_TOP_TARGET, ${aboveTop} rounds above it. `
+        + `NOT EXERCISED, a capture limit and not a finding about the casino: ${winsAtOrAbove1000} of the ${topBelow + topAt} rounds at ${config_1.TOPUP_LOW}x and above won (their win chances are 0.0099% to 0.099% each), so the highest target on which a production WIN was paid is ${highestWinningTarget}x; `
+        + `above it the payout rule rests on the losses settling as the rule says, on the verifier replies (Step 25) and on the closed form (Steps 15-16)`);
     return [s12, s13];
 }
 
@@ -2373,6 +2845,7 @@ function run(ctx) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.run = run;
 const context_1 = require("./context");
+const node_crypto_1 = require("node:crypto");
 const rng_1 = require("../../src/rng");
 const bias_1 = require("../../src/bias");
 const config_1 = require("../../src/config");
@@ -2395,6 +2868,9 @@ function run(ctx) {
     let roundsFirstChunkRejected = 0;
     let chunksRejected = 0;
     let rejectedMismatch = 0;
+    let unguardedDiffers = 0;
+    let unguardedWinDiffers = 0;
+    const unguardedSame = [];
     for (const b of bets) {
         const served = Number(b.result);
         if (!Number.isFinite(served) || served < config_1.MIN_RESULT || served > config_1.MAX_MULTIPLIER || !(0, context_1.isTwoDecimal)(served))
@@ -2414,6 +2890,15 @@ function run(ctx) {
             roundsFirstChunkRejected++;
             if (!(0, context_1.servedResultMatches)(served, local))
                 rejectedMismatch++;
+            const chunk0 = (0, node_crypto_1.createHmac)('sha256', Buffer.from(ss, 'hex')).update((0, rng_1.getProvablyFairHmacSalt)(b.clientSeed, b.nonce, 0), 'utf8').digest().readUInt32BE(0);
+            const unguarded = (0, config_1.resultMultiplier)(chunk0 % config_1.RANGE);
+            if (unguarded !== local)
+                unguardedDiffers++;
+            else
+                unguardedSame.push(b.id);
+            const t = Number(b.params.target);
+            if ((0, config_1.limboWin)(unguarded, t) !== (0, config_1.limboWin)(local, t))
+                unguardedWinDiffers++;
         }
         if (!(0, context_1.servedResultMatches)(served, local)) {
             mismatches++;
@@ -2437,20 +2922,21 @@ function run(ctx) {
         checked++;
     }
     const s5 = (0, context_1.step)(5, 'Draw & Result Recomputation', mismatches === 0 && rangeViolations === 0 && unrevealed === 0 && checked === config_1.EXPECTED_BETS
-        && bias.wholeRanges && bias.biasPerValue === 0 && probe.disagree === 0 && probe.firstChunkRejected > 0 ? 'PASS' : 'FAIL', (mismatches === 0
+        && bias.wholeRanges && bias.biasPerValue === 0 && probe.disagree === 0 && probe.firstChunkRejected > 0 && unguardedDiffers > 0 ? 'PASS' : 'FAIL', (mismatches === 0
         ? `${checked}/${config_1.EXPECTED_BETS} bets (denominator from src/config.ts EXPECTED_BETS — G-BIND): R = min(${config_1.MAX_MULTIPLIER}, max(${config_1.MIN_RESULT}, floor(${config_1.RESULT_NUMERATOR}/(k+1))/${config_1.MULTIPLIER_SCALE})) `
             + `recomputed from the revealed (serverSeed, clientSeed, nonce) equals the served result EXACTLY (strict ===, no tolerance)`
         : `${mismatches} mismatches (e.g. ${sample})`)
         + `; ${unrevealed} bets whose epoch seed was never revealed; ${rangeViolations} served results outside [${config_1.MIN_RESULT}, ${config_1.MAX_MULTIPLIER}] or not a 2-dp value (G-RANGE, bounds from config); `
         + `draws span k ${minDraw}..${maxDraw} of [0, ${config_1.RANGE}); results span ${minResultSeen}x..${maxResultSeen}x; `
         + `${flooredRounds} rounds served at the R = ${config_1.MIN_RESULT} floor (${(flooredRounds / Math.max(1, checked) * 100).toFixed(2)}% of the capture), of which ${clampedRaw} had a RAW formula value below ${config_1.MIN_RESULT} so the clamp actually fired `
-        + `— legitimate rounds, and the clamp they exercise was absent from the model until the capture's own inline check caught it on 2026-09-11 in an earlier capture run that is not shipped (serverSeed 5d8a6efd…, nonce 49); `
-        + `${ceilingRounds} rounds at the ${config_1.MAX_MULTIPLIER}x ceiling (the upper clamp is therefore ${ceilingRounds > 0 ? 'exercised by' : 'NOT witnessed in'} this capture — see Step 21); `
+        + `(a round at the floor loses at every target); `
+        + `${ceilingRounds} rounds at the ${config_1.MAX_MULTIPLIER}x result cap (the upper clamp is therefore ${ceilingRounds > 0 ? 'exercised by' : 'NOT reached by a settled round of'} this capture: the production verifier probes of Step 25 are its witness); `
         + `DRAW-BIAS BOUND: maxFair = floor(2^32/${config_1.RANGE}) x ${config_1.RANGE} = ${bias.maxFair} (${bias.wholeRanges ? 'a whole number of ranges' : 'NOT a whole number of ranges'}), `
         + `so each k is reached by exactly ${bias.acceptedPerValue} accepted chunk values and the per-value bias is ${bias.biasPerValue} (ceiling 2^-32); `
         + `${bias.rejectedChunkValues} of 2^32 chunk values (${(bias.rejectedPerChunk * 100).toFixed(4)}%) fall in the discarded tail; `
         + `rejection census over the capture: ${roundsFirstChunkRejected} of ${checked} rounds had their FIRST chunk rejected (${chunksRejected} chunks rejected in all, expected ${(checked * bias.rejectedPerChunk).toFixed(2)} rounds) `
-        + `and ${roundsFirstChunkRejected - rejectedMismatch} of them reproduce under the guarded model — an unguarded server would have served a different result on every one; `
+        + `and ${roundsFirstChunkRejected - rejectedMismatch} of them reproduce under the guarded model; the guardless form (first chunk mod range) gives a different result on ${unguardedDiffers} of the ${roundsFirstChunkRejected} `
+        + `and the same result on ${unguardedSame.length}${unguardedSame.length ? ` (bet ${unguardedSame.join(', bet ')})` : ''}, and a different win flag on ${unguardedWinDiffers}; `
         + `acceptance probe (src/bias.ts, ${probe.rounds} fixed rounds through src/rng.ts): ${probe.disagree} draws disagree with "first chunk below maxFair, mod range", ${probe.firstChunkRejected} of the probe rounds exercised the rejected tail`);
     let winChecked = 0;
     let winFails = 0;
@@ -2458,6 +2944,8 @@ function run(ctx) {
     let discriminating = 0;
     let discriminatingWins = 0;
     let flipsUnderStrictGt = 0;
+    let oneTickBelow = 0;
+    let oneTickBelowLosses = 0;
     let illegalTargets = 0;
     let floorRounds = 0;
     let floorWins = 0;
@@ -2485,6 +2973,11 @@ function run(ctx) {
             if (b.win)
                 discriminatingWins++;
         }
+        if (Math.round(local * 100) === (0, config_1.targetToHundredths)(target) - 1) {
+            oneTickBelow++;
+            if (!b.win)
+                oneTickBelowLosses++;
+        }
         if (local === config_1.MIN_RESULT) {
             floorRounds++;
             if (b.win)
@@ -2495,15 +2988,15 @@ function run(ctx) {
         winChecked++;
     }
     const s6 = (0, context_1.step)(6, 'Win-Rule Reproduction', winFails === 0 && illegalTargets === 0 && winChecked === config_1.EXPECTED_BETS
-        && floorWins === 0 && config_1.MIN_RESULT < config_1.MIN_MULTIPLIER ? 'PASS' : 'FAIL', (winFails === 0
+        && floorWins === 0 && config_1.MIN_RESULT < config_1.MIN_MULTIPLIER && discriminating > 0 && discriminatingWins === discriminating ? 'PASS' : 'FAIL', (winFails === 0
         ? `${winChecked}/${config_1.EXPECTED_BETS} bets: win == (recomputed R >= chosen target) reproduces the served win flag exactly`
         : `${winFails} win-flag mismatches (e.g. ${firstWinFail})`)
-        + `; ${illegalTargets} targets outside the operator's own legal window (2-dp, [1.01, ${config_1.MAX_MULTIPLIER}]) — G-RANGE; `
+        + `; ${illegalTargets} targets off the game's grid (2-dp, [1.01, ${config_1.MAX_MULTIPLIER}]) — G-RANGE; `
         + `the >= boundary is WITNESSED, not assumed: ${discriminating} captured rounds land with R EXACTLY on the chosen target and the operator settled ${discriminatingWins} of them as WINS `
-        + `(under a strict R > target rule ${flipsUnderStrictGt} of the ${winChecked} settled bets would flip, so this dataset has real discriminating power — unlike the sibling dice capture, where the two boundary models disagreed on zero bets); `
-        + `the same boundary is independently witnessed against the operator's own /verify endpoint in evidence/E13 and reproduced in Step 19; `
+        + `(under a strict R > target rule ${flipsUnderStrictGt} of the ${winChecked} settled bets would flip); `
+        + `rounds landing one 2-dp tick BELOW their target: ${oneTickBelow}, of which ${oneTickBelowLosses} settled as losses; `
         + `boundary-hit expectation over the bets actually placed, Σ [floor(N/ci) − floor(N/(ci+1))]/${config_1.RANGE} = ${expectedOnTarget.toFixed(2)} against ${discriminating} observed; `
-        + `RESULT FLOOR: ${floorRounds} recomputed rounds at R = ${config_1.MIN_RESULT}x, ${floorWins} of them settled as a win (the floor ${config_1.MIN_RESULT}x is below the minimum legal target ${config_1.MIN_MULTIPLIER}x, so every floor round must lose)`);
+        + `RESULT FLOOR: ${floorRounds} recomputed rounds at R = ${config_1.MIN_RESULT}x, ${floorWins} of them settled as a win (the floor ${config_1.MIN_RESULT}x is below the minimum target ${config_1.MIN_MULTIPLIER}x, so every floor round must lose)`);
     const pass1 = [];
     const pass2 = [];
     for (const b of bets) {
@@ -2555,10 +3048,45 @@ function run(ctx) {
 },
 "tests/steps/edge.js": function(module, exports, require, __filename, __dirname) {
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ciRtpPct = exports.ciToTarget = void 0;
 exports.legalGrid = legalGrid;
 exports.run = run;
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
 const context_1 = require("./context");
 const config_1 = require("../../src/config");
 const rtp_settings_1 = require("../../src/rtp-settings");
@@ -2566,7 +3094,8 @@ const rtp_claim_1 = require("../../src/rtp-claim");
 const EDGE_DENOMINATOR = config_1.RANGE * config_1.MULTIPLIER_SCALE;
 const EDGE_BASE_NUMERATOR = EDGE_DENOMINATOR - config_1.RESULT_NUMERATOR;
 const EDGE_101_NUMERATOR = 101000000;
-const LEGAL_TARGET_COUNT = 99999900;
+const AUDITED_TARGET_COUNT = 999900;
+const FORMULA_GRID_COUNT = 99999900;
 function decimalOver(s, scale) {
     const m = /^(\d+)(?:\.(\d+))?$/.exec(s);
     if (!m || !Number.isSafeInteger(scale))
@@ -2578,22 +3107,15 @@ function decimalOver(s, scale) {
 const CLAIM_FLOOR_NUMERATOR = rtp_settings_1.RTP_CLAIM.kind === 'flat'
     ? decimalOver(rtp_settings_1.RTP_CLAIM.rtp, EDGE_DENOMINATOR) - decimalOver(rtp_claim_1.RTP_CLAIM_BAND, EDGE_DENOMINATOR)
     : NaN;
-function enumerateLegalGrid() {
+function enumerateGrid() {
     const ciMin = (0, config_1.targetToHundredths)(config_1.MIN_MULTIPLIER);
     const ciMax = (0, config_1.targetToHundredths)(config_1.MAX_MULTIPLIER);
-    const ciPlayable = (0, config_1.targetToHundredths)(config_1.MAX_PLAYABLE_TARGET);
-    const ciUi = (0, config_1.targetToHundredths)(config_1.UI_MAX_TARGET);
-    const ciLive = (0, config_1.targetToHundredths)(config_1.LIVE_TARGET_CEILING);
+    const ciTop = (0, config_1.targetToHundredths)(config_1.PROD_TOP_TARGET);
     const r = {
-        total: 0, violations: 0,
-        worstNumerator: -1, worstCi: 0,
-        worstPlayableNumerator: -1, worstPlayableCi: 0,
-        worstUiNumerator: -1, worstUiCi: 0,
-        liveTotal: 0, liveExactlyOnePercent: 0, worstLiveNumerator: -1, worstLiveCi: 0, liveBeyondBand: 0,
-        playableTotal: 0, playableBeyondBand: 0, firstBeyondBandCi: 0,
-        firstAbove101Ci: 0, firstAbove101Numerator: 0,
-        countAbove101: 0, countExactlyOnePercent: 0,
-        largestInWinChanceGroup: 0,
+        total: 0, violations: 0, worstNumerator: -1, worstCi: 0,
+        countAbove101: 0, firstAbove101Ci: 0, firstAbove101Numerator: 0, countExactlyOnePercent: 0, firstBeyondBandCi: 0,
+        auditedTotal: 0, auditedExactlyOnePercent: 0, worstAuditedNumerator: -1, worstAuditedCi: 0,
+        auditedBeyondBand: 0, auditedAbove101: 0, auditedLargestInGroup: 0,
     };
     for (let ci = ciMin; ci <= ciMax; ci++) {
         r.total++;
@@ -2606,33 +3128,9 @@ function enumerateLegalGrid() {
             r.worstNumerator = num;
             r.worstCi = ci;
         }
-        if (ci <= ciPlayable && num > r.worstPlayableNumerator) {
-            r.worstPlayableNumerator = num;
-            r.worstPlayableCi = ci;
-        }
-        if (ci <= ciUi && num > r.worstUiNumerator) {
-            r.worstUiNumerator = num;
-            r.worstUiCi = ci;
-        }
         const beyondBand = cr * ci < CLAIM_FLOOR_NUMERATOR;
         if (beyondBand && r.firstBeyondBandCi === 0)
             r.firstBeyondBandCi = ci;
-        if (ci <= ciLive) {
-            r.liveTotal++;
-            if (rem === 0)
-                r.liveExactlyOnePercent++;
-            if (num > r.worstLiveNumerator) {
-                r.worstLiveNumerator = num;
-                r.worstLiveCi = ci;
-            }
-            if (beyondBand)
-                r.liveBeyondBand++;
-        }
-        if (ci <= ciPlayable) {
-            r.playableTotal++;
-            if (beyondBand)
-                r.playableBeyondBand++;
-        }
         if (num > EDGE_101_NUMERATOR) {
             r.countAbove101++;
             if (r.firstAbove101Ci === 0) {
@@ -2642,15 +3140,28 @@ function enumerateLegalGrid() {
         }
         if (rem === 0)
             r.countExactlyOnePercent++;
-        if (Math.floor(config_1.RESULT_NUMERATOR / (ci + 1)) < cr)
-            r.largestInWinChanceGroup++;
+        if (ci <= ciTop) {
+            r.auditedTotal++;
+            if (rem === 0)
+                r.auditedExactlyOnePercent++;
+            if (num > r.worstAuditedNumerator) {
+                r.worstAuditedNumerator = num;
+                r.worstAuditedCi = ci;
+            }
+            if (beyondBand)
+                r.auditedBeyondBand++;
+            if (num > EDGE_101_NUMERATOR)
+                r.auditedAbove101++;
+            if (Math.floor(config_1.RESULT_NUMERATOR / (ci + 1)) < cr)
+                r.auditedLargestInGroup++;
+        }
     }
     return r;
 }
 let gridCache = null;
 function legalGrid() {
     if (gridCache === null)
-        gridCache = enumerateLegalGrid();
+        gridCache = enumerateGrid();
     return gridCache;
 }
 const gridPct = (numerator) => (numerator / EDGE_DENOMINATOR * 100).toFixed(6);
@@ -2708,8 +3219,9 @@ function run(ctx) {
         }
         edgeChecked++;
     }
-    const legalExtremes = [config_1.MIN_MULTIPLIER, config_1.MAX_PLAYABLE_TARGET, config_1.MAX_MULTIPLIER];
-    const extremesOk = legalExtremes.every((m) => {
+    const exactExample = distinctTargets.find((m) => Math.floor(config_1.RESULT_NUMERATOR / (0, config_1.targetToHundredths)(m)) * (0, config_1.targetToHundredths)(m) === config_1.RESULT_NUMERATOR);
+    const extremes = [config_1.MIN_MULTIPLIER, config_1.PROD_TOP_TARGET, config_1.MAX_MULTIPLIER];
+    const extremesOk = extremes.every((m) => {
         const ci = (0, config_1.targetToHundredths)(m);
         return Math.floor(config_1.RESULT_NUMERATOR / ci) * ci <= config_1.RESULT_NUMERATOR
             && Number.isFinite((0, config_1.theoreticalRTP)(m)) && Number.isFinite((0, config_1.effectiveEdge)(m));
@@ -2717,80 +3229,73 @@ function run(ctx) {
     const stakeWeighted = bets.reduce((s, b) => s + Number(b.betAmount) * (0, config_1.effectiveEdge)(Number(b.params.target)), 0)
         / bets.reduce((s, b) => s + Number(b.betAmount), 0);
     const stakeWeightedOk = Number.isFinite(stakeWeighted);
-    const gridWindowOk = grid.total === (0, config_1.targetToHundredths)(config_1.MAX_MULTIPLIER) - (0, config_1.targetToHundredths)(config_1.MIN_MULTIPLIER) + 1;
-    const gridTotalOk = gridWindowOk && grid.total === LEGAL_TARGET_COUNT;
-    const offClaim = grid.total - grid.countExactlyOnePercent;
-    const liveOffClaim = grid.liveTotal - grid.liveExactlyOnePercent;
-    const liveWindowOk = grid.liveTotal === (0, config_1.targetToHundredths)(config_1.LIVE_TARGET_CEILING) - (0, config_1.targetToHundredths)(config_1.MIN_MULTIPLIER) + 1;
-    const playableWindowOk = grid.playableTotal === (0, config_1.targetToHundredths)(config_1.MAX_PLAYABLE_TARGET) - (0, config_1.targetToHundredths)(config_1.MIN_MULTIPLIER) + 1;
+    const gridTotalOk = grid.total === (0, config_1.targetToHundredths)(config_1.MAX_MULTIPLIER) - (0, config_1.targetToHundredths)(config_1.MIN_MULTIPLIER) + 1 && grid.total === FORMULA_GRID_COUNT;
+    const auditedTotalOk = grid.auditedTotal === (0, config_1.targetToHundredths)(config_1.PROD_TOP_TARGET) - (0, config_1.targetToHundredths)(config_1.MIN_MULTIPLIER) + 1 && grid.auditedTotal === AUDITED_TARGET_COUNT;
+    const playedInside = distinctTargets.every((m) => (0, config_1.targetToHundredths)(m) >= (0, config_1.targetToHundredths)(config_1.MIN_MULTIPLIER) && (0, config_1.targetToHundredths)(m) <= (0, config_1.targetToHundredths)(config_1.PROD_TOP_TARGET))
+        && Math.min(...distinctTargets) === config_1.MIN_MULTIPLIER && Math.max(...distinctTargets) === config_1.PROD_TOP_TARGET;
+    const auditedOffClaim = grid.auditedTotal - grid.auditedExactlyOnePercent;
     const s16ok = edgeViolations === 0 && favourable === 0 && nonFinite === 0 && extremesOk && stakeWeightedOk
         && edgeChecked === distinctTargets.length && edgeChecked > 0
-        && grid.violations === 0 && gridTotalOk && liveWindowOk && playableWindowOk && Number.isFinite(CLAIM_FLOOR_NUMERATOR);
-    const rtpPct = (edgeNumerator) => ((EDGE_DENOMINATOR - edgeNumerator) / EDGE_DENOMINATOR * 100).toFixed(6);
+        && grid.violations === 0 && gridTotalOk && auditedTotalOk && playedInside && Number.isFinite(CLAIM_FLOOR_NUMERATOR);
     const bandPp = (decimalOver(rtp_claim_1.RTP_CLAIM_BAND, EDGE_DENOMINATOR) / EDGE_DENOMINATOR * 100).toFixed(1);
-    const liveGapPp = ((grid.worstLiveNumerator - EDGE_BASE_NUMERATOR) / EDGE_DENOMINATOR * 100).toFixed(6);
-    const s16 = (0, context_1.step)(16, 'Effective-Edge Curve', !s16ok ? 'FAIL' : grid.liveBeyondBand > 0 ? 'FLAG' : 'PASS', `${s16ok
-        ? `PROFILE LIMBO-19, judged against the RTP-CLAIM band (${bandPp} pp from the ${(config_1.HOUSE_EDGE * 100).toFixed(2)}% edge claim) on the current build's target range, ${config_1.MIN_MULTIPLIER}x to the ${config_1.LIVE_TARGET_CEILING}x ceiling seen on the live API on ${config_1.LIVE_TARGET_CEILING_WITNESSED} (one request above it probed, not settled — Step 25): `
-            + `${grid.liveBeyondBand} of the ${grid.liveTotal} targets sit more than the band from the claim (${grid.liveBeyondBand > 0 ? 'FLAG, origin operator' : 'no FLAG'}); `
-            + `${grid.liveBeyondBand > 0 ? '' : 'inside the band '}the derived edge differs from the ${(config_1.HOUSE_EDGE * 100).toFixed(2)}% claim at ${liveOffClaim} of the ${grid.liveTotal} targets, always on the house side, by at most ${liveGapPp} pp (${gridPct(grid.worstLiveNumerator)}% at ${(0, exports.ciToTarget)(grid.worstLiveCi)}x)${grid.liveBeyondBand > 0 ? '' : ' — printed, not flagged'}. `
-            + `The first legal target beyond the band is ${(0, exports.ciToTarget)(grid.firstBeyondBandCi)}x (RTP ${(0, exports.ciRtpPct)(grid.firstBeyondBandCi)}%). `
-            + `NOT THE CURRENT BUILD, disclosed for reference: on the 2026-09-11 range (targets up to ${config_1.MAX_PLAYABLE_TARGET}x, the highest target the audited capture settled; ${grid.playableTotal} targets) `
-            + `the worst edge is ${gridPct(grid.worstPlayableNumerator)}% at ${(0, exports.ciToTarget)(grid.worstPlayableCi)}x and the RTP-CLAIM rule would FAIL: ${grid.playableBeyondBand} of the ${grid.playableTotal} targets sit more than ${bandPp} pp below the claim, worst RTP ${rtpPct(grid.worstPlayableNumerator)}% at ${(0, exports.ciToTarget)(grid.worstPlayableCi)}x; `
-            + `over the whole declared legal grid the edge differs from the claim at ${offClaim} of ${grid.total} targets, up to ${gridPct(grid.worstNumerator)}%. `
-        : ''}EXHAUSTIVE over the legal grid: house edge >= ${(config_1.HOUSE_EDGE * 100).toFixed(2)}% asserted in EXACT INTEGERS `
-        + `(floor(${config_1.RESULT_NUMERATOR}/ci(m)) x ci(m) <= ${config_1.RESULT_NUMERATOR}, no tolerance) at EVERY one of the ${grid.total} legal 2-dp targets `
-        + `in [${config_1.MIN_MULTIPLIER}x, ${config_1.MAX_MULTIPLIER}x] — ${grid.violations} violations `
-        + `(${gridTotalOk ? `the grid size is both what the legal window implies and the pinned population ${LEGAL_TARGET_COUNT}` : `GRID SIZE DISAGREES — window ${gridWindowOk ? 'ok' : 'MISMATCH'}, pinned population ${LEGAL_TARGET_COUNT}`}). `
-        + `THE EDGE IS NOT FLAT ABOVE 1.00%, and this is the measurement that says so: edge(ci) = (${EDGE_DENOMINATOR} - ${config_1.RESULT_NUMERATOR} + (${config_1.RESULT_NUMERATOR} mod ci)) / ${EDGE_DENOMINATOR}, `
-        + `so the excess over 1% is driven by (N mod ci) and grows with ci. Worst edge anywhere in the legal range ${gridPct(grid.worstNumerator)}% at ${(0, exports.ciToTarget)(grid.worstCi)}x; `
-        + `worst target playable on 2026-09-11 (<= ${config_1.MAX_PLAYABLE_TARGET}x, the $${config_1.MAX_EXPOSURE_USDC}/$${config_1.MIN_BET_USDC} exposure ceiling of Step 17; on ${config_1.LIVE_TARGET_CEILING_WITNESSED} the live API did not settle the one target probed above ${config_1.LIVE_TARGET_CEILING}x, Step 25) ${gridPct(grid.worstPlayableNumerator)}% at ${(0, exports.ciToTarget)(grid.worstPlayableCi)}x; `
-        + `worst at or below the operator's UI target cap of ${config_1.UI_MAX_TARGET}x ${gridPct(grid.worstUiNumerator)}% at ${(0, exports.ciToTarget)(grid.worstUiCi)}x; `
-        + `the FIRST target whose edge exceeds 1.01% is ${(0, exports.ciToTarget)(grid.firstAbove101Ci)}x (${gridPct(grid.firstAbove101Numerator)}%), i.e. just above that UI cap; `
-        + `${grid.countAbove101} of the ${grid.total} legal targets carry an edge above 1.01%, and only ${grid.countExactlyOnePercent} are priced at EXACTLY ${(config_1.HOUSE_EDGE * 100).toFixed(2)}% (those are the ci that divide ${config_1.RESULT_NUMERATOR} evenly); `
-        + `mechanically it is a same-odds/different-payout effect — targets sharing one value of floor(N/ci) share an IDENTICAL win chance but are each paid their own multiplier, so within a group RTP = cr x ci / ${EDGE_DENOMINATOR} rises with ci and only the LARGEST member is priced as well as those odds allow; every smaller member is strictly dominated (same win chance, strictly lower payout). Just ${grid.largestInWinChanceGroup} of ${grid.total} targets (${(grid.largestInWinChanceGroup / grid.total * 100).toFixed(3)}%) are the best-priced member of their group. NOTE, because the obvious misreading is wrong: best-priced does NOT mean priced at 99.00% — only ${grid.countExactlyOnePercent} targets in the whole grid are, so a group maximum is usually still above a 1.00% edge. `
-        + `CAPTURED-TARGET SUB-MEASUREMENT, reported separately and NOT to be read as the curve: across the ${edgeChecked} distinct targets this capture actually used, spanning ${Math.min(...distinctTargets)}x..${Math.max(...distinctTargets)}x, `
+    const auditedGapPp = ((grid.worstAuditedNumerator - EDGE_BASE_NUMERATOR) / EDGE_DENOMINATOR * 100).toFixed(6);
+    const s16 = (0, context_1.step)(16, 'Effective-Edge Curve', !s16ok ? 'FAIL' : grid.auditedBeyondBand > 0 ? 'FLAG' : 'PASS', `${s16ok
+        ? `PROFILE LIMBO-19, judged against the RTP-CLAIM band (${bandPp} pp from the ${(config_1.HOUSE_EDGE * 100).toFixed(2)}% edge claim) on the AUDITED RANGE, every 2-dp target from ${config_1.MIN_MULTIPLIER}x to ${config_1.PROD_TOP_TARGET}x (the lowest and the highest target settled on production): `
+            + `${grid.auditedBeyondBand} of the ${grid.auditedTotal} targets sit more than the band from the claim (${grid.auditedBeyondBand > 0 ? 'FLAG, origin operator' : 'no FLAG'}); `
+            + `${grid.auditedBeyondBand > 0 ? '' : 'inside the band '}the derived edge differs from the ${(config_1.HOUSE_EDGE * 100).toFixed(2)}% claim at ${auditedOffClaim} of the ${grid.auditedTotal} targets, always on the house side, by at most ${auditedGapPp} pp (${gridPct(grid.worstAuditedNumerator)}% at ${(0, exports.ciToTarget)(grid.worstAuditedCi)}x)${grid.auditedBeyondBand > 0 ? '' : ' — printed, not flagged'}; `
+            + `${grid.auditedExactlyOnePercent} are priced at exactly ${(config_1.HOUSE_EDGE * 100).toFixed(2)}% and ${grid.auditedAbove101} carry an edge above 1.01%. `
+        : ''}EXHAUSTIVE: house edge >= ${(config_1.HOUSE_EDGE * 100).toFixed(2)}% asserted in EXACT INTEGERS `
+        + `(floor(${config_1.RESULT_NUMERATOR}/ci(m)) x ci(m) <= ${config_1.RESULT_NUMERATOR}, no tolerance) at every one of the ${grid.total} 2-dp values `
+        + `in [${config_1.MIN_MULTIPLIER}x, ${config_1.MAX_MULTIPLIER}x], the formula's whole grid up to the result cap — ${grid.violations} violations `
+        + `(${gridTotalOk && auditedTotalOk ? `both population sizes are what their windows imply and what this step pins, ${AUDITED_TARGET_COUNT} and ${FORMULA_GRID_COUNT}` : 'POPULATION SIZE DISAGREES'}). `
+        + `THE EDGE IS NOT FLAT ABOVE 1.00%: edge(ci) = (${EDGE_DENOMINATOR} - ${config_1.RESULT_NUMERATOR} + (${config_1.RESULT_NUMERATOR} mod ci)) / ${EDGE_DENOMINATOR}, `
+        + `so the excess over 1% is driven by (N mod ci) and grows with ci. `
+        + `Mechanically it is a same-odds/different-payout effect: targets sharing one value of floor(N/ci) share an IDENTICAL win chance but are each paid their own multiplier, so within a group RTP = cr x ci / ${EDGE_DENOMINATOR} rises with ci and only the LARGEST member is priced as well as those odds allow; ${grid.auditedLargestInGroup} of the ${grid.auditedTotal} audited targets (${(grid.auditedLargestInGroup / grid.auditedTotal * 100).toFixed(3)}%) are the best-priced member of their group (best-priced does not mean priced at 99.00%). `
+        + `ABOVE THE AUDITED RANGE, arithmetic about the formula only (whether production accepts a target above ${config_1.PROD_TOP_TARGET}x is not established, Step 17): the first value whose edge exceeds 1.01% is ${(0, exports.ciToTarget)(grid.firstAbove101Ci)}x (${gridPct(grid.firstAbove101Numerator)}%); `
+        + `the first value beyond the RTP-CLAIM band is ${(0, exports.ciToTarget)(grid.firstBeyondBandCi)}x (RTP ${(0, exports.ciRtpPct)(grid.firstBeyondBandCi)}%); over the whole grid the worst edge is ${gridPct(grid.worstNumerator)}% at ${(0, exports.ciToTarget)(grid.worstCi)}x, ${grid.countAbove101} of ${grid.total} values carry an edge above 1.01% and ${grid.countExactlyOnePercent} are exactly ${(config_1.HOUSE_EDGE * 100).toFixed(2)}%. `
+        + `CAPTURED-TARGET SUB-MEASUREMENT, reported separately and NOT to be read as the curve: across the ${edgeChecked} distinct targets the production capture played, spanning ${Math.min(...distinctTargets)}x..${Math.max(...distinctTargets)}x (${playedInside ? 'the ends of the audited range' : 'NOT the audited range'}), `
         + `${edgeViolations} violations`
         + (firstEdgeFail ? ` (e.g. ${firstEdgeFail})` : '')
-        + `, ${favourable} player-favourable targets (${favourable === 0 ? 'none — not exploitable anywhere in the captured range' : 'EXPLOIT'}); `
-        + `${nonFinite} targets at which OUR OWN reference formula returned a non-finite value (${nonFinite === 0 ? 'none — the curve above is a measurement of the pricing, not of a broken verifier' : 'CORRUPT VERIFIER'}), counted explicitly because every comparison against NaN is false and an unguarded curve would read as clean; `
-        + `captured edge spans ${(minEdge * 100).toFixed(6)}% (at ${minEdgeTarget}x) to ${(maxEdge * 100).toFixed(6)}% (at ${maxEdgeTarget}x), stake-weighted mean across the capture ${(stakeWeighted * 100).toFixed(6)}% — `
-        + `that narrow span is an ARTEFACT OF WHICH TARGETS THE CAPTURE USED (every high tranche it played divides ${config_1.RESULT_NUMERATOR} evenly), not a property of the game; `
-        + `${exactlyOnePercent} of the ${edgeChecked} captured targets price to EXACTLY ${(config_1.HOUSE_EDGE * 100).toFixed(2)}% (e.g. target 2.00 -> win chance ${((0, config_1.winChance)(2) * 100).toFixed(2)}%, RTP ${((0, config_1.theoreticalRTP)(2) * 100).toFixed(4)}%) — that is the arithmetic working, not an anomaly; `
-        + `the flooring can only LOWER the payout, never raise it, which is why 1.00% is a provable floor rather than a measured average, and why the dispersion above it runs one way only; `
-        + `legal-range extremes also satisfy the identity (${legalExtremes.join('x, ')}x: ${extremesOk ? 'ok' : 'FAIL'}), max win chance ${config_1.MAX_WIN_CHANCE_PERCENT.toFixed(6)}% at the ${config_1.MIN_MULTIPLIER}x minimum target; `
-        + `the comparison is done in integers, so no tolerance is needed; the largest edge on the captured targets is ${(maxCapturedEdgeNumerator / EDGE_DENOMINATOR * 100).toFixed(8)}% at ${maxCapturedEdgeTarget}x, a real difference from ${(config_1.HOUSE_EDGE * 100).toFixed(2)}% and not a rounding effect`, 'operator');
-    const advertisedMaxExposure = (0, context_1.hundredths)(config_1.MIN_BET_USDC) * (0, context_1.hundredths)(config_1.MAX_MULTIPLIER) / 1e4;
-    const playableDerivation = config_1.MAX_EXPOSURE_USDC / config_1.MIN_BET_USDC;
-    const derivationOk = playableDerivation === config_1.MAX_PLAYABLE_TARGET;
-    const advertisedUnplayable = advertisedMaxExposure > config_1.MAX_EXPOSURE_USDC;
-    const capturedMaxTarget = Math.max(...distinctTargets);
-    const trancheTargets = [...config_1.EXPECTED_PHASES.B.targets];
-    const topTranche = trancheTargets[trancheTargets.length - 1];
-    const trancheIsPlayableMax = topTranche === config_1.MAX_PLAYABLE_TARGET;
-    const trancheIsAdvertisedMax = trancheTargets.includes(config_1.MAX_MULTIPLIER);
-    const planNamesPlayableMax = trancheIsPlayableMax && !trancheIsAdvertisedMax;
-    const capturedAtPlayableMax = capturedMaxTarget === config_1.MAX_PLAYABLE_TARGET;
-    const betsAtMax = bets.filter((b) => Number(b.params.target) === config_1.MAX_PLAYABLE_TARGET).length;
-    const betsAtAdvertisedMax = bets.filter((b) => Number(b.params.target) === config_1.MAX_MULTIPLIER).length;
-    const edgeAtPlayableMax = (0, config_1.effectiveEdge)(config_1.MAX_PLAYABLE_TARGET);
-    const edgeAtAdvertisedMax = (0, config_1.effectiveEdge)(config_1.MAX_MULTIPLIER);
-    const auditedAboveLive = [...new Set(bets.map((b) => Number(b.params.target)).filter((t) => (0, context_1.hundredths)(t) > (0, context_1.hundredths)(config_1.LIVE_TARGET_CEILING)))].sort((a, z) => a - z);
-    const s17 = (0, context_1.step)(17, 'Client-Code Maximum Multiplier (2026-09-11 state, note)', derivationOk && advertisedUnplayable && planNamesPlayableMax && capturedAtPlayableMax && betsAtAdvertisedMax === 0 ? 'PASS' : 'FAIL', `NOTE (profile LIMBO-14), not a flag: client-code maximum ${config_1.MAX_MULTIPLIER}x, read 2026-09-07, not retained in this package; the player-facing text this package holds (evidence/rtp-page-labels-2026-10-01.json, read 2026-10-01) shows ${config_1.UI_MAX_TARGET}x as its top example, and nothing in the package shows players are told ${config_1.MAX_MULTIPLIER}x. `
-        + `CURRENT BUILD: on ${config_1.LIVE_TARGET_CEILING_WITNESSED} the live API settled bets at ${config_1.LIVE_TARGET_CEILING}x and did not settle the one request above it (${config_1.CEILING_PROBE_REFUSED_TARGET}x; Step 25, evidence/E20), `
-        + `so the range this audit judges ends at ${config_1.LIVE_TARGET_CEILING}x. `
-        + (config_1.CAP_PROBE_JOURNAL === null
-            ? `That ceiling rests on that single probe; the targets the audited capture played above it (${auditedAboveLive.map((t) => `${t}x`).join(', ') || 'none'}) were not re-probed (Step 25 carries the flag). `
-            : `That ceiling is also tested by the cap re-probe (evidence/E21, run 2026-10-02; Step 25 judges whether its requests at ${config_1.CAP_PROBE_TARGETS.map((t) => `${t}x`).join(', ')} were refused); `
-                + `of the targets the audited capture played above the ceiling, ${auditedAboveLive.filter((t) => config_1.CAP_PROBE_TARGETS.includes(t)).map((t) => `${t}x`).join(', ') || 'none'} ${auditedAboveLive.filter((t) => config_1.CAP_PROBE_TARGETS.includes(t)).length === 1 ? 'is' : 'are'} among those requests and ${auditedAboveLive.filter((t) => !config_1.CAP_PROBE_TARGETS.includes(t)).map((t) => `${t}x`).join(', ') || 'none'} ${auditedAboveLive.filter((t) => !config_1.CAP_PROBE_TARGETS.includes(t)).length === 1 ? 'is' : 'are'} not. `)
-        + `2026-09-11 STATE, reproduced from the evidence: the ${config_1.MAX_MULTIPLIER}x maximum target in LIQD's client code could not be played at any legal stake. `
-        + `The cheapest legal bet at ${config_1.MAX_MULTIPLIER}x stakes the $${config_1.MIN_BET_USDC} minimum and creates $${advertisedMaxExposure} of exposure against the $${config_1.MAX_EXPOSURE_USDC} ceiling (${advertisedUnplayable ? 'over by ' + (advertisedMaxExposure - config_1.MAX_EXPOSURE_USDC) : 'NOT over — the finding does not hold'}); `
-        + `evidence/E15 records that bet refused with errorCode 3138 and the casino's own maximum stake of $0.05 for that target (maxAllowedBetUsdc, below the $${config_1.MIN_BET_USDC} minimum stake), then a second refusal with errorCode 3113; E15 records $${config_1.MIN_BET_USDC} as the stake on both, and that the second request was the $0.05 retry follows from the capture script, not from the record; `
-        + `maximum PLAYABLE target = $${config_1.MAX_EXPOSURE_USDC} / $${config_1.MIN_BET_USDC} = ${playableDerivation}x, which is MAX_PLAYABLE_TARGET ${config_1.MAX_PLAYABLE_TARGET}x in src/config.ts (${derivationOk ? 'derivation agrees' : 'DERIVATION DISAGREES'}); `
-        + `the capture's top tranche is therefore ${topTranche}x and not ${config_1.MAX_MULTIPLIER}x (${planNamesPlayableMax ? 'the plan names the playable maximum' : 'PLAN DISAGREES'}), `
-        + `${betsAtMax} bets were placed at ${config_1.MAX_PLAYABLE_TARGET}x and ${betsAtAdvertisedMax} at ${config_1.MAX_MULTIPLIER}x, and the highest target anywhere in the capture is ${capturedMaxTarget}x (${capturedAtPlayableMax ? 'the playable ceiling' : 'NOT the playable ceiling'}); `
-        + `the pricing is unaffected — edge is ${(edgeAtPlayableMax * 100).toFixed(6)}% at ${config_1.MAX_PLAYABLE_TARGET}x and ${(edgeAtAdvertisedMax * 100).toFixed(6)}% at ${config_1.MAX_MULTIPLIER}x — so on 2026-09-11 the exposure ceiling was enforced and the client-code maximum could not be reached at the minimum stake. `
-        + `SCOPE: the $${config_1.MAX_EXPOSURE_USDC} ceiling is DERIVED from a single witnessed refusal on qa.liqd.com in one currency; it is not established for other currencies, other targets or production. `
-        + `DATED: the ${config_1.MAX_PLAYABLE_TARGET}x playable maximum is the 2026-09-11 state and is not claimed live`);
+        + `, ${favourable} player-favourable targets; `
+        + `${nonFinite} targets at which OUR OWN reference formula returned a non-finite value (${nonFinite === 0 ? 'none' : 'CORRUPT VERIFIER'}), counted explicitly because every comparison against NaN is false; `
+        + `captured edge spans ${(minEdge * 100).toFixed(6)}% (at ${minEdgeTarget}x) to ${(maxEdge * 100).toFixed(6)}% (at ${maxEdgeTarget}x), stake-weighted mean across the capture ${(stakeWeighted * 100).toFixed(6)}%; `
+        + `${exactlyOnePercent} of the ${edgeChecked} captured targets price to EXACTLY ${(config_1.HOUSE_EDGE * 100).toFixed(2)}% (${exactExample === undefined ? 'none' : `e.g. target ${exactExample.toFixed(2)} -> win chance ${((0, config_1.winChance)(exactExample) * 100).toFixed(4)}%, RTP ${((0, config_1.theoreticalRTP)(exactExample) * 100).toFixed(4)}%`}); `
+        + `the flooring can only LOWER the payout, never raise it, which is why 1.00% is a provable floor and why the dispersion above it runs one way only; `
+        + `the ends also satisfy the identity (${extremes.join('x, ')}x: ${extremesOk ? 'ok' : 'FAIL'}), max win chance ${config_1.MAX_WIN_CHANCE_PERCENT.toFixed(6)}% at the ${config_1.MIN_MULTIPLIER}x minimum target; `
+        + `the largest edge on the captured targets is ${(maxCapturedEdgeNumerator / EDGE_DENOMINATOR * 100).toFixed(8)}% at ${maxCapturedEdgeTarget}x, a real difference from ${(config_1.HOUSE_EDGE * 100).toFixed(2)}% and not a rounding effect`, 'operator');
+    const targetsOk = bets.every((b) => (0, config_1.isTargetLegal)(Number(b.params.target)) && (0, context_1.hundredths)(Number(b.params.target)) <= (0, context_1.hundredths)(config_1.PROD_TOP_TARGET));
+    const atTop = bets.filter((b) => (0, context_1.hundredths)(Number(b.params.target)) === (0, context_1.hundredths)(config_1.PROD_TOP_TARGET));
+    const aboveTop = bets.filter((b) => (0, context_1.hundredths)(Number(b.params.target)) > (0, context_1.hundredths)(config_1.PROD_TOP_TARGET)).length;
+    const atTopWins = atTop.filter((b) => b.win).length;
+    const expectedTopWins = atTop.length * (0, config_1.winChance)(config_1.PROD_TOP_TARGET);
+    const maxPotential = Math.max(...bets.map((b) => (0, context_1.hundredths)(Number(b.betAmount)) * (0, context_1.hundredths)(Number(b.params.target)) / 1e4));
+    let e03 = 'evidence/E03-prod-verifier-target-100000.json UNREADABLE';
+    let e03Ok = false;
+    try {
+        const j = JSON.parse(fs.readFileSync(path.join(ctx.evidenceDir, 'E03-prod-verifier-target-100000.json'), 'utf8'));
+        const t = j.request?.body?.params?.target;
+        e03Ok = j.host === 'liqd.com' && j.request?.path === '/api/v1/originals/limbo/verify' && t === 100000 && j.reply?.httpStatus === 400
+            && j.reply?.bodyRetained === false && typeof t === 'number' && t > config_1.PROD_TOP_TARGET;
+        e03 = `evidence/E03 (${j.date}): one logged-out request to the production VERIFIER with target ${t} was answered HTTP ${j.reply?.httpStatus}, a validation error on the target; the reply body was not retained (${e03Ok ? 'the record says exactly this' : 'THE RECORD DISAGREES'})`;
+    }
+    catch {
+        e03Ok = false;
+    }
+    let pageTop = false;
+    try {
+        const labels = fs.readFileSync(path.join(ctx.evidenceDir, 'rtp-page-labels-2026-10-01.json'), 'utf8');
+        pageTop = labels.includes('10,000x lands 0.0099% of the time');
+    }
+    catch {
+        pageTop = false;
+    }
+    const s17 = (0, context_1.step)(17, 'Target Bounds & Maximum Payout (as evidenced on production)', targetsOk && atTop.length > 0 && aboveTop === 0 && e03Ok && pageTop ? 'PASS' : 'FAIL', `PROFILE LIMBO-14. Every one of the ${bets.length} targets played is a 2-dp value in [${config_1.MIN_MULTIPLIER}, ${config_1.PROD_TOP_TARGET}] (${targetsOk}). `
+        + `HIGHEST TARGET: the casino accepted and settled ${atTop.length} rounds at exactly ${config_1.PROD_TOP_TARGET}x (${atTopWins} won; ${expectedTopWins.toFixed(4)} wins expected at a ${((0, config_1.winChance)(config_1.PROD_TOP_TARGET) * 100).toFixed(4)}% win chance); ${aboveTop} production rounds were placed above it. `
+        + `ABOVE ${config_1.PROD_TOP_TARGET}x: NOT ESTABLISHED. This audit holds no refused bet, so whether liqd.com accepts a bet on a target above ${config_1.PROD_TOP_TARGET}x is not known from it. ${e03}. That is a verifier reply to one request, not a refused bet. `
+        + `The game page's own text uses ${config_1.PROD_TOP_TARGET}x as its top example ("10,000x lands 0.0099% of the time", liqd.com/originals/limbo read logged out 2026-10-01, evidence/rtp-page-labels-2026-10-01.json: ${pageTop}); this package holds no text that tells players of a higher target. `
+        + `RESULT CAP: ${config_1.MAX_MULTIPLIER}x, a property of the result and not of the target; no settled round reached it; its witness is the production verifier probe set of Step 25. `
+        + `MAXIMUM PAYOUT / EXPOSURE: UNDECLARED. No bet was refused in the three runs; the largest potential payout (stake x target) the casino accepted is ${maxPotential} ${ctx.meta.currency}, a measured maximum and not a limit. `
+        + `The pricing does not change at the top of the range: edge ${((0, config_1.effectiveEdge)(config_1.PROD_TOP_TARGET) * 100).toFixed(6)}% at ${config_1.PROD_TOP_TARGET}x`);
     return [s16, s17];
 }
 
@@ -3072,7 +3577,9 @@ function run(ctx) {
     const p = (0, pass2_1.pass2Screen)(ctx.seeds, ctx.bets);
     const bad = [];
     if (p.seedsTested !== config_1.EXPECTED_SEEDS)
-        bad.push(`${p.seedsTested}/${config_1.EXPECTED_SEEDS} revealed seeds carried a full epoch`);
+        bad.push(`${p.seedsTested}/${config_1.EXPECTED_SEEDS} revealed seeds carried a full planned epoch`);
+    if (p.noncesRanked < config_1.EXPECTED_BETS)
+        bad.push(`${p.noncesRanked} nonces ranked`);
     if (p.noncesTotal !== config_1.EXPECTED_SEEDS * config_1.PASS2_NONCES)
         bad.push(`${p.noncesTotal} nonces replayed, expected ${config_1.EXPECTED_SEEDS * config_1.PASS2_NONCES}`);
     const r = p.servedReturn, e = p.earlyLateScreen;
@@ -3096,14 +3603,15 @@ function run(ctx) {
     catch (err) {
         bad.push(`outputs/simulation-results.json unreadable (${(err instanceof Error ? err.message : String(err)).slice(0, 60)})`);
     }
-    const detail = `${p.seedsTested}/${config_1.EXPECTED_SEEDS} revealed seeds x ${p.noncesPerSeed} nonces (${p.noncesTotal} draws, ${p.windows} windows of ${p.windowSize}); `
+    const sizes = p.windowSizes.map((w) => `${w.seeds} seeds x ${w.windows} windows of ${w.size}`).join(', ');
+    const detail = `${p.seedsTested}/${config_1.EXPECTED_SEEDS} revealed seeds x ${p.noncesPerSeed} nonces (${p.noncesTotal} draws; ${p.noncesRanked} of them in ${p.windowsTotal} full windows the size of the seed's own captured epoch: ${sizes}); `
         + `window 0 replays the captured results: ${r.replayMismatches} mismatches. `
-        + `A. SERVED-TARGET RETURN (each window bets the 50 targets the casino served in that epoch, unit stake, standardised by the exact per-target mean and variance from floor(N/ci)/RANGE): `
-        + `exact permutation null (the captured window exchangeable with the other ${p.windows - 1}), rank-sum Z = ${r.rankSumZ} (one-sided p ${r.oneSidedP}; rule fixed in code on 2026-09-26, after the capture: cherry-pick indicated at Z < ${config_1.PASS2_Z_CRIT.toFixed(3)}, alpha 0.001); `
+        + `A. SERVED-TARGET RETURN (each window bets the targets the casino served in that epoch, in order, unit stake, standardised by the exact per-target mean and variance from floor(N/ci)/RANGE): `
+        + `exact permutation null (the captured window exchangeable with the epoch's other windows), rank-sum Z = ${r.rankSumZ} (one-sided p ${r.oneSidedP}; rule fixed in code on 2026-09-26, before any production capture; the window follows each epoch's planned size, set on 2026-11-10, after the captures: cherry-pick indicated at Z < ${config_1.PASS2_Z_CRIT.toFixed(3)}, alpha 0.001); `
         + `direction split: captured window below its epoch median in ${r.capturedBelowMedian} epochs, above in ${r.capturedAboveMedian} (the rest tie at the median); `
         + `captured-window return ${r.capturedReturn} vs expectation ${r.capturedExpected} (unit stakes); power: detects with >= 50% probability a cherry-pick that puts >= ${(r.powerFraction * 100).toFixed(1)}% of epochs' captured windows in their worst decile. `
-        + `B. EARLY/LATE CHI-SQUARED SCREEN, EXACT METHOD (nonces 0-49 vs 50-99, ${e.bins} bins): exact multinomial null over ${e.nullAttainableValues} attainable values, critical chi2 >= ${e.criticalChi2} (Q >= ${e.criticalQ}), attained size ${e.size}, p0 = a(1-a) = ${e.p0}; `
-        + `${e.flags} flags vs ${e.expected} expected, exact binomial P ${e.binomialP} (rule fixed in code on 2026-09-26: rejected at < ${config_1.PASS2_SCREEN_ALPHA}) — ${e.consistent ? 'not rejected' : 'REJECTED'}; flagged epochs ${e.flaggedEpochs.join(', ')}. `
+        + `B. EARLY/LATE CHI-SQUARED SCREEN, EXACT METHOD (first ${e.drawsPerWindow} captured nonces 0-${e.drawsPerWindow - 1} vs the first ${e.drawsPerWindow} nonces after the captured epoch; ${e.bins} bins): exact multinomial null over ${e.nullAttainableValues} attainable values, critical chi2 >= ${e.criticalChi2} (Q >= ${e.criticalQ}), attained size ${e.size}, p0 = a(1-a) = ${e.p0}; `
+        + `${e.flags} flags vs ${e.expected} expected, exact binomial P ${e.binomialP} (rule fixed in code on 2026-09-26: rejected at < ${config_1.PASS2_SCREEN_ALPHA}) — ${e.consistent ? 'not rejected' : 'REJECTED'}; flagged epochs ${e.flaggedEpochs.length ? e.flaggedEpochs.join(', ') : 'none'}. `
         + `Pooled captured draws: chi2 ${p.pooledRealDrawUniformity.chi2} df ${p.pooledRealDrawUniformity.df} p ${p.pooledRealDrawUniformity.pValue}. ${artifactNote}`
         + (bad.length ? ` — FAILURES: ${bad.join('; ')}` : '');
     return [(0, context_1.step)(24, NAME, bad.length === 0 ? 'PASS' : 'FAIL', detail)];
@@ -3137,10 +3645,9 @@ function run(ctx) {
         }
         mChecked++;
     }
-    const s8 = (0, context_1.step)(8, 'Paid-Multiplier Derivation', mFails === 0 && mChecked > 0 ? 'PASS' : 'FAIL', `${mChecked} winning bets: on every win the dataset's multiplier column equals the target, bit-exact (strict ===, no tolerance); ${mFails} mismatches`
+    const s8 = (0, context_1.step)(8, 'Paid-Multiplier Derivation', mFails === 0 && mChecked > 0 ? 'PASS' : 'FAIL', `${mChecked} winning bets: on every win the multiplier the casino served in its place-bet reply (outcome.multiplier, carried in the dataset's multiplier column) equals the target, bit-exact (strict ===, no tolerance); ${mFails} mismatches`
         + (firstMFail ? ` (e.g. ${firstMFail})` : '')
-        + `; max deviation ${maxDev.toExponential(2)}. The capture script fills that column itself when the casino's response has no wager-level multiplier, and no response kept in the package has one. `
-        + `So this checks the file, not the casino. The payout is checked in Step 9`);
+        + `; max deviation ${maxDev.toExponential(2)}. The payout is checked in Step 9, from the casino's credited amount`);
     let cChecked = 0;
     let intFails = 0;
     let r8Fails = 0;
@@ -3184,7 +3691,7 @@ function run(ctx) {
         + (firstCFail ? `, e.g. ${firstCFail}` : '')
         + `); the same credits also satisfy credit == ROUND_8(stake x target) in binary64 on ${winCount - r8Fails}/${winCount} wins (${r8Fails} violations); `
         + `against the raw binary64 product the credit lands EXACTLY on it for ${landsOnProduct} of ${winCount} wins, max |credit - stake x target| ${maxRawResidual.toExponential(2)}, `
-        + `net ${netResidual >= 0 ? '+' : ''}${netResidual.toExponential(2)} USDC — that residual is a property of binary64, NOT of the settlement, which is why it is measured here and scored nowhere; `
+        + `net ${netResidual >= 0 ? '+' : ''}${netResidual.toExponential(2)} ${ctx.meta.currency} — that residual is a property of binary64, NOT of the settlement, which is why it is measured here and scored nowhere; `
         + `no rounding rule is assumed: the capture exhibits none, because a 2-dp stake times a 2-dp target is already exact in 4 dp`);
     let lChecked = 0;
     let lFails = 0;
@@ -3215,36 +3722,39 @@ function run(ctx) {
     let wChecked = 0;
     let wMissing = 0;
     let wLedgerFails = 0;
-    let stakeFloorFails = 0;
-    let exposureFails = 0;
+    let stakePlanFails = 0;
     let targetBoundFails = 0;
     let stakeShapeFails = 0;
     let firstWFail = '';
     let maxExposure = 0;
-    const minStakeH = (0, context_1.hundredths)(config_1.MIN_BET_USDC);
-    const maxExposureH2 = config_1.MAX_EXPOSURE_USDC * 1e4;
+    let maxExposureAt = '';
+    let maxCredit = 0;
+    let maxCreditAt = '';
     for (const b of bets) {
         const stake = Number(b.betAmount);
         const target = Number(b.params.target);
         if (!(0, context_1.isTwoDecimal)(stake))
             stakeShapeFails++;
-        if ((0, context_1.hundredths)(stake) < minStakeH)
-            stakeFloorFails++;
-        const expH2 = (0, context_1.hundredths)(stake) * (0, context_1.hundredths)(target);
-        if (expH2 > maxExposureH2) {
-            exposureFails++;
-            if (!firstWFail)
-                firstWFail = `epoch ${b.epoch} nonce ${b.nonce}: exposure ${expH2 / 1e4} > ceiling ${config_1.MAX_EXPOSURE_USDC}`;
+        const planned = config_1.EXPECTED_PHASES[b.phase]?.stake;
+        if (planned === undefined || (0, context_1.hundredths)(stake) !== (0, context_1.hundredths)(planned))
+            stakePlanFails++;
+        const exp = (0, context_1.hundredths)(stake) * (0, context_1.hundredths)(target) / 1e4;
+        if (exp > maxExposure) {
+            maxExposure = exp;
+            maxExposureAt = `${stake} x ${target}x, phase ${b.phase}`;
         }
-        if (expH2 / 1e4 > maxExposure)
-            maxExposure = expH2 / 1e4;
-        if (!(0, config_1.isTargetLegal)(target) || target > config_1.MAX_PLAYABLE_TARGET)
+        const credit = Number(b.winningAmount);
+        if (credit > maxCredit) {
+            maxCredit = credit;
+            maxCreditAt = `${stake} x ${target}x, phase ${b.phase}`;
+        }
+        if (!(0, config_1.isTargetLegal)(target) || (0, context_1.hundredths)(target) > (0, context_1.hundredths)(config_1.PROD_TOP_TARGET))
             targetBoundFails++;
         if (b.stakeWallet == null || b.winningAmountWallet == null) {
             wMissing++;
             continue;
         }
-        if (Number(b.stakeWallet) !== stake || Number(b.winningAmountWallet) !== Number(b.winningAmount)) {
+        if (Number(b.stakeWallet) !== stake || Number(b.winningAmountWallet) !== credit) {
             wLedgerFails++;
             if (!firstWFail)
                 firstWFail = `epoch ${b.epoch} nonce ${b.nonce}: wallet ${b.stakeWallet}/${b.winningAmountWallet} vs game ${b.betAmount}/${b.winningAmount}`;
@@ -3260,67 +3770,32 @@ function run(ctx) {
     }
     const balanceLedgerRows = bets.filter((b) => b.balanceOk !== null
         && b.balanceOk !== undefined).length;
-    const s11 = (0, context_1.step)(11, 'Wallet Ledger, Stake Floor & Exposure Ceiling', wMissing === 0 && wLedgerFails === 0 && stakeFloorFails === 0 && exposureFails === 0
-        && targetBoundFails === 0 && stakeShapeFails === 0 && wChecked === config_1.EXPECTED_BETS ? 'PASS' : 'FAIL', `${wChecked}/${config_1.EXPECTED_BETS} bets carry both wallet fields (${wMissing} missing) and the wallet ledger equals the game ledger on ${wChecked - wLedgerFails} of them (${wLedgerFails} divergent`
+    const s11 = (0, context_1.step)(11, 'Wallet Fields, Stakes & Exposure As Played', wMissing === 0 && wLedgerFails === 0 && stakePlanFails === 0
+        && targetBoundFails === 0 && stakeShapeFails === 0 && wChecked === config_1.EXPECTED_BETS ? 'PASS' : 'FAIL', `${wChecked}/${config_1.EXPECTED_BETS} bets carry both wallet fields (${wMissing} missing) and the wallet fields equal the game fields on ${wChecked - wLedgerFails} of them (${wLedgerFails} divergent`
         + (firstWFail ? `, e.g. ${firstWFail}` : '')
-        + `); every stake clears the $${config_1.MIN_BET_USDC} minimum (inferred, not probed: E15's 3113 refusal is recorded at $0.10, and that it was the $0.05 retry follows from the capture script) (${stakeFloorFails} below, ${stakeShapeFails} not a 2-dp amount) and every target is a legal 2-dp value at or below MAX_PLAYABLE_TARGET ${config_1.MAX_PLAYABLE_TARGET}x (${targetBoundFails} outside); `
-        + `maximum exposure (stake x target) in the capture $${maxExposure} against the $${config_1.MAX_EXPOSURE_USDC} ceiling witnessed in evidence/E15, ${exposureFails} bets over it — compared in whole hundredths so the result does not depend on floating-point rounding (for ${floatOffPairs} of the capture's ${pairs.size} distinct stake x target pairs the binary64 product is not the decimal answer, e.g. 0.1 x 1.07 = ${(0.1 * 1.07).toString()}); `
-        + `wallet BALANCE ledger present on ${balanceLedgerRows}/${bets.length} bets — stakeWallet/winningAmountWallet are settle-RESPONSE fields, so this step establishes internal consistency with the rule, NOT what the wallet was credited (declared limitation, Step 21)`);
+        + `); every stake is its phase's planned stake from src/config.ts (${stakePlanFails} off plan, ${stakeShapeFails} not a 2-dp amount) and every target is a 2-dp value in [1.01, ${config_1.PROD_TOP_TARGET}] (${targetBoundFails} outside); `
+        + `largest exposure (stake x target) accepted in the capture ${maxExposure} ${ctx.meta.currency} (${maxExposureAt}); largest credit paid ${maxCredit} ${ctx.meta.currency} (${maxCreditAt}). `
+        + `These are measured maxima, NOT limits: no bet was refused in the three runs, so the casino's minimum stake, maximum stake, maximum payout and exposure ceiling are not established by this audit (declared limitation). `
+        + `Products are compared in whole hundredths so the result does not depend on floating-point rounding (for ${floatOffPairs} of the capture's ${pairs.size} distinct stake x target pairs the binary64 product is not the decimal answer); `
+        + `wallet BALANCE ledger present on ${balanceLedgerRows}/${bets.length} bets: stakeWallet/winningAmountWallet are settle-RESPONSE fields, so this step establishes internal consistency with the rule, NOT what the wallet was credited (declared limitation, Step 21)`);
     return [s8, s9, s10, s11];
 }
 
 },
 "tests/steps/phase-d.js": function(module, exports, require, __filename, __dirname) {
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.run = run;
 const context_1 = require("./context");
 const rng_1 = require("../../src/rng");
 const config_1 = require("../../src/config");
-const fs = __importStar(require("fs"));
-const path = __importStar(require("path"));
-const CAPTURE_SCRIPT = 'capture/capture-limbo.reference.mjs';
 function run(ctx) {
-    const { phaseD, seedMap, bets } = ctx;
-    const custom = phaseD.filter((b) => /^pfaudit-/.test(b.clientSeed));
+    const { seedMap, bets, seeds } = ctx;
     let checked = 0;
     let fails = 0;
     let winFails = 0;
     let firstFail = '';
-    for (const b of custom) {
+    for (const b of bets) {
         const ss = seedMap.get(b.hashedServerSeed);
         if (!ss)
             continue;
@@ -3337,7 +3812,7 @@ function run(ctx) {
     let probes = 0;
     let drawChanges = 0;
     let resultChanges = 0;
-    for (const b of custom) {
+    for (const b of bets) {
         const ss = seedMap.get(b.hashedServerSeed);
         if (!ss)
             continue;
@@ -3354,9 +3829,9 @@ function run(ctx) {
     const sensitivityOk = probes > 0 && drawChanges === probes;
     let noncePairs = 0;
     let nonceChanges = 0;
-    for (const b of custom) {
+    for (const b of bets) {
         const ss = seedMap.get(b.hashedServerSeed);
-        if (!ss || b.nonce + 1 >= config_1.EXPECTED_EPOCH_SIZE)
+        if (!ss || b.nonce + 1 >= (0, config_1.epochSize)(b.epoch))
             continue;
         const k1 = (0, rng_1.limboDraw)(ss, b.clientSeed, b.nonce);
         const k2 = (0, rng_1.limboDraw)(ss, b.clientSeed, b.nonce + 1);
@@ -3366,10 +3841,6 @@ function run(ctx) {
         if (noncePairs >= 64)
             break;
     }
-    const operatorSeeded = bets.filter((b) => b.phase !== 'D');
-    const customSeeds = new Set(custom.map((b) => b.clientSeed));
-    const customEpochs = new Set(custom.map((b) => b.epoch));
-    const expectedD = config_1.EXPECTED_PHASES.D.bets;
     let gateN = 0, wrongSame = 0, emptySame = 0;
     for (const b of bets) {
         const ss = seedMap.get(b.hashedServerSeed);
@@ -3385,50 +3856,65 @@ function run(ctx) {
     const gateE = gateN / config_1.RANGE;
     const gateAllowed = Math.floor(gateE + 5 * Math.sqrt(gateE));
     const gateOk = gateN === config_1.EXPECTED_BETS && wrongSame <= gateAllowed && emptySame <= gateAllowed;
-    const abc = bets.filter((b) => b.phase !== 'D');
-    const abcShapeBad = abc.filter((b) => !/^audit[0-9a-f]{12}$/.test(b.clientSeed)).length;
-    const abcEpochSeeds = new Map();
-    for (const b of abc)
-        (abcEpochSeeds.get(b.epoch) ?? abcEpochSeeds.set(b.epoch, new Set()).get(b.epoch)).add(b.clientSeed);
-    const abcDistinct = new Set(abc.map((b) => b.clientSeed)).size;
-    let rigText = '';
-    try {
-        rigText = fs.readFileSync(path.join(ctx.repoRoot, CAPTURE_SCRIPT), 'utf8');
+    const AUDIT_SHAPE = /^audit[0-9a-f]{12}$/;
+    const PLAYER_SHAPE = /^pfaudit-prod-limbo-d([1-9])-[0-9a-f]{12}$/;
+    const dEpochs = config_1.EPOCH_PLAN.map((b, e) => (b.phase === 'D' ? e : -1)).filter((e) => e >= 0);
+    const byEpoch = [...seeds].sort((a, z) => a.epoch - z.epoch);
+    const seedOfEpoch = new Map(byEpoch.map((s) => [s.epoch, s.clientSeed]));
+    const dSeeds = dEpochs.map((e) => seedOfEpoch.get(e) ?? '');
+    const dShapeOk = dSeeds.every((cs, i) => { const m = PLAYER_SHAPE.exec(cs); return !!m && Number(m[1]) === i + 1; });
+    const dDistinct = new Set(dSeeds).size;
+    const dBets = bets.filter((b) => b.phase === 'D');
+    const dUnderOwn = dBets.filter((b) => dEpochs.includes(b.epoch) && b.clientSeed === seedOfEpoch.get(b.epoch)).length;
+    let dRecompute = 0;
+    for (const b of dBets) {
+        const ss = seedMap.get(b.hashedServerSeed);
+        if (ss && (0, context_1.servedResultMatches)(Number(b.result), (0, config_1.resultMultiplier)((0, rng_1.limboDraw)(ss, b.clientSeed, b.nonce)))
+            && (0, config_1.limboWin)((0, config_1.resultMultiplier)((0, rng_1.limboDraw)(ss, b.clientSeed, b.nonce)), Number(b.params.target)) === !!b.win)
+            dRecompute++;
     }
-    catch {
-        rigText = '';
+    const playerOutsideD = bets.filter((b) => b.phase !== 'D' && PLAYER_SHAPE.test(b.clientSeed)).length;
+    const phaseDOk = dEpochs.length === config_1.PHASE_D_SEEDS && dShapeOk && dDistinct === config_1.PHASE_D_SEEDS && config_1.PHASE_D_SEEDS >= 2
+        && dBets.length === config_1.EXPECTED_PHASES.D.bets && dUnderOwn === dBets.length && dRecompute === dBets.length && playerOutsideD === 0;
+    const auditBets = bets.filter((b) => b.phase !== 'D');
+    const shapeBad = auditBets.filter((b) => !AUDIT_SHAPE.test(b.clientSeed)).length;
+    const epochSeeds = new Map();
+    for (const b of bets)
+        (epochSeeds.get(b.epoch) ?? epochSeeds.set(b.epoch, new Set()).get(b.epoch)).add(b.clientSeed);
+    const oneSeedPerEpoch = [...epochSeeds.values()].every((st) => st.size === 1);
+    const distinctSeeds = new Set(bets.map((b) => b.clientSeed)).size;
+    const gen = (ctx.meta.clientSeedGenerator ?? {});
+    const csprngLines = /crypto\.getRandomValues/.test(gen.A ?? '') && /crypto\.getRandomValues/.test(gen.D ?? '')
+        && /6 bytes/.test(gen.A ?? '') && /6 bytes/.test(gen.D ?? '');
+    const generatorOk = shapeBad === 0 && oneSeedPerEpoch && distinctSeeds === config_1.EXPECTED_SEEDS && epochSeeds.size === config_1.EXPECTED_SEEDS && csprngLines;
+    const captures = (ctx.meta.captures ?? []);
+    let publishedBefore = 0;
+    for (const s of byEpoch) {
+        const plan = config_1.EPOCH_PLAN[s.epoch];
+        const firstOfRun = config_1.EPOCH_PLAN.findIndex((b) => b.capture === plan?.capture) === s.epoch;
+        const prior = firstOfRun
+            ? captures.find((c) => c.capture === plan?.capture)?.preCapture?.nextHashedServerSeed
+            : byEpoch.find((x) => x.epoch === s.epoch - 1)?.nextHashedServerSeed;
+        const seedOk = s.clientSeed === [...(epochSeeds.get(s.epoch) ?? [])][0];
+        if (prior === s.hashedServerSeed && seedOk)
+            publishedBefore++;
     }
-    const csprngLine = /const randHex = \(n\) => randomBytes\(n\)\.toString\('hex'\)/.test(rigText)
-        && /import \{ randomBytes \} from 'node:crypto'/.test(rigText)
-        && /'audit' \+ randHex\(6\)/.test(rigText) && !/Math\.random\(\)[^\n]*clientSeed/.test(rigText);
-    const generatorOk = abcShapeBad === 0 && abcDistinct === abcEpochSeeds.size && csprngLine;
-    const dPattern = /^pfaudit-(\d{13})-(\d+)$/;
-    const exposed = [...customEpochs].sort((a, z) => a - z);
-    const dPredictable = custom.every((b) => { const m = dPattern.exec(b.clientSeed); return !!m && Number(m[2]) === b.epoch; });
-    const seedsByEpoch = [...ctx.seeds].sort((a, z) => a.epoch - z.epoch);
-    let exposedChained = 0;
-    for (const e of exposed) {
-        const prev = seedsByEpoch.find((x) => x.epoch === e - 1);
-        const cur = seedsByEpoch.find((x) => x.epoch === e);
-        if (prev && cur && prev.nextHashedServerSeed === cur.hashedServerSeed)
-            exposedChained++;
-    }
-    const predictableDisclosed = dPredictable && exposedChained === exposed.length;
-    const s18 = (0, context_1.step)(18, 'Custom Client-Seed Control (Phase D)', fails === 0 && winFails === 0 && checked === expectedD && sensitivityOk
-        && gateOk && generatorOk && predictableDisclosed ? 'PASS' : 'FAIL', `${checked}/${expectedD} Phase-D bets under auditor-chosen client seeds (denominator from src/config.ts EXPECTED_PHASES.D — G-BIND) recompute EXACTLY: ${fails} result mismatches`
+    const orderOk = publishedBefore === config_1.EXPECTED_SEEDS;
+    const s18 = (0, context_1.step)(18, 'Client-Seed Control & Phase D (player-set seeds)', fails === 0 && winFails === 0 && checked === config_1.EXPECTED_BETS && sensitivityOk
+        && gateOk && phaseDOk && generatorOk && orderOk ? 'PASS' : 'FAIL', `${checked}/${config_1.EXPECTED_BETS} rounds settled under client seeds the auditor submitted (denominator from src/config.ts EXPECTED_BETS — G-BIND) recompute EXACTLY: ${fails} result mismatches`
         + (firstFail ? ` (e.g. ${firstFail})` : '')
-        + `, ${winFails} win-flag mismatches — the operator honoured the seed it was handed rather than substituting one; `
-        + `${customSeeds.size} distinct pfaudit- seeds across ${customEpochs.size} epochs, none of them operator-generated; `
+        + `, ${winFails} win-flag mismatches — the operator honoured the seed it was handed and did not substitute one; `
+        + `PHASE D (profile LIMBO-06, floor 2 distinct seeds): ${dEpochs.length} epochs (${dEpochs[0]}-${dEpochs[dEpochs.length - 1]}) under ${dDistinct}/${config_1.PHASE_D_SEEDS} distinct PLAYER-SET client seeds of the shape 'pfaudit-prod-limbo-d<k>-' + 12 hex (${dShapeOk}), `
+        + `${dUnderOwn}/${dBets.length} Phase D rounds carry their epoch's player-set seed and ${dRecompute}/${dBets.length} recompute under it (result and win flag); player-set seeds on rounds outside Phase D: ${playerOutsideD}. `
+        + `The Phase D seeds are not predictable (6 bytes of the browser CSPRNG each); they were drawn when the run's plan was built and each was sent to the casino at the rotation opening its epoch; `
         + `client-seed sensitivity over ${probes} probed bets: altering one character of the client seed changes the underlying draw k on ${drawChanges}/${probes} and the resulting multiplier on ${resultChanges}/${probes} `
-        + `(the claim rests on the DRAW — R is a coarse function of k over a ${config_1.RANGE}-point grid, so R collisions are expected and are not evidence of an ignored seed); `
+        + `(the claim rests on the DRAW: R is a coarse function of k over a ${config_1.RANGE}-point grid, so R collisions are expected and are not evidence of an ignored seed); `
         + `nonce sensitivity on the same pair: ${nonceChanges}/${noncePairs} consecutive-nonce pairs produce different draws; `
-        + `parity: the same recomputation, win rule and edge arithmetic scored these ${checked} bets and the ${operatorSeeded.length} Phase A-C bets (auditor-rig CSPRNG seeds, not operator-generated) — Phase D is not handled by a separate code path here, so it cannot be passing for a different reason; `
         + `MODEL-RATE GATE over ${gateN}/${config_1.EXPECTED_BETS} bets: a wrong client seed left the draw unchanged on ${wrongSame} and the EMPTY-SEED control on ${emptySame}, against E = n/${config_1.RANGE} = ${gateE.toExponential(3)} and an allowance of floor(E + 5·sqrt(E)) = ${gateAllowed} (${gateOk}); `
-        + `CLIENT-SEED GENERATORS: Phases A-C ${abc.length - abcShapeBad}/${abc.length} bets carry an 'audit'+12-hex seed, ${abcDistinct} distinct seeds over ${abcEpochSeeds.size} epochs, `
-        + `generator read from ${CAPTURE_SCRIPT}: randomBytes(6) from node:crypto — a CSPRNG (${csprngLine}); `
-        + `Phase D seeds are PREDICTABLE by construction ('pfaudit-<ms timestamp>-<epoch>', ${dPredictable}) — exposed epochs ${exposed.join(', ')} (${exposed.length}); `
-        + `each exposed epoch's commitment was published one epoch earlier as the previous epoch's nextHashedServerSeed on ${exposedChained}/${exposed.length} — but the seed was derivable from the session timestamp before that commitment existed, `
-        + `so for these ${exposed.length} epochs the order "commitment before client seed" does NOT exclude a server seed chosen against a known client seed: DISCLOSED exposure (Operator Trust R-CHERRY), not a claim of containment`);
+        + `CLIENT-SEED GENERATORS: ${auditBets.length - shapeBad}/${auditBets.length} rounds outside Phase D carry an 'audit'+12-hex seed, ${distinctSeeds} distinct seeds over ${epochSeeds.size} epochs, one per epoch (${oneSeedPerEpoch}); `
+        + `generators as each run's header describes them (meta.clientSeedGenerator): 6 bytes of crypto.getRandomValues, the browser CSPRNG, for both seed shapes (${csprngLines}); the runner is not part of this package, so the generator is the capture's own statement; `
+        + `ORDER: on ${publishedBefore}/${config_1.EXPECTED_SEEDS} epochs the commitment the epoch settles under was already published as the previous record's nextHashedServerSeed (the first epoch of each run: that run's pre-capture pair) before the rotation that submitted its client seed, and that record carries the seed its rounds used — `
+        + `a hash chain orders records, it does not date them, so this rests on the auditor's capture order (L6)`);
     return [s18];
 }
 
@@ -3477,6 +3963,7 @@ const context_1 = require("./context");
 const rng_1 = require("../../src/rng");
 const config_1 = require("../../src/config");
 const domains_1 = require("../../src/domains");
+const capture_chain_1 = require("./capture-chain");
 const sha256File = (p) => (0, node_crypto_1.createHash)('sha256').update(fs.readFileSync(p)).digest('hex');
 function run(ctx) {
     const { bets, seeds, seedMap, meta } = ctx;
@@ -3488,86 +3975,53 @@ function run(ctx) {
         if (!hashOk)
             bad = true;
         notes.push(`${config_1.DATA_PATH} sha256 ${ctx.datasetSha256.slice(0, 16)}… ${hashOk ? 'matches' : '!='} the pin in src/config.ts ${ctx.expectedDatasetHash.slice(0, 16)}… (the loader aborts on a mismatch before any step runs)`);
-        const e13Path = path.join(ctx.evidenceDir, 'E13-limbo-boundary-probes.json');
-        if (!fs.existsSync(e13Path)) {
-            bad = true;
-            notes.push('evidence/E13-limbo-boundary-probes.json ABSENT — an artifact of record the chapters cite for the >= win rule is missing (the settled on-target rounds of Step 6 are the shipped evidence for the rule; E13 must still be present to be cited)');
-        }
-        else {
-            let e13 = null;
-            try {
-                e13 = JSON.parse(fs.readFileSync(e13Path, 'utf8'));
-            }
-            catch (e) {
+        {
+            const captures = (meta.captures ?? []);
+            const ok = config_1.RUNNER_BUILDS.filter((r) => captures.find((x) => x.capture === r.capture)?.runner === r.build).length;
+            if (ok !== config_1.RUNNER_BUILDS.length || captures.length !== config_1.RUNNER_BUILDS.length)
                 bad = true;
-                notes.push(`evidence/E13 PARSE ERROR (${(e instanceof Error ? e.message : String(e)).slice(0, 100)}) — a verifier must not approve an artifact it could not read`);
-            }
-            if (e13) {
-                const ss = e13.serverSeed;
-                const cs = e13.clientSeed;
-                const nonce = e13.nonce;
-                const R = Number(e13.R);
-                const atEqual = e13.atEqual;
-                const above = e13.justAbove;
-                const shapeOk = (0, context_1.isHex)(ss, 32) && typeof cs === 'string' && cs.length > 0
-                    && Number.isInteger(nonce) && nonce >= 0
-                    && Number.isFinite(R) && R >= config_1.MIN_RESULT && R <= config_1.MAX_MULTIPLIER
-                    && !!atEqual && !!above
-                    && (0, config_1.isTargetLegal)(atEqual.target) && (0, config_1.isTargetLegal)(above.target);
-                if (!shapeOk) {
-                    bad = true;
-                    notes.push('evidence/E13 SCHEMA ERROR — a required field is missing, or a recorded value is outside the physically possible range for this game');
-                }
-                else {
-                    const localR = (0, rng_1.limboResult)(ss, cs, nonce);
-                    const reproduced = localR === R && localR === Number(atEqual.serverResult) && localR === Number(above.serverResult);
-                    const equalOk = (0, config_1.limboWin)(localR, atEqual.target) === atEqual.serverWin && atEqual.serverWin === true;
-                    const aboveOk = (0, config_1.limboWin)(localR, above.target) === above.serverWin && above.serverWin === false;
-                    const oneTickApart = (0, context_1.hundredths)(above.target) - (0, context_1.hundredths)(atEqual.target) === 1;
-                    const discriminates = atEqual.target === localR;
-                    if (!(reproduced && equalOk && aboveOk && oneTickApart && discriminates))
-                        bad = true;
-                    notes.push(`evidence/E13 REPRODUCED from its own seed triple: our model computes R = ${localR}x for (serverSeed ${ss.slice(0, 8)}…, clientSeed ${cs}, nonce ${nonce}) against the casino's serverResult ${atEqual.serverResult}x and ${above.serverResult}x on the two /verify probes and the file's R ${R}x (${reproduced ? 'match' : 'MISMATCH'}); `
-                        + `target == R (${atEqual.target}x) the operator settled as ${atEqual.serverWin ? 'WIN' : 'loss'} and our rule agrees (${equalOk ? 'ok' : 'DISAGREES'}); `
-                        + `target == R + 0.01 (${above.target}x, exactly one 2-dp tick higher: ${oneTickApart}) the operator settled as ${above.serverWin ? 'win' : 'LOSS'} and our rule agrees (${aboveOk ? 'ok' : 'DISAGREES'}); `
-                        + `the probe discriminates >= from > (${discriminates}), which is the whole point of it; sha256 ${sha256File(e13Path).slice(0, 16)}… recorded, not pinned — reproduction is the guard here, not a hash. `
-                        + `This checks that E13 agrees with the model and with itself; it cannot show the file came from the casino (no commitment ties its seed). The shipped evidence for the >= rule is the on-target rounds of the settled dataset (Step 6)`);
-                }
-            }
+            notes.push(`RUNNER BUILDS: ${ok}/${config_1.RUNNER_BUILDS.length} runs carry the runner build recorded for them in src/config.ts (${[...new Set(config_1.RUNNER_BUILDS.map((r) => r.build.split(' ').pop()))].join(', ')})`);
         }
-        const e15Path = path.join(ctx.evidenceDir, 'E15-limbo-max-exposure.json');
-        if (!fs.existsSync(e15Path)) {
-            bad = true;
-            notes.push('evidence/E15-limbo-max-exposure.json ABSENT — the exposure ceiling in src/config.ts would then be an unwitnessed constant, and Step 17 would be scoring our own arithmetic against itself');
-        }
-        else {
-            let e15 = null;
-            try {
-                e15 = JSON.parse(fs.readFileSync(e15Path, 'utf8'));
-            }
-            catch (e) {
+        {
+            const c = (0, capture_chain_1.captureChain)(ctx);
+            if (!c.ok)
                 bad = true;
-                notes.push(`evidence/E15 PARSE ERROR (${(e instanceof Error ? e.message : String(e)).slice(0, 100)})`);
-            }
-            if (e15) {
-                const refusals = (e15.refusals ?? []);
-                const ceiling = Number(e15.observedCeilingUsdc);
-                const exposureRefusal = refusals.find((r) => r.errorCode === 3138);
-                const stakeRefusal = refusals.find((r) => r.errorCode === 3113);
-                const ceilingOk = Number.isFinite(ceiling) && ceiling === config_1.MAX_EXPOSURE_USDC;
-                const impliedOk = !!exposureRefusal
-                    && Number.isFinite(Number(exposureRefusal.maxAllowedBetUsdc))
-                    && Number(exposureRefusal.maxAllowedBetUsdc) > 0
-                    && Number(exposureRefusal.target) === config_1.MAX_MULTIPLIER
-                    && (0, context_1.hundredths)(Number(exposureRefusal.maxAllowedBetUsdc)) * (0, context_1.hundredths)(Number(exposureRefusal.target)) / 1e4 === config_1.MAX_EXPOSURE_USDC;
-                const belowMinStake = !!exposureRefusal && Number(exposureRefusal.maxAllowedBetUsdc) < config_1.MIN_BET_USDC;
-                if (!(ceilingOk && impliedOk && belowMinStake && !!stakeRefusal))
+            notes.push(`CAPTURE CHAIN: ${c.note}`);
+        }
+        {
+            const pins = [
+                [`${config_1.CAP_PROBE_DIR}/${config_1.CAP_PROBE_RECORDS}`, config_1.CAP_PROBE_RECORDS_SHA256],
+            ];
+            const parts = [];
+            for (const [rel, pin] of pins) {
+                const fp = path.join(ctx.repoRoot, rel);
+                if (!fs.existsSync(fp)) {
                     bad = true;
-                notes.push(`evidence/E15 reconciles with src/config.ts: recorded ceiling $${ceiling} == MAX_EXPOSURE_USDC $${config_1.MAX_EXPOSURE_USDC} (${ceilingOk ? 'ok' : 'DISAGREES'}); `
-                    + `the 3138 refusal at ${exposureRefusal?.target}x states maxAllowedBetUsdc $${exposureRefusal?.maxAllowedBetUsdc}, and that stake x that target re-derives the ceiling exactly (${impliedOk ? 'ok' : 'DISAGREES'}) — `
-                    + `it is also BELOW the $${config_1.MIN_BET_USDC} minimum stake (${belowMinStake}), which is what made ${config_1.MAX_MULTIPLIER}x unplayable on 2026-09-11 rather than merely expensive; E15 then holds ${stakeRefusal ? 'a second refusal, errorCode 3113' : 'NO 3113 refusal'} — E15 records $${config_1.MIN_BET_USDC} as the stake on both, and that the second request was the $0.05 retry follows from the capture script, not from the record; `
-                    + `sha256 ${sha256File(e15Path).slice(0, 16)}… recorded, not pinned`);
+                    parts.push(`${rel} ABSENT`);
+                    continue;
+                }
+                const h = sha256File(fp);
+                if (h !== pin)
+                    bad = true;
+                parts.push(`${rel} sha256 ${h.slice(0, 16)}… ${h === pin ? 'matches' : '!='} its pin`);
             }
+            for (const rel of ['evidence/E03-prod-verifier-target-100000.json', 'evidence/rtp-page-labels-2026-10-01.json']) {
+                const fp = path.join(ctx.repoRoot, rel);
+                let state = 'ABSENT';
+                if (fs.existsSync(fp)) {
+                    try {
+                        JSON.parse(fs.readFileSync(fp, 'utf8'));
+                        state = `present, parses, sha256 ${sha256File(fp).slice(0, 16)}… (recorded, not pinned: a transcription the auditor wrote; Steps 17 and 15 read its content)`;
+                    }
+                    catch {
+                        state = 'PARSE ERROR';
+                    }
+                }
+                if (!state.startsWith('present'))
+                    bad = true;
+                parts.push(`${rel} ${state}`);
+            }
+            notes.push(`EVIDENCE FILES: ${parts.join('; ')}`);
         }
         const simPath = path.join(ctx.outputsDir, 'simulation-results.json');
         const htmlPath = path.join(ctx.outputsDir, 'rtp-convergence.html');
@@ -3628,8 +4082,7 @@ function run(ctx) {
             }
             notes.push(`outputs/simulation-results.json sha256 ${simHash.slice(0, 16)}… ${simHashOk ? 'matches' : '!='} SIMULATION_SHA256 ${config_1.SIMULATION_SHA256.slice(0, 16)}… and outputs/rtp-convergence.html sha256 ${htmlHash.slice(0, 16)}… ${htmlHashOk ? 'matches' : '!='} SIMULATION_HTML_SHA256; `
                 + `${depthNote}. `
-                + 'READ THIS FOR EXACTLY WHAT IT IS: the pin establishes that the shipped bytes are the bytes this audit read and that the artifact is present and well formed — it does NOT establish that the statistics inside THIS artifact were measured, because no scored step re-derives them (L9, narrowed: the Pass-1 claims are now re-derived by Step 23 from the separate, replayable outputs/pass1-grid.json; the Pass-2 block of this artifact is re-derived from the dataset by Step 24 and must equal it leaf for leaf at the reproduction bound (1e-14 absolute + 1e-12 relative on floats, exact otherwise); only the legacy Pass-1 half of this artifact stays producer-attested — since 2026-09-26 it is drawn from the recorded SIM_MASTER_SEED and `npm run simulate:check` regenerates the whole artifact byte for byte, but no scored step re-derives its statistics) and a fabricating auditor re-pins in the same edit. That forgery IS executed, in tests/structural-forgeries.json: it leaves every other step PASSing and is caught only by the run-vs-committed-artifact reproduction gate noticing that this very digest moved — a kill by byte identity. '
-                + 'Its generatedAt run-metadata field was removed 2026-09-26 with the producer\'s own JSON.stringify(…, null, 2) call (0 values changed; the pin moved from 9ce82a70… to the value above)');
+                + 'READ THIS FOR EXACTLY WHAT IT IS: the pin establishes that the shipped bytes are the bytes this audit read and that the artifact is present and well formed. It does NOT establish that the legacy Pass-1 statistics inside THIS artifact were measured, because no scored step re-derives them (L9): the Pass-1 claims are carried by outputs/pass1-grid.json, re-derived by Step 23, and the Pass-2 block is re-derived from the dataset by Step 24');
         }
         {
             const dn = [];
@@ -3652,7 +4105,7 @@ function run(ctx) {
                 bad = true;
             notes.push(`VALUE DOMAINS: ${leaves} numeric leaves across ${Object.keys(domains_1.DOMAINS).length} pinned JSON artifacts checked against src/domains.ts — ${dn.length} without a domain or outside it${dn.length ? ` (${dn.slice(0, 3).join('; ')})` : ''}`);
         }
-        out.push((0, context_1.step)(19, 'Artifact Integrity & Evidence Reproduction', bad ? 'FAIL' : 'PASS', notes.join('; ')));
+        out.push((0, context_1.step)(19, 'Artifact Integrity', bad ? 'FAIL' : 'PASS', notes.join('; ')));
     }
     {
         let chk = 0;
@@ -3701,11 +4154,11 @@ function run(ctx) {
             }
         }
         const coverOk = chk === config_1.EXPECTED_BETS && wins > 0 && losses > 0
-            && stakesSeen.size >= 2 && phasesSeen.size === 4 && flooredCovered > 0 && boundaryCovered > 0;
+            && stakesSeen.size === new Set(Object.values(config_1.EXPECTED_PHASES).map((p) => p.stake)).size && phasesSeen.size === Object.keys(config_1.EXPECTED_PHASES).length && flooredCovered > 0 && boundaryCovered > 0;
         out.push((0, context_1.step)(20, 'Settlement Determinism', bad === 0 && coverOk ? 'PASS' : 'FAIL', `${chk}/${config_1.EXPECTED_BETS} bets: outcome AND credited amount are fully determined by (serverSeed, clientSeed, nonce, target, stake) — ${bad} disagreement(s) with the served settlement`
             + (fails.length ? ` (e.g. ${fails.join('; ')})` : '')
-            + `. No served outcome field is read while deriving: the served result, win and resultLabel, and the dataset's multiplier column (filled by the capture script, not served — Step 8), are all recomputed and only then compared, so a settlement chosen after the draw has nowhere to hide; `
-            + `coverage — ${wins} wins / ${losses} losses, ${stakesSeen.size} distinct stakes ($${[...stakesSeen].sort((a, z) => a - z).join(', $')}), ${phasesSeen.size}/4 phases, `
+            + `. No served outcome field is read while deriving: the served result, win, multiplier and resultLabel are all recomputed and only then compared, so a settlement chosen after the draw has nowhere to hide; `
+            + `coverage — ${wins} wins / ${losses} losses, ${stakesSeen.size} distinct stakes (${[...stakesSeen].sort((a, z) => a - z).join(', ')} ${meta.currency}), ${phasesSeen.size}/${Object.keys(config_1.EXPECTED_PHASES).length} planned phases, `
             + `${flooredCovered} rounds at the R = ${config_1.MIN_RESULT} floor and ${boundaryCovered} landing exactly on the target (the two cases a naive model gets wrong) `
             + `(${coverOk ? 'ok' : 'COVERAGE FAIL'})`));
     }
@@ -3715,8 +4168,13 @@ function run(ctx) {
         const hostOk = meta.platform === ctx.captureHost;
         if (!hostOk)
             bad = true;
-        notes.push(`L1 capture host: the dataset was captured against ${meta.platform} and this suite declares ${ctx.captureHost} (${hostOk ? 'agree' : 'DISAGREE'}). `
-            + `Production parity is NOT established by anything in this repo: no claim here extends to liqd.com until a production capture is scored`);
+        const topPlayed = Math.max(...bets.map((b) => Number(b.params.target)));
+        const captures = (meta.captures ?? []);
+        const days = [...new Set(captures.flatMap((c) => [String(c.firstRoundAt).slice(0, 10), String(c.lastRoundAt).slice(0, 10)]))].sort();
+        if (topPlayed !== config_1.PROD_TOP_TARGET)
+            bad = true;
+        notes.push(`L1 capture host and scope: the scored dataset was captured against ${meta.platform} and this suite declares ${ctx.captureHost} (${hostOk ? 'agree' : 'DISAGREE'}): production, rounds dated ${days.join(' and ')} (UTC), one account, one currency (${meta.currency}). `
+            + `Production rounds were placed on targets from ${Math.min(...bets.map((b) => Number(b.params.target)))}x to ${topPlayed}x at two stakes; nothing above ${topPlayed}x was played, and whether a higher target is accepted is not established (Step 17)`);
         const withCounter = seeds.filter((s) => s.operatorBetCount != null).length;
         if (withCounter !== 0)
             bad = true;
@@ -3744,21 +4202,24 @@ function run(ctx) {
             if (ss && Math.floor(config_1.RESULT_NUMERATOR / ((0, rng_1.limboDraw)(ss, b.clientSeed, b.nonce) + 1)) / 100 < config_1.MIN_RESULT)
                 floorClamped++;
         }
-        notes.push(`L4 upper clamp: ${atCeiling} captured rounds reached the ${config_1.MAX_MULTIPLIER}x result ceiling (highest result in the capture ${maxResult}x, probability of a ceiling round 99/1e8 per bet). `
+        notes.push(`L4 result cap: ${atCeiling} settled rounds reached the ${config_1.MAX_MULTIPLIER}x result cap (highest result in the capture ${maxResult}x, probability of a cap round 99/1e8 per bet). `
             + (atCeiling === 0
-                ? `The clamp is therefore exercised by arithmetic over the draw grid (Step 14) and not witnessed live; at the LOWER clamp ${atFloor} rounds were served at ${config_1.MIN_RESULT}x and the clamp changed the value on ${floorClamped} of them`
-                : 'A ceiling round is in the capture, so this limitation no longer holds as declared — FAIL until the prose and this step are updated'));
-        notes.push(`L5 exposure ceiling: MAX_EXPOSURE_USDC $${config_1.MAX_EXPOSURE_USDC} and MAX_PLAYABLE_TARGET ${config_1.MAX_PLAYABLE_TARGET}x are DERIVED from one witnessed refusal in one currency (evidence/E15). `
-            + `They are not established for other currencies, other account tiers or production; every bet in this capture stayed inside them`);
-        notes.push('L6 commitment chronology: the pre-capture chain link (Step 2) places epoch 0\'s commitment earlier IN THE CHAIN than the first bet, as recorded by the auditor\'s own capture. '
+                ? `The cap is therefore witnessed by the production VERIFIER only (Step 25, which counts the verifier probes of 9 November 2026) and exercised by arithmetic over the draw grid (Step 14); it is not witnessed by settled money. At the LOWER clamp ${atFloor} rounds were served at ${config_1.MIN_RESULT}x and the clamp changed the value on ${floorClamped} of them`
+                : 'A cap round is in the capture, so this limitation no longer holds as declared — FAIL until the prose and this step are updated'));
+        const above = bets.filter((b) => (0, context_1.hundredths)(Number(b.params.target)) > (0, context_1.hundredths)(config_1.PROD_TOP_TARGET)).length;
+        if (above !== 0)
+            bad = true;
+        notes.push(`L5 limits: no bet was refused in the three runs and none was placed above ${config_1.PROD_TOP_TARGET}x (${above} rounds above it), so the casino's minimum stake, maximum stake, maximum payout, exposure ceiling and highest accepted target are NOT established by this audit; `
+            + `the stakes played are ${[...new Set(bets.map((b) => Number(b.betAmount)))].sort((a, z) => a - z).join(' and ')} ${meta.currency}`);
+        notes.push('L6 commitment chronology: the pre-capture chain links (Step 2) place each run\'s first commitment earlier IN THE CHAIN than that run\'s first bet, as recorded by the auditor\'s own capture. '
             + 'A hash chain orders records, it does not date them; there is no independently authenticated timestamp, so the no-post-hoc-choice reading is conditional on that attested chronology');
         const wagered = bets.reduce((s, b) => s + Number(b.betAmount), 0);
         const returned = bets.reduce((s, b) => s + Number(b.winningAmount), 0);
-        notes.push(`L7 live RTP: the ${bets.length}-bet sample returned ${(returned / wagered * 100).toFixed(4)}% ($${wagered.toFixed(2)} wagered, $${returned.toFixed(2)} returned). `
-            + 'That is VARIANCE ILLUSTRATION ONLY and is never cited as RTP evidence: the RTP result in this audit is the closed-form edge identity of Step 16, anchored by the grid tally of Step 15');
+        notes.push(`L7 live RTP: the ${bets.length}-bet sample returned ${(returned / wagered * 100).toFixed(4)}% (${wagered.toFixed(2)} ${meta.currency} wagered, ${returned.toFixed(2)} returned). `
+            + 'That is VARIANCE ILLUSTRATION ONLY and is never cited as RTP evidence: the RTP result in this audit is the closed-form edge identity of Step 16, anchored by the grid tally of Step 15 and the simulation of Step 23');
         const selfChecked = bets.filter((b) => b.verified != null).length;
         notes.push(`L8 capture-side fields: localDraw / localResult / localWin / verified are present on ${selfChecked}/${bets.length} bets and are IGNORED by every scored step — each figure above is re-derived from primitives. `
-            + 'They were the capture\'s own inline check, and they are the reason the missing result floor was caught on 2026-09-11 in an earlier capture run that is not shipped (serverSeed 5d8a6efd…, nonce 49) rather than after 6,700 bets');
+            + 'They were written by the converter from this package\'s own src (meta.conversion)');
         out.push((0, context_1.step)(21, 'Scope & Declared Limitations', bad ? 'FAIL' : 'PASS', notes.join(' | ')));
     }
     return out;
@@ -3779,9 +4240,9 @@ function run(ctx) {
     const returned = bets.reduce((s, b) => s + Number(b.winningAmount), 0);
     items.push({
         label: 'Live sample RTP (variance illustration ONLY)',
-        detail: `${(returned / wagered * 100).toFixed(4)}% — $${wagered.toFixed(2)} wagered, $${returned.toFixed(2)} returned over ${bets.length} bets, net ${(returned - wagered) >= 0 ? '+' : ''}$${(returned - wagered).toFixed(2)} to the player. `
-            + `NOT RTP evidence and never cited as such: the RTP result is the closed-form edge of Step 16 (>= 1.00% on every legal target). `
-            + `A 6,700-bet sample on mixed targets has a standard error far wider than the 1% edge, so a figure above 100% here is ordinary.`,
+        detail: `${(returned / wagered * 100).toFixed(4)}% — ${wagered.toFixed(2)} ${ctx.meta.currency} wagered, ${returned.toFixed(2)} returned over ${bets.length} bets, net ${(returned - wagered) >= 0 ? '+' : ''}${(returned - wagered).toFixed(2)} to the player. `
+            + `NOT RTP evidence and never cited as such: the RTP result is the closed-form edge of Step 16 (>= 1.00% on every target). `
+            + `A ${bets.length}-bet sample on mixed targets has a standard error far wider than the 1% edge, so a figure on either side of 99% here is ordinary.`,
     });
     const wins = bets.filter((b) => b.win).length;
     const expectedWins = bets.reduce((s, b) => s + (0, config_1.winChance)(Number(b.params.target)), 0);
@@ -3794,7 +4255,7 @@ function run(ctx) {
     const median = results[Math.floor(results.length / 2)];
     items.push({
         label: 'Result distribution',
-        detail: `min ${results[0]}x, median ${median}x, max ${results[results.length - 1]}x, ceiling ${config_1.MAX_MULTIPLIER}x unreached; `
+        detail: `min ${results[0]}x, median ${median}x, max ${results[results.length - 1]}x, result cap ${config_1.MAX_MULTIPLIER}x not reached by a settled round; `
             + `${floored} rounds (${(floored / results.length * 100).toFixed(2)}%) at the R = ${config_1.MIN_RESULT}x floor, against ~1.98% of the draw grid that maps there — the floor is a normal part of the game, not an edge case`,
     });
     const edges = distinctTargets.map((m) => (0, config_1.effectiveEdge)(m));
@@ -3802,9 +4263,9 @@ function run(ctx) {
         label: 'Theoretical edge over captured targets',
         detail: `${distinctTargets.length} distinct targets from ${distinctTargets[0]}x to ${distinctTargets[distinctTargets.length - 1]}x: `
             + `edge ${(Math.min(...edges) * 100).toFixed(6)}%–${(Math.max(...edges) * 100).toFixed(6)}%, mean ${(edges.reduce((a, b) => a + b, 0) / edges.length * 100).toFixed(6)}% `
-            + `(deterministic, from the operator's own pricing — a span over the targets this capture used, not the edge curve; the full curve over every legal target is Step 16)`,
+            + `(deterministic, from the win-chance formula — a span over the targets this capture used, not the edge curve; the full curve is Step 16)`,
     });
-    for (const phase of ['A', 'B', 'C', 'D']) {
+    for (const phase of ['A', 'C', 'D']) {
         const ph = bets.filter((b) => b.phase === phase);
         if (ph.length === 0)
             continue;
@@ -3813,20 +4274,20 @@ function run(ctx) {
         const theo = ph.reduce((s, b) => s + Number(b.betAmount) * (0, config_1.theoreticalRTP)(Number(b.params.target)), 0) / w;
         items.push({
             label: `Phase ${phase} sample return`,
-            detail: `${ph.length} bets, $${w.toFixed(2)} wagered, $${r.toFixed(2)} returned = ${(r / w * 100).toFixed(3)}% against a stake-weighted theoretical ${(theo * 100).toFixed(4)}% `
+            detail: `${ph.length} bets, ${w.toFixed(2)} ${ctx.meta.currency} wagered, ${r.toFixed(2)} returned = ${(r / w * 100).toFixed(3)}% against a stake-weighted theoretical ${(theo * 100).toFixed(4)}% `
                 + `(${ph.filter((b) => b.win).length} wins — variance illustration)`,
         });
     }
     items.push({
         label: 'Capture-side self-check fields',
-        detail: 'localDraw / localResult / localWin / verified / creditedOk / walletOk are present in the dataset and IGNORED by verification — every scored figure is re-derived from primitives. '
-            + 'They are the capture rig\'s own inline check, which is how the missing R = 1 result floor was caught on 2026-09-11 in an earlier capture run that is not shipped, instead of after the whole run.',
+        detail: 'localDraw / localResult / localWin / verified are present in the dataset and IGNORED by verification — every scored figure is re-derived from primitives. '
+            + 'The converter wrote them from this package\'s own src (meta.conversion).',
     });
     return items;
 }
 
 },
-"tests/steps/supplement.js": function(module, exports, require, __filename, __dirname) {
+"tests/steps/verifier.js": function(module, exports, require, __filename, __dirname) {
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -3863,7 +4324,6 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.STEP_NAME = exports.STEP_NUMBER = void 0;
-exports.judgeCapProbe = judgeCapProbe;
 exports.run = run;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
@@ -3871,342 +4331,142 @@ const node_crypto_1 = require("node:crypto");
 const context_1 = require("./context");
 const rng_1 = require("../../src/rng");
 const config_1 = require("../../src/config");
-const edge_1 = require("./edge");
 exports.STEP_NUMBER = 25;
-exports.STEP_NAME = 'Target-Decade Supplement & Live Target Ceiling (capture v2, 300 rounds)';
-const PROBLEMS_PRINTED = 12;
-const sha256 = (buf) => (0, node_crypto_1.createHash)('sha256').update(buf).digest('hex');
-function decadeOf(target) {
-    const h = (0, context_1.hundredths)(target);
-    let d = 0;
-    while (h >= 100 * 10 ** (d + 1))
-        d++;
-    return d;
-}
-function readJournal(abs) {
-    return fs.readFileSync(abs, 'utf8').split('\n').filter((l) => l.trim().length > 0).map((l) => JSON.parse(l));
-}
-function settles(rec, serverSeed) {
-    const target = Number(rec.params?.target);
-    const R = (0, config_1.resultMultiplier)((0, rng_1.limboDraw)(serverSeed, rec.clientSeed, rec.nonce));
-    const win = (0, config_1.limboWin)(R, target);
-    const creditOk = win
-        ? Math.round(Number(rec.winningAmount) * 1e4) === (0, context_1.hundredths)(Number(rec.betAmount)) * (0, context_1.hundredths)(target)
-        : Number(rec.winningAmount) === 0;
-    return (0, context_1.servedResultMatches)(Number(rec.result), R) && rec.win === win && creditOk;
-}
-function judgeCapProbe(events, targets, ceiling) {
-    const h = (x) => (0, context_1.hundredths)(Number(x));
-    const bets = events.filter((e) => e.t === 'bet').map((e) => e.rec ?? {});
-    const reveal = new Map();
-    for (const e of events) {
-        const seed = e.t === 'rotate' ? e.state?.revealedServerSeed : undefined;
-        if (typeof seed === 'string')
-            reveal.set((0, rng_1.commitHash)(seed), seed);
-    }
-    const control = bets.filter((r) => h(r.params?.target) === h(ceiling));
-    const controlRecomputed = control.filter((r) => reveal.has(r.hashedServerSeed) && settles(r, reveal.get(r.hashedServerSeed))).length;
-    const rows = targets.map((t) => {
-        const intents = events.filter((e) => e.t === 'intent' && h(e.body?.params?.target) === h(t));
-        const keys = new Set(intents.map((e) => e.key));
-        const replies = events.filter((e) => e.t === 'reply' && keys.has(e.key));
-        const last = replies[replies.length - 1];
-        const status = last && Number.isFinite(Number(last.status)) && last.status !== null ? Number(last.status) : null;
-        const replyRefuses = !!last && ((status !== null && status >= 400) || (Array.isArray(last.body?.errors) && last.body.errors.length > 0));
-        const refusal = events.find((e) => e.t === 'refusal' && h(e.spec?.target) === h(t));
-        const err = (refusal?.error && typeof refusal.error === 'object') ? refusal.error : {};
-        const fieldText = Array.isArray(err.fields) ? err.fields.map((f) => f?.message).filter((m) => typeof m === 'string' && m).join('; ') : '';
-        const settled = bets.some((r) => h(r.params?.target) === h(t));
-        const nonceConsumed = refusal ? refusal.nonceConsumed === true : null;
-        const stakeOk = intents.every((e) => h(e.body?.stake) === h(config_1.SUPPLEMENT_STAKE));
-        return {
-            target: t, intents: intents.length, replies: replies.length, status,
-            code: String(refusal?.code ?? err.errorCode ?? '?'),
-            message: String(err.message ?? (fieldText || undefined) ?? err.fields?.message ?? err.description ?? err.name ?? '').slice(0, 240),
-            nonceConsumed, settled,
-            refused: intents.length === 1 && stakeOk && replyRefuses && !!refusal && nonceConsumed === false && !settled,
-        };
-    });
-    return {
-        controlSettled: control.length, controlRecomputed, rows,
-        allRefused: rows.length > 0 && rows.every((r) => r.refused) && control.length >= 1 && controlRecomputed === control.length,
-        accepted: rows.filter((r) => r.settled).map((r) => r.target),
-    };
-}
+exports.STEP_NAME = 'Production Verifier Parity & Result Cap';
+const VERIFY_URL = 'https://liqd.com/api/v1/originals/limbo/verify';
 function run(ctx) {
-    const root = ctx.repoRoot;
-    const problems = [];
-    const bad = (msg) => { if (problems.length < PROBLEMS_PRINTED)
-        problems.push(msg); };
-    const dsAbs = path.join(root, config_1.SUPPLEMENT_DATA_PATH);
-    const jrAbs = path.join(root, config_1.SUPPLEMENT_JOURNAL_PATH);
-    if (!fs.existsSync(dsAbs) || !fs.existsSync(jrAbs)) {
-        return [(0, context_1.step)(exports.STEP_NUMBER, exports.STEP_NAME, 'FAIL', `supplement file absent: ${config_1.SUPPLEMENT_DATA_PATH} ${fs.existsSync(dsAbs)}, ${config_1.SUPPLEMENT_JOURNAL_PATH} ${fs.existsSync(jrAbs)}`)];
-    }
-    const dsRaw = fs.readFileSync(dsAbs);
-    const jrRaw = fs.readFileSync(jrAbs);
-    const dsHash = sha256(dsRaw);
-    const jrHash = sha256(jrRaw);
-    const pinsOk = dsHash === config_1.SUPPLEMENT_DATASET_SHA256 && jrHash === config_1.SUPPLEMENT_JOURNAL_SHA256;
-    if (!pinsOk)
-        bad(`pin mismatch (dataset ${dsHash.slice(0, 16)}…, journal ${jrHash.slice(0, 16)}…)`);
-    const ds = JSON.parse(dsRaw.toString('utf8'));
-    const journal = readJournal(jrAbs);
-    const bets = ds.bets;
-    const seeds = [...ds.seeds].sort((a, b) => a.epoch - b.epoch);
-    const census = {};
-    for (const e of journal)
-        census[e.t] = (census[e.t] ?? 0) + 1;
-    const jBets = journal.filter((e) => e.t === 'bet').map((e) => e.rec);
-    const journalRowsMatch = jBets.length === bets.length
-        && jBets.every((r, i) => JSON.stringify(r) === JSON.stringify(bets[i]));
-    if (!journalRowsMatch)
-        bad(`journal bet records (${jBets.length}) are not the dataset rows (${bets.length}) bet for bet`);
-    let intentMissing = 0;
-    const seenIntents = new Map();
-    for (const e of journal) {
-        if (e.t === 'intent')
-            seenIntents.set(e.key, e.body);
-        if (e.t === 'bet') {
-            const body = seenIntents.get(e.rec.idempotencyKey);
-            if (!body || JSON.stringify(body) !== JSON.stringify(e.rec.requestBody))
-                intentMissing++;
-        }
-    }
-    if (intentMissing)
-        bad(`${intentMissing} bets without a prior matching intent`);
-    const forbidden = ['refusal', 'gap', 'recovered', 'skip-group', 'witness'].filter((t) => census[t]);
-    if (forbidden.length)
-        bad(`journal carries ${forbidden.map((t) => `${census[t]} ${t}`).join(', ')}`);
-    const resumes = journal.filter((e) => e.t === 'resume-check');
-    const resumesOk = resumes.length === config_1.SUPPLEMENT_DECLARED_RESUMES && census.meta === 1 && census.done === 1;
-    if (!resumesOk)
-        bad(`resumes ${resumes.length} (declared ${config_1.SUPPLEMENT_DECLARED_RESUMES}), meta lines ${census.meta}, done ${census.done}`);
-    let resumeNonceOk = 0;
-    const resumeNotes = [];
-    for (const r of resumes) {
-        const idx = journal.indexOf(r);
-        const recorded = journal.slice(0, idx).filter((e) => e.t === 'bet' && e.rec.hashedServerSeed === r.state?.hashedServerSeed).length;
-        const ep = seeds.find((s) => s.hashedServerSeed === r.state?.hashedServerSeed);
-        if (r.state?.nonce === recorded && ep)
-            resumeNonceOk++;
-        resumeNotes.push(`${r.at}: active seed = epoch ${ep ? ep.epoch : '?'} commitment, operator nonce ${r.state?.nonce}, rounds recorded under it ${recorded}`);
-    }
-    if (resumeNonceOk !== resumes.length)
-        bad('a resume read-back nonce disagrees with the rounds recorded');
-    const perEpoch = new Map();
+    const { bets, seeds, seedMap } = ctx;
+    const bad = [];
+    let present = 0, requestIsRound = 0, echoOk = 0, equalsServed = 0, equalsModel = 0;
+    let ties = 0, tieWins = 0, floors = 0, floorLosses = 0;
+    let firstBad = '';
     for (const b of bets) {
-        const s = perEpoch.get(b.epoch) ?? new Set();
-        s.add(b.nonce);
-        perEpoch.set(b.epoch, s);
-    }
-    let epochsNotClosed = 0;
-    for (const [, ns] of perEpoch) {
-        let ok = ns.size === config_1.EXPECTED_EPOCH_SIZE;
-        for (let i = 0; i < config_1.EXPECTED_EPOCH_SIZE; i++)
-            if (!ns.has(i))
-                ok = false;
-        if (!ok)
-            epochsNotClosed++;
-    }
-    const popOk = bets.length === config_1.SUPPLEMENT_EXPECTED_BETS && seeds.length === config_1.SUPPLEMENT_EXPECTED_SEEDS
-        && perEpoch.size === config_1.SUPPLEMENT_EXPECTED_SEEDS && epochsNotClosed === 0
-        && config_1.SUPPLEMENT_EXPECTED_SEEDS * config_1.EXPECTED_EPOCH_SIZE === config_1.SUPPLEMENT_EXPECTED_BETS
-        && new Set(bets.map((b) => b.id)).size === config_1.SUPPLEMENT_EXPECTED_BETS
-        && bets.every((b) => b.phase === config_1.SUPPLEMENT_PHASE && (0, context_1.hundredths)(Number(b.betAmount)) === (0, context_1.hundredths)(config_1.SUPPLEMENT_STAKE));
-    if (!popOk)
-        bad(`population ${bets.length}/${config_1.SUPPLEMENT_EXPECTED_BETS} bets, ${seeds.length}/${config_1.SUPPLEMENT_EXPECTED_SEEDS} seeds, ${epochsNotClosed} epochs whose nonces do not close 0..${config_1.EXPECTED_EPOCH_SIZE - 1}`);
-    let commitFails = 0, shapeFails = 0, linkFails = 0, bindFails = 0, clientAfterFails = 0;
-    for (const s of seeds) {
-        if (!(0, context_1.isHex)(s.hashedServerSeed, 64) || !(0, context_1.isHex)(s.nextHashedServerSeed, 64) || !(0, context_1.isHex)(s.serverSeed ?? '', 32))
-            shapeFails++;
-        if (!s.serverSeed || (0, rng_1.commitHash)(s.serverSeed) !== s.hashedServerSeed)
-            commitFails++;
-        if (s.clientSeedDrawnAfterCommitment !== s.hashedServerSeed)
-            clientAfterFails++;
-    }
-    for (let i = 0; i + 1 < seeds.length; i++)
-        if (seeds[i].nextHashedServerSeed !== seeds[i + 1].hashedServerSeed)
-            linkFails++;
-    const pre = ds.meta.preCapture ?? {};
-    const anchorOk = typeof pre.revealedServerSeed === 'string' && (0, rng_1.commitHash)(pre.revealedServerSeed) === pre.hashedServerSeed
-        && seeds.length > 0 && pre.nextHashedServerSeed === seeds[0].hashedServerSeed;
-    const seedByEpoch = new Map(seeds.map((s) => [s.epoch, s]));
-    for (const b of bets) {
-        const s = seedByEpoch.get(b.epoch);
-        if (!s || s.hashedServerSeed !== b.hashedServerSeed || s.clientSeed !== b.clientSeed)
-            bindFails++;
-    }
-    const commitOk = commitFails === 0 && shapeFails === 0 && linkFails === 0 && anchorOk && bindFails === 0 && clientAfterFails === 0;
-    if (!commitOk)
-        bad(`commitment: ${commitFails} commit, ${shapeFails} shape, ${linkFails} chain, anchor ${anchorOk}, ${bindFails} bet-to-epoch binding, ${clientAfterFails} client seed not set after its commitment`);
-    let recomputed = 0, resultFails = 0, winFails = 0, creditFails = 0, multFails = 0, walletFails = 0, targetFails = 0, wins = 0;
-    const decadeCount = new Map();
-    for (const b of bets) {
-        const target = Number(b.params?.target);
-        if (!(0, config_1.isTargetLegal)(target) || !(0, context_1.isTwoDecimal)(target) || (0, context_1.hundredths)(target) > (0, context_1.hundredths)(config_1.LIVE_TARGET_CEILING))
-            targetFails++;
-        decadeCount.set(decadeOf(target), (decadeCount.get(decadeOf(target)) ?? 0) + 1);
-        const s = seedByEpoch.get(b.epoch);
-        if (!s?.serverSeed) {
-            resultFails++;
+        const v = b.verifier;
+        if (!v || v.status !== 200 || !v.request)
             continue;
+        present++;
+        const ss = seedMap.get(b.hashedServerSeed);
+        const target = Number(b.params.target);
+        const reqOk = !!ss && v.request.serverSeed === ss && v.request.clientSeed === b.clientSeed && v.request.nonce === b.nonce && v.request.target === target;
+        if (reqOk)
+            requestIsRound++;
+        if (v.echo?.clientSeed === b.clientSeed && v.echo?.nonce === b.nonce && v.echo?.target === target)
+            echoOk++;
+        const servedOk = (0, context_1.servedResultMatches)(Number(v.result), Number(b.result)) && v.win === b.win && v.multiplier === b.multiplier;
+        if (servedOk)
+            equalsServed++;
+        let modelOk = false;
+        if (ss) {
+            const R = (0, config_1.resultMultiplier)((0, rng_1.limboDraw)(ss, b.clientSeed, b.nonce));
+            const win = (0, config_1.limboWin)(R, target);
+            modelOk = (0, context_1.servedResultMatches)(Number(v.result), R) && v.win === win && v.multiplier === (win ? target : 0);
+            if (R === target) {
+                ties++;
+                if (v.win === true)
+                    tieWins++;
+            }
+            if (R === config_1.MIN_RESULT) {
+                floors++;
+                if (v.win === false)
+                    floorLosses++;
+            }
         }
-        const R = (0, config_1.resultMultiplier)((0, rng_1.limboDraw)(s.serverSeed, b.clientSeed, b.nonce));
-        const win = (0, config_1.limboWin)(R, target);
-        if (!(0, context_1.servedResultMatches)(Number(b.result), R))
-            resultFails++;
-        if (b.win !== win)
-            winFails++;
-        const credit = win ? (0, context_1.hundredths)(Number(b.betAmount)) * (0, context_1.hundredths)(target) : 0;
-        if (Math.round(Number(b.winningAmount) * 1e4) !== credit || !Number.isFinite(Number(b.winningAmount)))
-            creditFails++;
-        const outcome = b.raw?.round?.wagers?.[0]?.outcome;
-        if (!outcome || Number(outcome.multiplier) !== (win ? target : 0) || Number(outcome.result) !== Number(b.result))
-            multFails++;
-        if (Number(b.stakeWallet) !== Number(b.betAmount) || Number(b.winningAmountWallet) !== Number(b.winningAmount))
-            walletFails++;
-        if (win)
-            wins++;
-        recomputed++;
+        if (modelOk)
+            equalsModel++;
+        if (!(reqOk && servedOk && modelOk) && !firstBad)
+            firstBad = `epoch ${b.epoch} nonce ${b.nonce}: verifier ${v.result}/${v.win}/${v.multiplier} vs served ${b.result}/${b.win}/${b.multiplier}`;
     }
-    const recomputeOk = recomputed === config_1.SUPPLEMENT_EXPECTED_BETS && resultFails + winFails + creditFails + multFails + walletFails === 0;
-    if (!recomputeOk)
-        bad(`recompute: ${recomputed}/${config_1.SUPPLEMENT_EXPECTED_BETS}, ${resultFails} result, ${winFails} win, ${creditFails} credit, ${multFails} outcome.multiplier, ${walletFails} wallet`);
-    if (targetFails)
-        bad(`${targetFails} targets not a legal 2-dp value at or below ${config_1.LIVE_TARGET_CEILING}x`);
-    const expectedWins = bets.reduce((acc, b) => acc + Math.floor(9900000000 / (0, context_1.hundredths)(Number(b.params.target))) / 1e8, 0);
-    const planOk = Object.entries(config_1.SUPPLEMENT_DECADES).every(([d, n]) => decadeCount.get(Number(d)) === n)
-        && [...decadeCount.keys()].every((d) => d in config_1.SUPPLEMENT_DECADES);
-    if (!planOk)
-        bad(`supplement decades ${JSON.stringify(Object.fromEntries(decadeCount))} differ from the plan ${JSON.stringify(config_1.SUPPLEMENT_DECADES)}`);
-    const topDecade = decadeOf(config_1.LIVE_TARGET_CEILING);
-    const auditedA = new Map();
-    for (const b of ctx.phaseA)
-        auditedA.set(decadeOf(Number(b.params.target)), (auditedA.get(decadeOf(Number(b.params.target))) ?? 0) + 1);
-    const coverage = [];
-    let decadesShort = 0;
-    for (let d = 0; d <= topDecade; d++) {
-        const a = auditedA.get(d) ?? 0;
-        const s = decadeCount.get(d) ?? 0;
-        if (a + s < config_1.PHASE_A_DECADE_FLOOR)
-            decadesShort++;
-        coverage.push(`10^${d} ${a + s} (audited A ${a} + supplement A2 ${s})`);
-    }
-    const atCeiling = bets.filter((b) => (0, context_1.hundredths)(Number(b.params.target)) === (0, context_1.hundredths)(config_1.LIVE_TARGET_CEILING)).length;
-    const minA = Math.min(...ctx.phaseA.map((b) => Number(b.params.target)));
-    const coverageOk = planOk && decadesShort === 0 && minA === config_1.MIN_MULTIPLIER;
-    if (!coverageOk && decadesShort)
-        bad(`${decadesShort} declared decade(s) below the Phase A floor of ${config_1.PHASE_A_DECADE_FLOOR}`);
-    const distinctTargets = new Set(bets.map((b) => Number(b.params.target))).size;
-    const p1Abs = path.join(root, config_1.CEILING_PROBE_DIR, config_1.CEILING_PROBE_1_JOURNAL);
-    const p2Abs = path.join(root, config_1.CEILING_PROBE_DIR, config_1.CEILING_PROBE_2_JOURNAL);
-    let witnessOk = false;
-    let witnessDetail = 'probe journals absent';
-    if (fs.existsSync(p1Abs) && fs.existsSync(p2Abs)) {
-        const p1Raw = fs.readFileSync(p1Abs), p2Raw = fs.readFileSync(p2Abs);
-        const probePinsOk = sha256(p1Raw) === config_1.CEILING_PROBE_1_SHA256 && sha256(p2Raw) === config_1.CEILING_PROBE_2_SHA256;
-        const p1 = readJournal(p1Abs), p2 = readJournal(p2Abs);
-        const p1Bets = p1.filter((e) => e.t === 'bet').map((e) => e.rec);
-        const p2Bets = p2.filter((e) => e.t === 'bet').map((e) => e.rec);
-        const p1Intents = p1.filter((e) => e.t === 'intent');
-        const refusedIntent = p1Intents.find((e) => Number(e.body?.params?.target) === config_1.CEILING_PROBE_REFUSED_TARGET);
-        const refusedSettled = p1Bets.some((r) => Number(r.params?.target) === config_1.CEILING_PROBE_REFUSED_TARGET)
-            || p2Bets.some((r) => Number(r.params?.target) === config_1.CEILING_PROBE_REFUSED_TARGET);
-        const p1Seed = p1Bets[0]?.hashedServerSeed;
-        const p2Pre = p2.find((e) => e.t === 'pre')?.state ?? {};
-        const p2Rot = p2.filter((e) => e.t === 'rotate');
-        const reveal = new Map();
-        for (const r of p2Rot) {
-            const seed = r.raw?.revealedServerSeed;
-            if (typeof seed === 'string')
-                reveal.set((0, rng_1.commitHash)(seed), seed);
+    const parityOk = present === config_1.EXPECTED_BETS && requestIsRound === config_1.EXPECTED_BETS && echoOk === config_1.EXPECTED_BETS
+        && equalsServed === config_1.EXPECTED_BETS && equalsModel === config_1.EXPECTED_BETS && ties > 0 && tieWins === ties && floors > 0 && floorLosses === floors;
+    if (!parityOk)
+        bad.push(`verifier parity incomplete${firstBad ? ` (e.g. ${firstBad})` : ''}`);
+    const recPath = path.join(ctx.repoRoot, config_1.CAP_PROBE_DIR, config_1.CAP_PROBE_RECORDS);
+    let capNote = `${config_1.CAP_PROBE_DIR}/${config_1.CAP_PROBE_RECORDS} ABSENT`;
+    let capOk = false;
+    if (fs.existsSync(recPath)) {
+        const raw = fs.readFileSync(recPath);
+        const pinOk = (0, node_crypto_1.createHash)('sha256').update(raw).digest('hex') === config_1.CAP_PROBE_RECORDS_SHA256;
+        let recs = [];
+        let parseOk = true;
+        try {
+            recs = raw.toString('utf8').split('\n').filter((l) => l.trim() !== '').map((l) => JSON.parse(l));
         }
-        const p1Settled = p1Bets.filter((r) => reveal.has(r.hashedServerSeed) && settles(r, reveal.get(r.hashedServerSeed))).length;
-        const p2Settled = p2Bets.filter((r) => reveal.has(r.hashedServerSeed) && settles(r, reveal.get(r.hashedServerSeed))).length;
-        const nonceUnconsumed = p2Pre.hashedServerSeed === p1Seed && p2Pre.nonce === p1Bets.filter((r) => r.hashedServerSeed === p1Seed).length;
-        const acceptedAtCeiling = [...p1Bets, ...p2Bets].filter((r) => (0, context_1.hundredths)(Number(r.params?.target)) === (0, context_1.hundredths)(config_1.LIVE_TARGET_CEILING)).length;
-        const lastP2 = p2Rot[p2Rot.length - 1];
-        const chainsToSupplement = lastP2?.state?.hashedServerSeed === pre.hashedServerSeed;
-        const p1Done = p1.some((e) => e.t === 'done');
-        witnessOk = probePinsOk && !!refusedIntent && !refusedSettled && p1Settled === p1Bets.length && p2Settled === p2Bets.length
-            && p1Bets.length > 0 && nonceUnconsumed && acceptedAtCeiling === config_1.CEILING_PROBE_ACCEPTED_AT_CEILING && chainsToSupplement;
-        witnessDetail = `E20 (${config_1.CEILING_PROBE_DIR}/, both journals pinned: ${probePinsOk}): the ${config_1.LIVE_TARGET_CEILING_WITNESSED} probe settled ${acceptedAtCeiling} $0.10 bet(s) at exactly ${config_1.LIVE_TARGET_CEILING}x across its two runs, `
-            + `${p1Settled + p2Settled}/${p1Bets.length + p2Bets.length} probe bets recompute from the seed later revealed for them; `
-            + `the request at ${config_1.CEILING_PROBE_REFUSED_TARGET}x has a journalled intent (${!!refusedIntent}) and NO settlement in either run (${!refusedSettled}), probe run 1 has no done event (${!p1Done}), `
-            + `and probe run 2's opening read of that seed shows nonce ${p2Pre.nonce} = the ${p1Bets.filter((r) => r.hashedServerSeed === p1Seed).length} round(s) settled under it (${nonceUnconsumed}: the request consumed no round); `
-            + `probe 2 hands over to this supplement's pre-capture commitment (${chainsToSupplement}). The server's reply to the ${config_1.CEILING_PROBE_REFUSED_TARGET}x request is NOT in either journal — its text (errorCode 3001, "<=10000") is a hand-typed note in capture/capture-limbo-v2.mjs; one above-ceiling target was probed`;
-    }
-    if (!witnessOk)
-        bad('ceiling witness (E20) does not hold');
-    const auditedAbove = ctx.bets.filter((b) => (0, context_1.hundredths)(Number(b.params.target)) > (0, context_1.hundredths)(config_1.LIVE_TARGET_CEILING));
-    const auditedAboveMax = auditedAbove.length ? Math.max(...auditedAbove.map((b) => Number(b.params.target))) : 0;
-    let capPinProblem = false;
-    let capJ = null;
-    let capDay = '';
-    let capText;
-    if (config_1.CAP_PROBE_JOURNAL === null || config_1.CAP_PROBE_SHA256 === null) {
-        capText = `the re-probe of ${config_1.CAP_PROBE_TARGETS.map((t) => `${t}x`).join(', ')} with every reply saved, prepared in capture/PROBE-2026-10-02.md, has not been run (CAP_PROBE_JOURNAL is null in src/config.ts)`;
-    }
-    else {
-        const capAbs = path.join(root, config_1.CAP_PROBE_DIR, config_1.CAP_PROBE_JOURNAL);
-        if (!fs.existsSync(capAbs)) {
-            capPinProblem = true;
-            capText = `the pinned re-probe journal ${config_1.CAP_PROBE_DIR}/${config_1.CAP_PROBE_JOURNAL} is ABSENT`;
+        catch {
+            parseOk = false;
         }
-        else {
-            const capPinOk = sha256(fs.readFileSync(capAbs)) === config_1.CAP_PROBE_SHA256;
-            if (!capPinOk)
-                capPinProblem = true;
-            const capEvents = readJournal(capAbs);
-            capDay = String(capEvents[0]?.at ?? '').slice(0, 10);
-            capJ = judgeCapProbe(capEvents, config_1.CAP_PROBE_TARGETS, config_1.LIVE_TARGET_CEILING);
-            capText = `E21 (${config_1.CAP_PROBE_DIR}/${config_1.CAP_PROBE_JOURNAL}, pinned: ${capPinOk}): control at ${config_1.LIVE_TARGET_CEILING}x settled ${capJ.controlSettled}, recomputed ${capJ.controlRecomputed}; `
-                + capJ.rows.map((r) => `${r.target}x ${r.settled ? 'ACCEPTED (settled)'
-                    : r.refused ? `refused (HTTP ${r.status}, code ${r.code}${r.message ? `, "${r.message}"` : ''}, no nonce consumed)`
-                        : `NOT SHOWN REFUSED (intents ${r.intents}, saved replies ${r.replies}, status ${r.status}, nonce consumed ${r.nonceConsumed})`}`).join('; ');
+        const seedByValue = new Map(seeds.filter((s) => s.serverSeed).map((s) => [s.serverSeed, s]));
+        let ok = 0, atCap = 0, rawAbove = 0, rawExactly = 0, justUnder = 0, unsettled = 0, settledControl = 0;
+        const drawsUnsettled = new Set(), drawsAtCap = new Set(), drawsAbove = new Set();
+        const lines = [];
+        const dates = new Set();
+        for (const r of recs) {
+            let q = {};
+            let o = {};
+            try {
+                q = JSON.parse(r.request?.body ?? '{}');
+                o = JSON.parse(r.body ?? '{}').outcome ?? {};
+            }
+            catch { }
+            const s = seedByValue.get(String(q.serverSeed));
+            const target = Number(q.params?.target);
+            const tied = !!s && (0, rng_1.commitHash)(String(q.serverSeed)) === s.hashedServerSeed && q.clientSeed === s.clientSeed && Number.isInteger(q.nonce) && q.nonce >= 0;
+            if (!tied) {
+                lines.push(`${r.id}: NOT a revealed seed of the dataset under its own client seed`);
+                continue;
+            }
+            const k = (0, rng_1.limboDraw)(String(q.serverSeed), String(q.clientSeed), q.nonce);
+            const rawValue = Math.floor(config_1.RESULT_NUMERATOR / (k + 1)) / config_1.MULTIPLIER_SCALE;
+            const R = (0, config_1.resultMultiplier)(k);
+            const win = (0, config_1.limboWin)(R, target);
+            const replyOk = r.status === 200 && r.request?.method === 'POST' && r.request?.url === VERIFY_URL
+                && (0, context_1.servedResultMatches)(Number(o.result), R) && o.win === win && o.multiplier === (win ? target : 0);
+            if (replyOk)
+                ok++;
+            if (r.headers?.date)
+                dates.add(String(r.headers.date).slice(5, 16));
+            const isSettled = q.nonce < (0, config_1.epochSize)(s.epoch);
+            if (isSettled) {
+                const round = bets.find((b) => b.epoch === s.epoch && b.nonce === q.nonce);
+                if (round && Number(round.result) === R && Number(round.params.target) === target)
+                    settledControl++;
+            }
+            else
+                unsettled++;
+            const drawKey = `${q.serverSeed}|${q.clientSeed}|${q.nonce}`;
+            if (!isSettled)
+                drawsUnsettled.add(drawKey);
+            if (!isSettled && R === config_1.MAX_MULTIPLIER) {
+                atCap++;
+                drawsAtCap.add(drawKey);
+                if (rawValue > config_1.MAX_MULTIPLIER) {
+                    rawAbove++;
+                    drawsAbove.add(drawKey);
+                }
+                else if (rawValue === config_1.MAX_MULTIPLIER)
+                    rawExactly++;
+            }
+            if (!isSettled && R < config_1.MAX_MULTIPLIER)
+                justUnder++;
+            lines.push(`${r.id}: epoch ${s.epoch} nonce ${q.nonce} target ${target}x, draw k = ${k}, raw value ${rawValue}, model ${R}x; casino replied ${o.result}x win ${o.win} multiplier ${o.multiplier} (${replyOk ? 'equal' : 'DIFFERENT'})`);
         }
+        capOk = pinOk && parseOk && recs.length === config_1.CAP_PROBE_EXPECTED && ok === config_1.CAP_PROBE_EXPECTED
+            && rawAbove === config_1.CAP_PROBE_DISCRIMINATING && drawsAbove.size === config_1.CAP_PROBE_DISCRIMINATING_DRAWS && rawExactly >= 1 && justUnder >= 1 && settledControl === 1 && unsettled === config_1.CAP_PROBE_EXPECTED - 1;
+        capNote = `${config_1.CAP_PROBE_DIR}/${config_1.CAP_PROBE_RECORDS} (${pinOk ? 'matches its pin' : 'PIN MISMATCH'}; replies dated ${[...dates].join(', ')}): ${recs.length}/${config_1.CAP_PROBE_EXPECTED} records, every one an HTTP 200 reply of ${VERIFY_URL} to a revealed seed of this dataset under its own client seed; `
+            + `${ok}/${config_1.CAP_PROBE_EXPECTED} replies equal the recomputation from src/ (result, win, multiplier). `
+            + `${settledControl} is a settled round sent again as a transport check; ${unsettled} are requests on ${drawsUnsettled.size} distinct draws (seed, client seed, nonce) the capture never played, chosen by the auditor's offline search of the Phase A seeds for draws at and around the cap (the search itself is not part of this package; each probe is recomputed here): `
+            + `${atCap} requests on ${drawsAtCap.size} distinct draws recompute to the ${config_1.MAX_MULTIPLIER}x cap, of which ${rawAbove} requests on ${drawsAbove.size} distinct draws have a raw value ABOVE the cap (only a capped model reproduces the casino's ${config_1.MAX_MULTIPLIER}) and ${rawExactly} a raw value of exactly ${config_1.MAX_MULTIPLIER}; ${justUnder} is a control just under the cap, reported uncapped. `
+            + `[${lines.join(' | ')}]`;
     }
-    if (capPinProblem)
-        bad(`cap re-probe (E21): ${capText}`);
-    const capCleared = !capPinProblem && capJ !== null && capJ.allRefused;
-    const ok = pinsOk && journalRowsMatch && intentMissing === 0 && forbidden.length === 0 && resumesOk && resumeNonceOk === resumes.length
-        && popOk && commitOk && recomputeOk && targetFails === 0 && coverageOk && witnessOk && !capPinProblem;
-    const grid = (0, edge_1.legalGrid)();
-    const aboveByTarget = new Map();
-    for (const b of auditedAbove)
-        aboveByTarget.set(Number(b.params.target), (aboveByTarget.get(Number(b.params.target)) ?? 0) + 1);
-    const aboveText = [...aboveByTarget].sort(([a], [z]) => a - z).map(([t, n]) => `${n} at ${t}x`).join(', ') || 'none';
-    const flagged = auditedAbove.length > 0 && !capCleared;
-    const auditedAboveTargets = [...new Set(auditedAbove.map((b) => Number(b.params.target)))].sort((a, z) => a - z);
-    const reprobed = capCleared ? auditedAboveTargets.filter((t) => capJ.rows.some((r) => r.refused && (0, context_1.hundredths)(r.target) === (0, context_1.hundredths)(t))) : [];
-    const notReprobed = auditedAboveTargets.filter((t) => !reprobed.includes(t));
-    const lead = flagged
-        ? `FLAG (profile LIMBO-14, origin operator): the target cap is not evidenced by a saved server reply. On 2026-09-11 the server accepted and settled targets up to ${auditedAboveMax}x (${aboveText}). `
-            + `A ${config_1.UI_MAX_TARGET}x limit in the UI was observed on 2026-09-23; no record of it was kept. `
-            + `The only later probe above ${config_1.LIVE_TARGET_CEILING}x (${config_1.LIVE_TARGET_CEILING_WITNESSED}, ${config_1.CEILING_PROBE_REFUSED_TARGET}x, itself inside the RTP-CLAIM band at RTP ${(0, edge_1.ciRtpPct)((0, context_1.hundredths)(config_1.CEILING_PROBE_REFUSED_TARGET))}%) did not settle, and the server's reply was not saved. `
-            + `The first target outside the band is ${(0, edge_1.ciToTarget)(grid.firstBeyondBandCi)}x (RTP ${(0, edge_1.ciRtpPct)(grid.firstBeyondBandCi)}%, Step 16): the RTP-CLAIM PASS on targets up to ${config_1.LIVE_TARGET_CEILING}x holds for the game only if targets from there up are refused. `
-            + `The flag clears when a saved server reply shows them refused — ${capText}. `
-            + `${[...aboveByTarget.keys()].sort((a, z) => a - z).map((t) => `${t}x`).join(' and ') || 'no audited target'} were not re-probed; at ${config_1.MAX_MULTIPLIER}x the 2026-09-11 server refused a $0.10 bet on exposure (errorCode 3138, evidence/E15), not on the target. `
-            + `On the 2026-09-11 range the RTP-CLAIM rule would fail (Step 16 prints the count and the worst target). `
-        : auditedAbove.length > 0
-            ? `TARGET CAP EVIDENCED (profile LIMBO-14): ${capText}. DISCLOSED HISTORY: on 2026-09-11 the server settled ${auditedAbove.length} rounds above ${config_1.LIVE_TARGET_CEILING}x (${aboveText}); on the 2026-09-11 range the RTP-CLAIM rule would fail (Step 16). `
-            : '';
-    return [(0, context_1.step)(exports.STEP_NUMBER, exports.STEP_NAME, !ok ? 'FAIL' : flagged ? 'FLAG' : 'PASS', `${ok ? lead : ''}SUPPLEMENT to the audited dataset, scored here only (${config_1.SUPPLEMENT_DATA_PATH}, pinned ${dsHash.slice(0, 16)}… ${dsHash === config_1.SUPPLEMENT_DATASET_SHA256 ? 'match' : 'MISMATCH'}; journal ${jrHash.slice(0, 16)}… ${jrHash === config_1.SUPPLEMENT_JOURNAL_SHA256 ? 'match' : 'MISMATCH'}). `
-            + `(a) journal ${jBets.length} bet records == dataset rows bet for bet (${journalRowsMatch}), ${jBets.length - intentMissing}/${jBets.length} preceded by their intent; event census ${JSON.stringify(census)}; `
-            + `DECLARED RESUME: ${resumes.length} resume(s) against SUPPLEMENT_DECLARED_RESUMES ${config_1.SUPPLEMENT_DECLARED_RESUMES} (${resumesOk}) — ${resumeNotes.join('; ')}; `
-            + `(b) ${bets.length}/${config_1.SUPPLEMENT_EXPECTED_BETS} bets in ${perEpoch.size}/${config_1.SUPPLEMENT_EXPECTED_SEEDS} epochs x ${config_1.EXPECTED_EPOCH_SIZE}, ${epochsNotClosed} epoch(s) whose nonces do not close 0..${config_1.EXPECTED_EPOCH_SIZE - 1}, all phase ${config_1.SUPPLEMENT_PHASE} at $${config_1.SUPPLEMENT_STAKE} (${popOk}); `
-            + `(c) ${seeds.length - commitFails}/${seeds.length} seeds revealed and hash to their commitment, ${Math.max(seeds.length - 1, 0) - linkFails}/${Math.max(seeds.length - 1, 0)} chain links, pre-capture anchor ${anchorOk}, ${bindFails} rounds off their epoch's commitment or client seed, ${seeds.length - clientAfterFails}/${seeds.length} client seeds set after the commitment was published; `
-            + `(d) ${recomputed}/${config_1.SUPPLEMENT_EXPECTED_BETS} rounds recomputed from the revealed seeds: ${resultFails} result, ${winFails} win-flag, ${creditFails} credit, ${multFails} outcome.multiplier and ${walletFails} wallet mismatches; ${wins} wins (${expectedWins.toFixed(4)} expected from the targets played${wins === 0 ? ', so this supplement exercises the credit path on losses only — winning credit is carried by Steps 8-9 on the audited dataset' : ''}); `
-            + `(e) ${targetFails} targets off the 2-dp grid or above the live ceiling ${config_1.LIVE_TARGET_CEILING}x, ${atCeiling} at exactly ${config_1.LIVE_TARGET_CEILING}x, ${distinctTargets} distinct; `
-            + `(f) PHASE A COVERAGE per decade up to the declared ceiling ${config_1.LIVE_TARGET_CEILING}x (decade 10^${topDecade}) against the floor ${config_1.PHASE_A_DECADE_FLOOR}: ${coverage.join(', ')}; minimum legal target ${config_1.MIN_MULTIPLIER}x played in Phase A (${minA === config_1.MIN_MULTIPLIER}); `
-            + `(g) LIVE TARGET CEILING — ${witnessDetail}. `
-            + `The audited 2026-09-11 dataset holds ${auditedAbove.length} rounds above ${config_1.LIVE_TARGET_CEILING}x (max ${auditedAboveMax}x), settled then; on ${config_1.LIVE_TARGET_CEILING_WITNESSED} the one above-ceiling target probed (${config_1.CEILING_PROBE_REFUSED_TARGET}x) was not settled`
-            + (reprobed.length ? `; on ${capDay} the re-probe (E21) saw ${reprobed.map((t) => `${t}x`).join(', ')} refused` : '')
-            + (notReprobed.length
-                ? `, and ${reprobed.length ? 'the other ' : 'the '}audited target${notReprobed.length > 1 ? 's' : ''} above the ceiling (${notReprobed.map((t) => `${t}x`).join(', ')}) ${notReprobed.length > 1 ? 'were' : 'was'} not re-probed`
-                : ', and every audited target above the ceiling was re-probed')
-            + (problems.length ? `. PROBLEMS: ${problems.join(' | ')}` : ''), 'operator')];
+    if (!capOk)
+        bad.push('result-cap probe set not reproduced');
+    const detail = `PARITY, every settled round (denominator EXPECTED_BETS from src/config.ts — G-BIND): ${present}/${config_1.EXPECTED_BETS} bets carry an HTTP 200 reply of the production verifier (POST ${VERIFY_URL}); `
+        + `the request is the round itself (the epoch's revealed server seed, the round's client seed, nonce and target) on ${requestIsRound}/${config_1.EXPECTED_BETS} and the reply echoes it on ${echoOk}/${config_1.EXPECTED_BETS}; `
+        + `the verifier's result, win flag and multiplier equal the SETTLED round on ${equalsServed}/${config_1.EXPECTED_BETS} and this package's own recomputation on ${equalsModel}/${config_1.EXPECTED_BETS}. `
+        + `BOUNDARY WITNESSES IN THE VERIFIER (profile LIMBO-17): ${ties} rounds whose result equals the target exactly, the verifier says WIN on ${tieWins}; ${floors} rounds at the ${config_1.MIN_RESULT}x result floor, the verifier says LOSS on ${floorLosses}. `
+        + `RESULT CAP (verifier only; no settled round reached it): ${capNote}. `
+        + `NOT SHOWN by the cap probes: that a bet settling on such a draw is paid by the same rule (L4)`
+        + (bad.length ? ` — FAILURES: ${bad.join('; ')}` : '');
+    return [(0, context_1.step)(exports.STEP_NUMBER, exports.STEP_NAME, bad.length === 0 ? 'PASS' : 'FAIL', detail)];
 }
 
 },
@@ -4263,13 +4523,13 @@ const statistical = __importStar(require("./steps/statistical"));
 const liveFit = __importStar(require("./steps/live-fit"));
 const pass1 = __importStar(require("./steps/pass1"));
 const pass2 = __importStar(require("./steps/pass2"));
-const supplement = __importStar(require("./steps/supplement"));
+const verifier = __importStar(require("./steps/verifier"));
 const profile_map_1 = require("../src/profile-map");
 const rtp_settings_1 = require("../src/rtp-settings");
 const rtp_claim_1 = require("../src/rtp-claim");
 const diff_1 = require("../src/diff");
 const EXPECTED_STEPS = 25;
-const CAPTURE_HOST = 'qa.liqd.com';
+const CAPTURE_HOST = 'liqd.com';
 const REPO_ROOT = path.join(__dirname, '..');
 const DATASET_PATH = path.join(REPO_ROOT, config_1.DATA_PATH);
 const OUTPUTS_DIR = path.join(REPO_ROOT, 'outputs');
@@ -4312,15 +4572,12 @@ for (const b of bets) {
 const distinctTargets = [...new Set(bets.map((b) => Number(b.params.target)))].sort((a, z) => a - z);
 if (!fs.existsSync(OUTPUTS_DIR))
     fs.mkdirSync(OUTPUTS_DIR, { recursive: true });
-console.log(`  Dataset: ${bets.length}/${config_1.EXPECTED_BETS} bets | Seeds: ${seeds.length}/${config_1.EXPECTED_SEEDS} | epoch size ${config_1.EXPECTED_EPOCH_SIZE} | SHA-256 pin verified`);
-console.log(`  Phases  A:${bets.filter((b) => b.phase === 'A').length} B:${bets.filter((b) => b.phase === 'B').length} C:${bets.filter((b) => b.phase === 'C').length} D:${bets.filter((b) => b.phase === 'D').length}`);
-console.log(`  Capture host: ${ds.meta.platform} (declared scope ${CAPTURE_HOST} — production parity NOT established)\n`);
+console.log(`  Dataset: ${bets.length}/${config_1.EXPECTED_BETS} bets | Seeds: ${seeds.length}/${config_1.EXPECTED_SEEDS} | epochs ${config_1.CAPTURE_PLAN.map((b) => `${b.epochs} x ${b.size}`).join(' + ')} | SHA-256 pin verified`);
+console.log(`  Phases  ${[...new Set(bets.map((b) => b.phase))].sort().map((p) => `${p}:${bets.filter((b) => b.phase === p).length}`).join(' ')}`);
+console.log(`  Capture host: ${ds.meta.platform} (declared scope ${CAPTURE_HOST}, production)\n`);
 const ctx = {
     bets, seeds, seedMap, seedByHash, byHash,
     phaseA: bets.filter((b) => b.phase === 'A'),
-    phaseB: bets.filter((b) => b.phase === 'B'),
-    phaseC: bets.filter((b) => b.phase === 'C'),
-    phaseD: bets.filter((b) => b.phase === 'D'),
     repoRoot: REPO_ROOT,
     outputsDir: OUTPUTS_DIR,
     evidenceDir: EVIDENCE_DIR,
@@ -4342,7 +4599,7 @@ const results = [
     ...liveFit.run(ctx),
     ...pass1.run(ctx),
     ...pass2.run(ctx),
-    ...supplement.run(ctx),
+    ...verifier.run(ctx),
 ];
 const infoItems = statistical.run(ctx);
 const numbers = results.map((r) => r.step);
@@ -4417,17 +4674,8 @@ const verificationBody = {
         simulation: { file: 'outputs/simulation-results.json', expected: config_1.SIMULATION_SHA256, actual: sha256Of('outputs/simulation-results.json'), match: sha256Of('outputs/simulation-results.json') === config_1.SIMULATION_SHA256 },
         simulationChart: { file: 'outputs/rtp-convergence.html', expected: config_1.SIMULATION_HTML_SHA256, actual: sha256Of('outputs/rtp-convergence.html'), match: sha256Of('outputs/rtp-convergence.html') === config_1.SIMULATION_HTML_SHA256 },
         pass1Grid: { file: 'outputs/pass1-grid.json', expected: config_1.PASS1_GRID_SHA256, actual: sha256Of('outputs/pass1-grid.json'), match: sha256Of('outputs/pass1-grid.json') === config_1.PASS1_GRID_SHA256 },
-        supplementDataset: { file: config_1.SUPPLEMENT_DATA_PATH, expected: config_1.SUPPLEMENT_DATASET_SHA256, actual: sha256Of(config_1.SUPPLEMENT_DATA_PATH), match: sha256Of(config_1.SUPPLEMENT_DATA_PATH) === config_1.SUPPLEMENT_DATASET_SHA256 },
-        supplementJournal: { file: config_1.SUPPLEMENT_JOURNAL_PATH, expected: config_1.SUPPLEMENT_JOURNAL_SHA256, actual: sha256Of(config_1.SUPPLEMENT_JOURNAL_PATH), match: sha256Of(config_1.SUPPLEMENT_JOURNAL_PATH) === config_1.SUPPLEMENT_JOURNAL_SHA256 },
-        ceilingProbe1: { file: `${config_1.CEILING_PROBE_DIR}/${config_1.CEILING_PROBE_1_JOURNAL}`, expected: config_1.CEILING_PROBE_1_SHA256, actual: sha256Of(`${config_1.CEILING_PROBE_DIR}/${config_1.CEILING_PROBE_1_JOURNAL}`), match: sha256Of(`${config_1.CEILING_PROBE_DIR}/${config_1.CEILING_PROBE_1_JOURNAL}`) === config_1.CEILING_PROBE_1_SHA256 },
-        ceilingProbe2: { file: `${config_1.CEILING_PROBE_DIR}/${config_1.CEILING_PROBE_2_JOURNAL}`, expected: config_1.CEILING_PROBE_2_SHA256, actual: sha256Of(`${config_1.CEILING_PROBE_DIR}/${config_1.CEILING_PROBE_2_JOURNAL}`), match: sha256Of(`${config_1.CEILING_PROBE_DIR}/${config_1.CEILING_PROBE_2_JOURNAL}`) === config_1.CEILING_PROBE_2_SHA256 },
-        capProbe: config_1.CAP_PROBE_JOURNAL === null || config_1.CAP_PROBE_SHA256 === null ? null
-            : { file: `${config_1.CAP_PROBE_DIR}/${config_1.CAP_PROBE_JOURNAL}`, expected: config_1.CAP_PROBE_SHA256, actual: sha256Of(`${config_1.CAP_PROBE_DIR}/${config_1.CAP_PROBE_JOURNAL}`), match: sha256Of(`${config_1.CAP_PROBE_DIR}/${config_1.CAP_PROBE_JOURNAL}`) === config_1.CAP_PROBE_SHA256 },
+        capProbeRecords: { file: `${config_1.CAP_PROBE_DIR}/${config_1.CAP_PROBE_RECORDS}`, expected: config_1.CAP_PROBE_RECORDS_SHA256, actual: sha256Of(`${config_1.CAP_PROBE_DIR}/${config_1.CAP_PROBE_RECORDS}`), match: sha256Of(`${config_1.CAP_PROBE_DIR}/${config_1.CAP_PROBE_RECORDS}`) === config_1.CAP_PROBE_RECORDS_SHA256 },
         rtpClaimTable: { file: 'outputs/rtp-claim-table.json', expected: rtp_settings_1.RTP_CLAIM_TABLE_SHA256, actual: sha256Of('outputs/rtp-claim-table.json'), match: sha256Of('outputs/rtp-claim-table.json') === rtp_settings_1.RTP_CLAIM_TABLE_SHA256 },
-        evidence: {
-            'evidence/E13-limbo-boundary-probes.json': 'reproduced under the model in Step 19 (not hash-pinned)',
-            'evidence/E15-limbo-max-exposure.json': 'reconciled against src/config.ts in Step 19 (not hash-pinned)',
-        },
     },
     steps: results.map((r) => ({ ...r, ...(0, profile_map_1.labelFor)(r.step) })),
     rtpClaim: {
@@ -4436,7 +4684,7 @@ const verificationBody = {
         outcome: rtpClaim.result.outcome,
         bandPp: rtpClaim.result.bandPp,
         settingsScored: rtpClaim.result.settings,
-        scoredRange: `${config_1.MIN_MULTIPLIER}x to ${config_1.LIVE_TARGET_CEILING}x, every 2-dp target`,
+        scoredRange: `${config_1.MIN_MULTIPLIER}x to ${config_1.PROD_TOP_TARGET}x, every 2-dp target`,
         trueMin: { setting: rtpClaim.result.trueMin.setting, rtpPct: rtpClaim.result.trueMin.rtpPct },
         trueMax: { setting: rtpClaim.result.trueMax.setting, rtpPct: rtpClaim.result.trueMax.rtpPct },
         houseSideBeyondBand: rtpClaim.result.houseSideFailures,

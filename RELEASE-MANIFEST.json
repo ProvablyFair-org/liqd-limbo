@@ -3,18 +3,35 @@
   "auditIdStatus": "confirmed by ProvablyFair.org",
   "game": "limbo",
   "casino": "liqd",
-  "release": "v1.0.1",
+  "release": "v1.1.0",
   "framework": "1.1",
-  "datasetSha256": "8e3ce5b5e1494d1fcc3a783965d3ba7b6a7099f120a64d61e21a577098c07334",
+  "datasetSha256": "65c7a472b503bbcd9db9f26caee28d51d6536427f286fb9d3d9ec038ab17e101",
   "artifacts": {
-    "outputs/pass1-grid.json": "9999f98ba17fe534b5350274da8e423aa6c1c096f4e136d40daec60a0cbdcae7",
+    "outputs/pass1-grid.json": "d4284dc5260c43180c2ec7e2fa3d31c23331f0660b581a1fc968f14a4d205caf",
     "outputs/rtp-convergence.html": "efd121156f8255f391eb9c1b3c6f9f06c008d35807cef9a69b1e82be33fd0d69",
-    "outputs/simulation-results.json": "2d609344650eac723c262449fb8929b05c68b75f149ceee708b89ad4ade670cc",
-    "outputs/verification-results.json": "d38b03cbde99012d68353cbd61602cea430a0cee5ed9fb84c87dc1079b79291b",
-    "outputs/rtp-claim-table.json": "cdfbf600e0713b822acf00b420c10d12b7af7fca73cce96c395099f49634ba34",
-    "data/limbo-master-6700bets.json": "8e3ce5b5e1494d1fcc3a783965d3ba7b6a7099f120a64d61e21a577098c07334",
-    "data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.json": "a2dee374cfd48c62736cf5958fd67f42b1cb7c622ab0883c3f84278d8429ab1e",
-    "data/liqd-limbo-capture-v2-2026-09-26T17-48-02-207Z.journal.ndjson": "bcacab9c674df62a3b2219cba008542f2e798e9c81559c6321489e1a43949c32"
+    "outputs/simulation-results.json": "b4e529119b24e1845d01a00e97d2cf7d4d895f0ef6cb1a34566928d591552c36",
+    "outputs/verification-results.json": "ae2450c3393de9dddb40d8fac33dbb8d2dcdf58d84c621479a7fcb63c17359e1",
+    "outputs/rtp-claim-table.json": "92670c4605ba60045ba5348c4022e5241199857f9d3346aa9c2ec3888ebf42a0",
+    "data/limbo-prod-full-5838bets.json": "65c7a472b503bbcd9db9f26caee28d51d6536427f286fb9d3d9ec038ab17e101",
+    "evidence/E02-prod-verifier-result-cap-2026-11-09/probes-limbo.jsonl": "4c5769e29a680be30998e4fd2748a2b9f58285e3542d265ec94971fbf18077c3",
+    "evidence/E03-prod-verifier-target-100000.json": "9d5490f0a5a3aa6be674b6a3747046b301755f04f55ffb9d2d16627ff71d7249",
+    "evidence/rtp-page-labels-2026-10-01.json": "e159a3c173a1887c6c5dd2728caf9378ade2c6b2fbd6ce8f410a3bca3e13b0e2",
+    "evidence/rtp-page-limbo-2026-11-10.json": "44703fc87ba4e51eb2dd695a0f1013236902124ff7c8276dc9a7d0d1ef518b4c",
+    "capture/runner/limbo-prod-capture-runner-build-6fd6576d4561.js": "c1d18dbbceff2698367c45adf5b893c4124e8ebe3902af6b7cc09f6fd112e725",
+    "capture/runner/limbo-prod-capture-runner-build-7e33ea9cd02d.js": "b1c0ef28b0eda03a4f23c513a090d1a2cee7d3b514c71751cc4ed0d36a5827ad",
+    "capture/converter/full-limbo.mjs": "695f481c3fb98ee69a313972ddfc9a0ec569f92625c6e68d7b3f7ada2279fc2c",
+    "capture/converter/adapters/limbo.mjs": "619ac8258ec79633284723e8d6ae6fa4fed4bed41c9420117110c6e2081d3454",
+    "capture/converter/lib/events.mjs": "90ee59ce5c05dbaf657cf11cfd99313cf0cd383fd2f0a17adb98db7fd7187293",
+    "capture/converter/inputs.limbo.json": "7056d47e54487c8a51c956c5cbd851b1f912935f900768689a79a11c1d874e7e",
+    "capture/build-reply-record.mjs": "401c3fa46daccff39756ecc6529ba29b3c6b7298da2e5057761a0eddd1501c8f",
+    "capture/redact-export.mjs": "3aeda103469e06280cd91ffa382b153f9c0b4c4fbba9d4534ef4f88935dc3250",
+    "capture/runners/_shared/check-core.mjs": "7753627f08b9461f3121db81be1064403f3b33fa7785a36bb895d99c43c43e18",
+    "capture/captures/liqd-limbo-prod-capture-2026-11-07T16-28-43-825Z.ndjson": "88490b8e821085d8c1b28cc9b47de1dc4c0984251c77de41df39b81fb69611c5",
+    "capture/captures/liqd-limbo-prod-capture-2026-11-10T04-11-27-073Z.ndjson": "af84273906c85b57f778df01fb9d986dc875a2768346b89d5ace20f961daa833",
+    "capture/captures/liqd-limbo-prod-capture-2026-11-10T10-47-42-943Z.ndjson": "1dfd38dee0f4a1f68f3626f1fbd04189d7a59fae73779517dbda0a3c38bda3f2",
+    "capture/replies/liqd-limbo-prod-replies-capture-1.jsonl": "aa0c912ad3d385e47f043ff7a21221a0c958f80f27353d9279785a6499c3e3ee",
+    "capture/replies/liqd-limbo-prod-replies-capture-2.jsonl": "892371efb84a8627c23277df5ca25a226a1e307866f9f6f00346db51bf36efd9",
+    "capture/replies/liqd-limbo-prod-replies-capture-3.jsonl": "2316072267717c53601fc2ad8a2ab7b0f527daab97b2ab25c1de977602a20c0d"
   },
   "verdict": "PROVABLY FAIR — Full Pass",
   "scored": {
@@ -24,20 +41,20 @@
     "of": 25
   },
   "capturedAt": {
-    "from": "2026-09-11T13:16:45.577Z",
-    "to": "2026-09-26T17:56:42.327Z"
+    "from": "2026-11-07T13:03:08.499Z",
+    "to": "2026-11-10T10:47:42.919Z"
   },
   "environment": {
-    "host": "qa.liqd.com",
-    "stage": "pre-production",
-    "qualifier": "provisional"
+    "host": "liqd.com",
+    "stage": "production",
+    "qualifier": "none"
   },
   "reproduction": {
     "workflow": ".github/workflows/reproduce.yml",
     "runner": "ubuntu-latest",
-    "node": "22",
+    "node": "22.23.1",
     "command": "npm ci && npm test"
   },
-  "supersedes": "v1.0.0",
+  "supersedes": null,
   "signature": "SHA256:gEujiJm2pRyq7lQsfYQfQ1r97H/J7GdaKHbOW8GtikY"
 }

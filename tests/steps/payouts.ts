@@ -6,8 +6,8 @@
  * dice, where the multiplier is 9900/basisPoints and the derivation is the whole question). What
  * remains to be proven is that the operator paid the rule it published: the credit is the settled
  * product of stake and target (Step 9, read from the casino's credited amount), a loss pays exactly
- * nothing, and the wallet ledger says the same thing as the game ledger. Step 8 checks the dataset's
- * `multiplier` column, which the capture script filled itself (see Step 8) — a check of the file.
+ * nothing, and the wallet fields say the same thing as the game fields. Step 8 checks the multiplier the
+ * casino served in its place-bet reply.
  *
  * ── ARITHMETIC, AND WHY IT IS DONE IN INTEGERS ──────────────────────────────────────────────────
  * Stakes and targets are both exact 2-dp decimals, so `stake x target` is an exact decimal with at
@@ -21,20 +21,17 @@ import type { StepResult, VerifyContext } from './context';
 import { step, hundredths, isTwoDecimal } from './context';
 import {
   round8, isTargetLegal,
-  MIN_BET_USDC, MAX_EXPOSURE_USDC, MAX_PLAYABLE_TARGET, EXPECTED_BETS,
+  PROD_TOP_TARGET, EXPECTED_BETS, EXPECTED_PHASES,
 } from '../../src/config';
 
 export function run(ctx: VerifyContext): StepResult[] {
   const { bets } = ctx;
 
   // ── Step 8: Paid-multiplier derivation ──────────────────────────────────────
-  // On every win the dataset's `multiplier` column must equal the target; on a loss it is 0. WHAT THIS
-  // CHECKS (2026-10-02): the FILE, not the casino. capture/capture-limbo.reference.mjs fills that column
-  // from a wager-level `multiplier`, else an outcome-level `payoutMultiplier`, else the target on a win
-  // and 0 on a loss; none of the 303 raw casino responses kept in this package carries either key (the
-  // casino's field is `outcome.multiplier`, which that script does not read), and no raw response from
-  // 2026-09-11 was kept. The payout itself is checked in Step 9, from the casino's credited amount.
-  // Asserted bit-exact (`===`), not within a tolerance.
+  // On every win the served multiplier must equal the target; on a loss it is 0 (Step 10). WHAT THIS
+  // CHECKS: the casino's place-bet reply carries the wager's own outcome.multiplier, and the dataset's
+  // `multiplier` column is that served value (meta.conversion.bets.served). Asserted bit-exact (`===`),
+  // not within a tolerance. The payout itself is checked in Step 9, from the casino's credited amount.
   let mChecked = 0;
   let mFails = 0;
   let maxDev = 0;
@@ -53,10 +50,9 @@ export function run(ctx: VerifyContext): StepResult[] {
   }
   const s8 = step(8, 'Paid-Multiplier Derivation',
     mFails === 0 && mChecked > 0 ? 'PASS' : 'FAIL',
-    `${mChecked} winning bets: on every win the dataset's multiplier column equals the target, bit-exact (strict ===, no tolerance); ${mFails} mismatches`
+    `${mChecked} winning bets: on every win the multiplier the casino served in its place-bet reply (outcome.multiplier, carried in the dataset's multiplier column) equals the target, bit-exact (strict ===, no tolerance); ${mFails} mismatches`
     + (firstMFail ? ` (e.g. ${firstMFail})` : '')
-    + `; max deviation ${maxDev.toExponential(2)}. The capture script fills that column itself when the casino's response has no wager-level multiplier, and no response kept in the package has one. `
-    + `So this checks the file, not the casino. The payout is checked in Step 9`,
+    + `; max deviation ${maxDev.toExponential(2)}. The payout is checked in Step 9, from the casino's credited amount`,
   );
 
   // ── Step 9: Credit arithmetic ───────────────────────────────────────────────
@@ -107,7 +103,7 @@ export function run(ctx: VerifyContext): StepResult[] {
     + (firstCFail ? `, e.g. ${firstCFail}` : '')
     + `); the same credits also satisfy credit == ROUND_8(stake x target) in binary64 on ${winCount - r8Fails}/${winCount} wins (${r8Fails} violations); `
     + `against the raw binary64 product the credit lands EXACTLY on it for ${landsOnProduct} of ${winCount} wins, max |credit - stake x target| ${maxRawResidual.toExponential(2)}, `
-    + `net ${netResidual >= 0 ? '+' : ''}${netResidual.toExponential(2)} USDC — that residual is a property of binary64, NOT of the settlement, which is why it is measured here and scored nowhere; `
+    + `net ${netResidual >= 0 ? '+' : ''}${netResidual.toExponential(2)} ${ctx.meta.currency} — that residual is a property of binary64, NOT of the settlement, which is why it is measured here and scored nowhere; `
     + `no rounding rule is assumed: the capture exhibits none, because a 2-dp stake times a 2-dp target is already exact in 4 dp`,
   );
 
@@ -141,47 +137,45 @@ export function run(ctx: VerifyContext): StepResult[] {
     + `resultLabel agrees with the win flag on ${lChecked - labelFails}/${lChecked} losses and ${winCount - wonLabels}/${winCount} wins`,
   );
 
-  // ── Step 11: Wallet ledger, stake floor and exposure ceiling ────────────────
+  // ── Step 11: Wallet fields, stakes and exposure as played ───────────────────
   // Three distinct claims:
   //   (a) the wallet-denominated fields are present on every bet and are the SAME money as the game
-  //       ledger (they are, on all 6,700 rows) — a divergence either way would be a real finding;
-  //   (b) every stake clears the $0.10 minimum — INFERRED, not probed: E15 holds a 3113 refusal after the
-  //       3138 one, both recorded at $0.10; that the second was the $0.05 retry follows from the capture script;
-  //   (c) every bet's EXPOSURE (stake x target, the operator's own quantity in the 3138 refusal)
-  //       sits inside the $50,000 ceiling, and no target exceeds MAX_PLAYABLE_TARGET.
-  // (b) and (c) are integer comparisons, so the result does not depend on floating-point rounding: for
-  // 427 of the capture's 1,105 distinct stake x target pairs the binary64 product is not the decimal
-  // answer (e.g. 0.1 x 1.07 = 0.10700000000000001).
+  //       fields (the account is USDT and the stake is USDT, so a divergence either way would be a
+  //       real finding);
+  //   (b) every stake is the planned stake of its phase (0.10 or 10.00 USDT, src/config.ts), a 2-dp amount;
+  //   (c) every target is a 2-dp value inside the audited range [1.01, PROD_TOP_TARGET].
+  // The largest exposure (stake x target) the casino ACCEPTED in this capture is measured and printed.
+  // It is a measured maximum, NOT a limit: no bet was refused in any of the three runs, so this audit
+  // holds no evidence of the casino's minimum stake, maximum stake, maximum payout or exposure ceiling.
   //
   // DECLARED LIMITATION. `stakeWallet` / `winningAmountWallet` are settle-RESPONSE fields and the
   // capture recorded no wallet BALANCE before and after each bet. What this step establishes is that
-  // the operator's reported credit is internally consistent with the rule — not what the wallet was
+  // the operator's reported credit is internally consistent with the rule, not what the wallet was
   // actually credited. Counted below so the artifact carries the limitation, not only the prose.
   let wChecked = 0;
   let wMissing = 0;
   let wLedgerFails = 0;
-  let stakeFloorFails = 0;
-  let exposureFails = 0;
+  let stakePlanFails = 0;
   let targetBoundFails = 0;
   let stakeShapeFails = 0;
   let firstWFail = '';
   let maxExposure = 0;
-  const minStakeH = hundredths(MIN_BET_USDC);
-  const maxExposureH2 = MAX_EXPOSURE_USDC * 1e4;     // ceiling expressed in hundredths x hundredths
+  let maxExposureAt = '';
+  let maxCredit = 0;
+  let maxCreditAt = '';
   for (const b of bets) {
     const stake = Number(b.betAmount);
     const target = Number(b.params.target);
     if (!isTwoDecimal(stake)) stakeShapeFails++;
-    if (hundredths(stake) < minStakeH) stakeFloorFails++;
-    const expH2 = hundredths(stake) * hundredths(target);
-    if (expH2 > maxExposureH2) {
-      exposureFails++;
-      if (!firstWFail) firstWFail = `epoch ${b.epoch} nonce ${b.nonce}: exposure ${expH2 / 1e4} > ceiling ${MAX_EXPOSURE_USDC}`;
-    }
-    if (expH2 / 1e4 > maxExposure) maxExposure = expH2 / 1e4;
-    if (!isTargetLegal(target) || target > MAX_PLAYABLE_TARGET) targetBoundFails++;
+    const planned = (EXPECTED_PHASES as Record<string, { stake: number }>)[b.phase]?.stake;
+    if (planned === undefined || hundredths(stake) !== hundredths(planned)) stakePlanFails++;
+    const exp = hundredths(stake) * hundredths(target) / 1e4;
+    if (exp > maxExposure) { maxExposure = exp; maxExposureAt = `${stake} x ${target}x, phase ${b.phase}`; }
+    const credit = Number(b.winningAmount);
+    if (credit > maxCredit) { maxCredit = credit; maxCreditAt = `${stake} x ${target}x, phase ${b.phase}`; }
+    if (!isTargetLegal(target) || hundredths(target) > hundredths(PROD_TOP_TARGET)) targetBoundFails++;
     if (b.stakeWallet == null || b.winningAmountWallet == null) { wMissing++; continue; }
-    if (Number(b.stakeWallet) !== stake || Number(b.winningAmountWallet) !== Number(b.winningAmount)) {
+    if (Number(b.stakeWallet) !== stake || Number(b.winningAmountWallet) !== credit) {
       wLedgerFails++;
       if (!firstWFail) firstWFail = `epoch ${b.epoch} nonce ${b.nonce}: wallet ${b.stakeWallet}/${b.winningAmountWallet} vs game ${b.betAmount}/${b.winningAmount}`;
     }
@@ -199,14 +193,16 @@ export function run(ctx: VerifyContext): StepResult[] {
       && (b as unknown as { balanceOk?: unknown }).balanceOk !== undefined,
   ).length;
 
-  const s11 = step(11, 'Wallet Ledger, Stake Floor & Exposure Ceiling',
-    wMissing === 0 && wLedgerFails === 0 && stakeFloorFails === 0 && exposureFails === 0
+  const s11 = step(11, 'Wallet Fields, Stakes & Exposure As Played',
+    wMissing === 0 && wLedgerFails === 0 && stakePlanFails === 0
       && targetBoundFails === 0 && stakeShapeFails === 0 && wChecked === EXPECTED_BETS ? 'PASS' : 'FAIL',
-    `${wChecked}/${EXPECTED_BETS} bets carry both wallet fields (${wMissing} missing) and the wallet ledger equals the game ledger on ${wChecked - wLedgerFails} of them (${wLedgerFails} divergent`
+    `${wChecked}/${EXPECTED_BETS} bets carry both wallet fields (${wMissing} missing) and the wallet fields equal the game fields on ${wChecked - wLedgerFails} of them (${wLedgerFails} divergent`
     + (firstWFail ? `, e.g. ${firstWFail}` : '')
-    + `); every stake clears the $${MIN_BET_USDC} minimum (inferred, not probed: E15's 3113 refusal is recorded at $0.10, and that it was the $0.05 retry follows from the capture script) (${stakeFloorFails} below, ${stakeShapeFails} not a 2-dp amount) and every target is a legal 2-dp value at or below MAX_PLAYABLE_TARGET ${MAX_PLAYABLE_TARGET}x (${targetBoundFails} outside); `
-    + `maximum exposure (stake x target) in the capture $${maxExposure} against the $${MAX_EXPOSURE_USDC} ceiling witnessed in evidence/E15, ${exposureFails} bets over it — compared in whole hundredths so the result does not depend on floating-point rounding (for ${floatOffPairs} of the capture's ${pairs.size} distinct stake x target pairs the binary64 product is not the decimal answer, e.g. 0.1 x 1.07 = ${(0.1 * 1.07).toString()}); `
-    + `wallet BALANCE ledger present on ${balanceLedgerRows}/${bets.length} bets — stakeWallet/winningAmountWallet are settle-RESPONSE fields, so this step establishes internal consistency with the rule, NOT what the wallet was credited (declared limitation, Step 21)`,
+    + `); every stake is its phase's planned stake from src/config.ts (${stakePlanFails} off plan, ${stakeShapeFails} not a 2-dp amount) and every target is a 2-dp value in [1.01, ${PROD_TOP_TARGET}] (${targetBoundFails} outside); `
+    + `largest exposure (stake x target) accepted in the capture ${maxExposure} ${ctx.meta.currency} (${maxExposureAt}); largest credit paid ${maxCredit} ${ctx.meta.currency} (${maxCreditAt}). `
+    + `These are measured maxima, NOT limits: no bet was refused in the three runs, so the casino's minimum stake, maximum stake, maximum payout and exposure ceiling are not established by this audit (declared limitation). `
+    + `Products are compared in whole hundredths so the result does not depend on floating-point rounding (for ${floatOffPairs} of the capture's ${pairs.size} distinct stake x target pairs the binary64 product is not the decimal answer); `
+    + `wallet BALANCE ledger present on ${balanceLedgerRows}/${bets.length} bets: stakeWallet/winningAmountWallet are settle-RESPONSE fields, so this step establishes internal consistency with the rule, NOT what the wallet was credited (declared limitation, Step 21)`,
   );
 
   return [s8, s9, s10, s11];

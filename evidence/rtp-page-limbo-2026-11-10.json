@@ -1,0 +1,36 @@
+{
+  "record": "RTP and house-edge figures on the live liqd.com Limbo page, read again before publication",
+  "url": "https://liqd.com/originals/limbo",
+  "readAtUtc": "2026-11-10T18:46:59.334Z",
+  "httpStatus": 200,
+  "httpDate": "Tue, 10 Nov 2026 18:46:59 GMT",
+  "method": "one logged-out HTTP GET with a Chrome TLS fingerprint (impit, browser 'chrome'); no login, no cookie sent, no bet. The figures below are copied verbatim from the server-rendered HTML; nothing was clicked or run.",
+  "rawPage": {
+    "bytes": 265356,
+    "sha256": "a74759f1d111250cf6649f7def7417a09de368a86dbc8b19bacef2a2e4c22676",
+    "shipped": false,
+    "note": "the raw HTML is kept by the auditor and not shipped: it carries third-party script tokens unrelated to the game"
+  },
+  "pageTitle": "Limbo by LIQD | Play with Bitcoin",
+  "headerLabel": "Released: September 2026 | Edge: 1.00%",
+  "statsPanel": [
+    {
+      "label": "RTP",
+      "value": "99%"
+    },
+    {
+      "label": "House Edge",
+      "value": "1%"
+    }
+  ],
+  "pageStatements": [
+    "At or above your target, you're paid the target. Below it, the bet is gone. 2x lands 49.5% of the time, 10,000x lands 0.0099% of the time, and every target in between returns 99%."
+  ],
+  "metaDescription": "Limbo by LIQD: set a target multiplier, win if the result lands at or above it. 99% RTP at every target. Play with crypto on LIQD.",
+  "structuredDataRtp": "99%",
+  "comparedWith": {
+    "file": "evidence/rtp-page-labels-2026-10-01.json",
+    "readAtUtc": "2026-10-01T11:36:50.371Z",
+    "result": "identical: header label, stats panel (RTP 99%, House Edge 1%), the game statement, the meta description and the structured-data RTP are the same strings on both reads"
+  }
+}

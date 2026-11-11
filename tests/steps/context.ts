@@ -14,8 +14,9 @@
  * G-VALID  do NOT reject the merely surprising. A statistic landing on expectation is legal.
  *          Nothing in this suite treats exactness, a zero deviation or a round number as evidence
  *          of fabrication — Mines and Dice both shipped that defect and both had to remove it.
- * G-SCOPE  the capture is against qa.liqd.com. Production parity is NOT established; anything the
- *          data cannot witness is a declared limitation (Step 21), not a claim.
+ * G-SCOPE  the scored capture is against liqd.com (production, 7 and 10 November 2026, 5,838 rounds on targets
+ *          from 1.01x to 10,000x at two stakes). Anything the production data cannot witness is a declared
+ *          limitation (Step 21), not a claim.
  */
 
 import type { Bet, Seed, Dataset } from '../../src/types';
@@ -56,10 +57,8 @@ export interface VerifyContext {
   seedByHash: Map<string, Seed>;
   /** hashedServerSeed → bets in that epoch. */
   byHash: Map<string, Bet[]>;
-  phaseA: Bet[];   // 5,000 — random target across the playable range, $0.10
-  phaseB: Bet[];   // 1,000 — high-multiplier tranches 100 / 1,000 / 100,000 / 500,000
-  phaseC: Bet[];   //   200 — $10 stake at target 2.00 (stake independence)
-  phaseD: Bet[];   //   500 — auditor-chosen `pfaudit-` client seeds
+  /** Phase A rounds: the 50-target ladder (5,000) and the top-up to 10,000x (100), 0.10 USDT. */
+  phaseA: Bet[];
   /** Absolute path of the repo root (the directory holding package.json). */
   repoRoot: string;
   outputsDir: string;
@@ -68,7 +67,7 @@ export interface VerifyContext {
   datasetSha256: string;
   /** The dataset hash pinned in src/config.ts (the integrity anchor). */
   expectedDatasetHash: string;
-  /** Declared capture host, asserted against the dataset header in Step 21 (G-SCOPE). */
+  /** Declared capture host (liqd.com), asserted against the dataset header in Step 21 (G-SCOPE). */
   captureHost: string;
   /** Declared phase config as the capture recorded it — reconciled against config, never trusted. */
   meta: Dataset['meta'];
@@ -111,9 +110,9 @@ export function isHex(value: unknown, len: number): boolean {
 /**
  * Exact decimal value in hundredths. Both stakes and targets are 2-dp decimals in this game, so
  * every money and multiplier comparison in this suite is done on INTEGERS rather than on binary64
- * products, so a result never depends on floating-point rounding: for 427 of the capture's 1,105
- * distinct stake x target pairs the binary64 product is not the decimal answer (e.g. 0.1 * 1.07 =
- * 0.10700000000000001; Step 11 recounts it). Integers do not have that problem.
+ * products, so a result never depends on floating-point rounding: for some stake x target pairs the binary64
+ * product is not the decimal answer (e.g. 0.1 * 1.07 = 0.10700000000000001; Step 11 counts them on the scored
+ * capture). Integers do not have that problem.
  */
 export function hundredths(x: number): number {
   return Math.round(x * 100);

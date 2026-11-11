@@ -1,9 +1,9 @@
 /**
- * Spec self-test — docs/ALGORITHM.md vectors (§5, §2 Step 4) and properties, run against src/rng.ts.
+ * Spec self-test — docs/ALGORITHM.md vectors (§5) and properties, run against src/rng.ts.
  *
- * Written by the clean-room implementer together with src/rng.ts, from docs/ALGORITHM.md and the module
- * interface alone (never from LIQD's code). Integrated 20 Oct 2026: the checks are unchanged; only the
- * import path, the mocha wrapper and the reporting (failures collected instead of printed) were adapted.
+ * Every vector is a settled production round of data/limbo-prod-full-5838bets.json or a production
+ * verifier probe of evidence/E02: seed, commitment, client seed, nonce, HMAC, chunks, draw and result as
+ * the casino served them. The properties below them are checks of the module against the specification.
  */
 import * as assert from "assert";
 
@@ -18,7 +18,7 @@ import {
   rejectedLeadingChunks,
 } from "../../src/rng";
 
-const EXPECTED_CHECKS = 72;
+const EXPECTED_CHECKS = 78;
 
 function runSelftest(): { passed: number; total: number; failed: string[] } {
   let pass = 0;
@@ -70,65 +70,81 @@ function runSelftest(): { passed: number; total: number; failed: string[] } {
     rejected?: number;
   }
 
-  // §5 V1..V5 (full vectors), then §5 extras and §2 Step 4 E13 probe.
+  // docs/ALGORITHM.md §5: V1..V5 (full vectors) and X1..X3 are settled production rounds of the dataset
+  // (liqd.com, 7 and 10 November 2026); P1 is a production verifier probe (evidence/E02).
   const vectors: Vector[] = [
+    // V1: first round of the capture (epoch 0 nonce 0, Phase A, 7 Nov 2026), first chunk accepted.
     {
-      id: "V1 bYS2viIeJOfIRm1YpweuJ",
-      seed: "441045a40a9fdbea912bb7c77afb1d2e",
-      commitment: "e9fe937d57fa02b85c8a610297ea3caaba8decc6383d5c07e2e303067e822126",
-      clientSeed: "audite7134d0080bc", nonce: 32, message: "audite7134d0080bc:32:0",
-      hmac: "bdd394d356d52f250b73879af0390b90194f4ce0688564303161a6b59ce6aa14",
-      chunks: [3184760019], r: 84760019, result: 1.16, rejected: 0,
+      id: "V1 3G5Wm6eniZ8jXrzab4IJd",
+      seed: "ea7c5163f5e0ac12ffe0efd8b6cd5dd7",
+      commitment: "c391eb4f199b95d18aceafbb8f4794a08eba2ac78a7b85e22c38552061a09a65",
+      clientSeed: "audit395ae5c90a74", nonce: 0, message: "audit395ae5c90a74:0:0",
+      hmac: "7dd759603abdd8d8feaf4aa93fa2e368a478b86d6cf572bb2cc4abcaac72061f",
+      chunks: [2111265120], r: 11265120, result: 8.78, rejected: 0,
     },
+    // V2: first chunk rejected, second taken (epoch 0 nonce 2).
     {
-      id: "V2 krv88h79b6gDGRTDgswi9",
-      seed: "b73582d05dec4dd4a43b4e0b72ec3ebd",
-      commitment: "7d57ba291003c8aa316f52b6b94d6b0100d5ff1b830ee1c3c6ba677f7c9a3033",
-      clientSeed: "audited5df347a318", nonce: 2, message: "audited5df347a318:2:0",
-      hmac: "fd8e759aaade3ebec782575f93f3c3fe4203937508034c42119a7c299ce951f6",
-      chunks: [4253971866, 2866691774], r: 66691774, result: 1.48, rejected: 1,
+      id: "V2 hiPVRKoU-wdPXn0YtH9sl",
+      seed: "ea7c5163f5e0ac12ffe0efd8b6cd5dd7",
+      commitment: "c391eb4f199b95d18aceafbb8f4794a08eba2ac78a7b85e22c38552061a09a65",
+      clientSeed: "audit395ae5c90a74", nonce: 2, message: "audit395ae5c90a74:2:0",
+      hmac: "fdae0a776135ddb5531e99bb0b2d6da4a1377943cc9643d9ff563edf95b9f7f6",
+      chunks: [4256041591, 1630920117], r: 30920117, result: 3.2, rejected: 1,
     },
+    // V3: two chunks rejected, third taken (epoch 5 nonce 47).
     {
-      id: "V3 a2Jy4tpNCyU5lJsxpk2-e",
-      seed: "6359fcbf9f3c999f1029dd5b98627fe5",
-      commitment: "bea90b6183eb0d7c931144e443ae350547de305a2d2b1f9a266533579759f029",
-      clientSeed: "audit3909c9a555a5", nonce: 7, message: "audit3909c9a555a5:7:0",
-      hmac: "fb4a951dfe61fae1df46ba960c0e5d99ddadb6121aef947b657fa32e10fc52d3",
-      chunks: [4215969053, 4267834081, 3745954454], r: 45954454, result: 2.15, rejected: 2,
+      id: "V3 A4NXYN57ZZ1apMd7VXrFM",
+      seed: "759753950ecfcdeae8d13a2255fbdcb5",
+      commitment: "b089f5ee5f0891da1dbeafe3eff029756bc587afedc9f3623ffcbb85c8988b12",
+      clientSeed: "auditf7e4dbc7ca73", nonce: 47, message: "auditf7e4dbc7ca73:47:0",
+      hmac: "fb68a109fe6fa66626bf9619d9a13b632d5493198582f9596f941fba3755a24b",
+      chunks: [4217938185, 4268729958, 650090009], r: 50090009, result: 1.97, rejected: 2,
     },
+    // V4: raw value 0.99, served 1 (the result floor; epoch 1 nonce 86).
     {
-      id: "V4 yAVLBL0QWD0RVuewVxG_v",
-      seed: "56481f25aad5d0b6644fbfff05d4e468",
-      commitment: "ecf1e700cd3852d869c2e44a5794e854aff5cdf50af7783a25196528d197e653",
-      clientSeed: "audit8b0f66ee7a38", nonce: 29, message: "audit8b0f66ee7a38:29:0",
-      hmac: "ee6788ec0db6038d87df750790f340639afcfb33d1c6dd0fc7fc2eafec6b47e5",
-      chunks: [3999762668], r: 99762668, result: 1.0, rejected: 0,
+      id: "V4 4thzOegbI0ipF1HbnCn0O",
+      seed: "19d9d3f0f202d9b5f85f00b56b26e9af",
+      commitment: "fc8fa5325f5b06ba6597af5ad6077173dc9c630f370fc133f88dd81296129819",
+      clientSeed: "audit4ae5ddbd2dba", nonce: 86, message: "audit4ae5ddbd2dba:86:0",
+      hmac: "3b9a46641c91d22c920e75295250a05def9cb56bfb8aab4b6e44121da1d2db31",
+      chunks: [999966308], r: 99966308, result: 1, rejected: 0,
     },
+    // V5: result exactly on the target 11.57, settled as a win (epoch 21 nonce 76).
     {
-      id: "V5 pFaN6MRWzGVvE8DpQBMY8",
-      seed: "141a7e0ab87055e753e0f8d289bbec1a",
-      commitment: "d56deeab14ebfe68afb44831463fb33185f24a3216b36ce3c5b70cf85d4915f4",
-      clientSeed: "auditdc525d958d88", nonce: 2, message: "auditdc525d958d88:2:0",
-      hmac: "6dc1f472c6a163b3a3e3a103106c19a7673be3c9654753746dd064b9b51de5dd",
-      chunks: [1841427570], r: 41427570, result: 2.38, rejected: 0,
+      id: "V5 G0bAcxPQ57qsF4ZWi3YJE",
+      seed: "aefb854f2db350ef9db660cd9f565042",
+      commitment: "d9aa33335f877dde262e86bfb2314581452ecc6cc10b66d40f8c1134f4021d1d",
+      clientSeed: "audit3b77da5eea13", nonce: 76, message: "audit3b77da5eea13:76:0",
+      hmac: "a76729b29c92b13eede3ee42cd6e288a3a2551915e8d98d0334da322eaf68ae6",
+      chunks: [2808555954], r: 8555954, result: 11.57, rejected: 0,
     },
+    // X1: Phase D, a player-set client seed (epoch 25 nonce 0, 10 Nov 2026).
     {
-      id: "X1 tixnceeVcH9shNEbR8lP6",
-      seed: "8e2ff959b1b7ca9be1ba7408d03c9a19",
-      clientSeed: "pfaudit-1789132605572-124", nonce: 0, message: "pfaudit-1789132605572-124:0:0",
-      r: 16150253, result: 6.12,
+      id: "X1 rTMFeZcZ1T7_oH6WHzDu0",
+      seed: "b69bc456d161bf8126f6075674f06e03",
+      clientSeed: "pfaudit-prod-limbo-d1-6fa0b0094142", nonce: 0, message: "pfaudit-prod-limbo-d1-6fa0b0094142:0:0",
+      r: 69732708, result: 1.41,
     },
+    // X2: Phase C, 10.00 USDT on 2.00x, a win (epoch 31 nonce 2, 10 Nov 2026).
     {
-      id: "X2 UVun5z0xmgdvZnooRZOEj",
-      seed: "c37d4bc3c3a94a0c869f83a0085dd920",
-      clientSeed: "audit3ef1000d9647", nonce: 0, message: "audit3ef1000d9647:0:0",
-      r: 85002001, result: 1.16,
+      id: "X2 WIthFiUFeWouUsnxxnhOw",
+      seed: "a072c3f5bb121bb493eb99e1459c8db1",
+      clientSeed: "auditc42639ada586", nonce: 2, message: "auditc42639ada586:2:0",
+      r: 8193866, result: 12.08,
     },
+    // X3: the highest result in the capture, 28181.04x (epoch 6 nonce 162).
     {
-      id: "E13 probe",
-      seed: "76bb5f88df9cef0c6ef84898cf7a8718",
-      clientSeed: "audit53bafd211bdd", nonce: 0, message: "audit53bafd211bdd:0:0",
-      result: 7.5, rejected: 0,
+      id: "X3 Xu87aEnkSOXs1tEZpq_hv",
+      seed: "7bfeb75c44f3a438f86cc3232b72211c",
+      clientSeed: "auditc72e948ee77c", nonce: 162, message: "auditc72e948ee77c:162:0",
+      r: 3512, result: 28181.04,
+    },
+    // P1: production verifier probe L-5 of 9 Nov 2026 (evidence/E02), an unsettled nonce just under the result cap.
+    {
+      id: "P1 verifier probe L-5",
+      seed: "759753950ecfcdeae8d13a2255fbdcb5",
+      clientSeed: "auditf7e4dbc7ca73", nonce: 1150803, message: "auditf7e4dbc7ca73:1150803:0",
+      r: 100, result: 980198.01, rejected: 0,
     },
   ];
 
@@ -165,7 +181,7 @@ function runSelftest(): { passed: number; total: number; failed: string[] } {
   // ---- Hash checks (§1.2): true for the right seed, false otherwise ----
   const V1 = vectors[0];
   check("hash check: commitHash(V1 seed) == V1 commitment (true)", commitHash(V1.seed) === V1.commitment);
-  check("hash check: commitHash(V2 seed) == V1 commitment (false)", (commitHash(vectors[1].seed) === V1.commitment) === false);
+  check("hash check: commitHash(V3 seed) == V1 commitment (false)", (commitHash(vectors[2].seed) === V1.commitment) === false);
   check(
     "hash check: SHA-256 over hex-decoded bytes != commitment (false, §1.2)",
     (createHash("sha256").update(Buffer.from(V1.seed, "hex")).digest("hex") === V1.commitment) === false,
@@ -254,7 +270,7 @@ function runSelftest(): { passed: number; total: number; failed: string[] } {
   return { passed: pass, total, failed };
 }
 
-describe('clean-room RNG spec self-test (docs/ALGORITHM.md)', () => {
+describe('RNG spec self-test (docs/ALGORITHM.md)', () => {
   it(`all ${EXPECTED_CHECKS} spec checks pass against src/rng.ts`, () => {
     const r = runSelftest();
     assert.deepStrictEqual(r.failed, [], `failed: ${r.failed.join(' | ')}`);

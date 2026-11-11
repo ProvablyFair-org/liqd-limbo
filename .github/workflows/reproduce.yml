@@ -23,7 +23,7 @@ jobs:
         shell: bash
         run: |
           start=$(date +%s)
-          expected=0  # this package's verdict exit code (0 Full Pass, 2 Conditional Pass, 5 RTP FIGURE OVERSTATED, 1 NOT PROVABLY FAIR); 2 until the E21 cap re-probe was pinned on 2026-10-02
+          expected=0  # this package's verdict exit code (0 Full Pass, 2 Conditional Pass, 5 RTP FIGURE OVERSTATED, 1 NOT PROVABLY FAIR)
           set +e; npm test 2>&1 | tee ../npm-test.log; rc=${PIPESTATUS[0]}; set -e
           secs=$(( $(date +%s) - start ))
           {

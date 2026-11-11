@@ -20,7 +20,7 @@
  *
  * Pass 2 — casino seeds from the captured dataset's revealed serverSeeds (src/pass2.ts, deterministic
  *   since 2026-09-26): every seed x 10,000 nonces, the served-target return of the captured window ranked
- *   against the other 199 windows (exact permutation null), plus the early/late chi-squared screen
+ *   against the other windows of the same seed (exact permutation null), plus the early/late chi-squared screen
  *   recounted against its EXACT multinomial null. Gated on the dataset (available:false until then).
  *
  * Output: outputs/simulation-results.json, outputs/rtp-convergence.html

@@ -1,14 +1,15 @@
-// Types mirror the exact capture schema in data/limbo-master-<N>bets.json (liqd-limbo-capture-v1).
-// Field names match the dataset verbatim. Some fields are marked "populated at capture" — they
-// are filled by the capture rig and re-derived independently in verify (never trusted as given).
+// Types mirror the production dataset data/limbo-prod-full-5838bets.json (three runs of the in-page runner,
+// schema liqd-limbo-prod-capture-v1, converted to { meta, seeds, bets }; meta.conversion says where each field
+// comes from). Field names match the dataset verbatim. The local* / verified fields were written by the
+// converter and are re-derived independently in verify (never trusted as given).
 
 export interface LimboParams {
-  target: number;      // chosen target (cashout) multiplier, a 2-dp value in [1.01, 1_000_000]
+  target: number;      // chosen target (cashout) multiplier, a 2-dp value; 1.01 to 10,000 in the capture
 }
 
 export interface Seed {
   epoch: number;
-  phase: string;                    // A | B | C | D
+  phase: string;                    // A | C | D (the plan's phase letter; phaseId tells A from the top-up A+)
   at: string;
   clientSeed: string;
   hashedServerSeed: string;         // SHA-256(utf8(serverSeed hex string)) commitment
@@ -24,7 +25,7 @@ export interface Seed {
 export interface Bet {
   at: string;
   epoch: number;
-  phase: string;                    // A | B | C | D
+  phase: string;                    // A | C | D (the plan's phase letter; phaseId tells A from the top-up A+)
   id: string;
   params: LimboParams;
   nonce: number;
@@ -33,12 +34,12 @@ export interface Bet {
   hashedServerSeed: string;
   result: number;                   // served RESULT (crash) multiplier, 2dp
   win: boolean;                     // served win flag
-  multiplier: number;               // CAPTURE-COMPUTED: the capture script's fill (target on a win, 0 on a loss) — no kept casino response has a wager-level multiplier (Step 8)
+  multiplier: number;               // the served outcome.multiplier (Step 8)
   resultLabel: string;              // won | lost
   betAmount: number | string;       // stake in the account currency
   winningAmount: number | string;   // credited amount (0 on loss)
-  stakeWallet?: number;             // wallet-denominated debit
-  winningAmountWallet?: number;     // wallet-denominated credit
+  stakeWallet?: number | string;    // wallet-denominated debit, as served
+  winningAmountWallet?: number | string;   // wallet-denominated credit, as served
   // capture-side self-verification (informational; verify re-derives independently)
   localDraw?: number | null;        // k the rig computed
   localResult?: number | null;      // R the rig computed
@@ -51,7 +52,7 @@ export interface Bet {
 export interface Dataset {
   meta: {
     audit: string; platform: string; gameId: string; schema: string;
-    houseEdge: number; currency: string; epochSize: number; plannedTotal: number;
+    houseEdge: number; currency: string; epochSize?: number; plannedTotal: number;
     limits?: { minMultiplier: number; maxMultiplier: number; minBetUsdc: number; maxBetUsdc: number };
     limboModel?: { range: number; cursor: number; resultNumerator: number; params: string[] };
     phases: Record<string, { bets: number; amount?: number; target?: string; customSeeds?: boolean }>;
